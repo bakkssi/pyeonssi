@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>상세페이지</title>
 <style>
-:root{--main:#F296BD;--deep:#D9739F;--soft:#FFF0F6;--line:#FBDCE9;--text:#4A3943}
+:root{--main:#ff8db6;--deep:#222222;--soft:#fff0f6;--line:#ffc5dd;--text:#222222}
 *{box-sizing:border-box;margin:0}
-body{font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;color:var(--text);background:transparent;padding:20px 16px 60px;line-height:1.7}
+body{font-family:'Sandoll Hoyoyo2','Pretendard',-apple-system,'Malgun Gothic',sans-serif;font-weight:400;color:var(--text);background:transparent;padding:20px 16px 60px;line-height:1.7}
 section{max-width:860px;margin:0 auto 70px}
 h2{font-size:26px;margin-bottom:18px}
 h2::before{content:"";display:inline-block;width:5px;height:22px;background:var(--main);border-radius:3px;margin-right:10px;vertical-align:-3px}
@@ -15,7 +15,7 @@ h2::before{content:"";display:inline-block;width:5px;height:22px;background:var(
 .status{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
 .status:last-child{border:0}
 .badge{font-size:13px;font-weight:700;color:#fff;border-radius:99px;padding:3px 12px}
-.badge.open{background:var(--main)}.badge.work{background:#9BB7F0}.badge.done{background:#bbb}
+.badge.open{background:#ff8db6;color:#222}.badge.work{background:#b7b7c8}.badge.done{background:#bbb}
 .notice li{margin-left:18px;margin-bottom:6px}
 .price-group{margin-bottom:22px}
 .price-group h3{font-size:18px;color:var(--deep);margin-bottom:8px}
@@ -23,74 +23,112 @@ h2::before{content:"";display:inline-block;width:5px;height:22px;background:var(
 .row b{white-space:nowrap}
 
 /* ---------- 문의 양식 ---------- */
-.form .q{margin-bottom:22px}
+.form .q{margin-bottom:26px}
 .form label.t{display:block;font-weight:700;font-size:15px;margin-bottom:8px}
 .form label.t b{color:var(--main);margin-right:6px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
 @media(max-width:640px){.grid2{grid-template-columns:1fr}}
-.form input[type=text],.form input[type=date],.form select,.form textarea{width:100%;font:inherit;font-size:15px;color:var(--text);background:#faf7f8;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
-.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--main);box-shadow:0 0 0 3px #FFE3EF}
+.form input[type=text],.form input[type=date],.form select,.form textarea{width:100%;font:inherit;font-size:15px;color:var(--text);background:#fffafd;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--main);box-shadow:0 0 0 3px #ffe8f0}
 .form textarea{resize:vertical;min-height:110px}
-.hint{font-size:13px;color:#8f858b;margin-top:6px}
-.pills{display:flex;flex-wrap:wrap;gap:10px}
+.hint{font-size:13px;color:#777078;margin-top:6px}
+.pills{display:flex;flex-wrap:wrap;gap:12px}
 .pill{position:relative}
 .pill input{position:absolute;opacity:0;pointer-events:none}
 .pill span{display:inline-block;padding:9px 18px;border:1.5px solid var(--line);border-radius:99px;background:#fff;cursor:pointer;font-size:15px;transition:background .2s,border-color .2s}
-.pill input:checked+span{background:#FFD6E6;border-color:var(--main);font-weight:700}
-.pill input:focus-visible+span{box-shadow:0 0 0 3px #FFE3EF}
+.pill input:checked+span{background:#ffc5dd;border-color:var(--main);font-weight:700}
+.pill input:focus-visible+span{box-shadow:0 0 0 3px #ffe8f0}
 .colorrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.colorrow input[type=color]{width:46px;height:46px;border:1.5px solid var(--line);border-radius:12px;padding:3px;background:#fff;cursor:pointer}
+.colorrow input[type=color]{width:46px;height:46px;border:0;border-radius:12px;padding:0;background:transparent;cursor:pointer}
 .colorrow input[type=text]{width:140px}
-.btn{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 18px;background:var(--main);color:#fff;cursor:pointer;transition:transform .15s,opacity .2s}
+.btn{font:inherit;font-weight:700;border:0;border-radius:6px;padding:12px 18px;background:#ffc5dd;color:#222;border:1.5px solid #ff8db6;cursor:pointer;transition:transform .15s,opacity .2s}
 .btn:hover{transform:translateY(-1px)}
-.btn.ghost{background:#fff;color:var(--text);border:1.5px solid var(--line)}
+.btn.ghost{background:#444;color:#fff;border:1.5px solid #222;border-radius:5px}
 .btn:disabled{background:#ddd;color:#fff;cursor:not-allowed;transform:none}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:99px;padding:4px 8px 4px 6px;background:#fff;font-size:14px}
 .chip i{width:18px;height:18px;border-radius:50%;border:1px solid #ddd;display:inline-block}
-.chip button{border:0;background:none;cursor:pointer;color:#999;font-size:16px;line-height:1}
-.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.chip button{border:0;background:none;cursor:pointer;color:#777;font-size:16px;line-height:1}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font:inherit;font-size:15px;color:var(--text);text-align:left;transition:background .2s,border-color .2s}
-.item small{font-size:12px;font-weight:700;color:#8f858b}
+.item small{font-size:12px;font-weight:700;color:#777078}
 .item:hover{border-color:var(--main)}
 .item.filled{background:var(--soft);border-color:var(--main)}
 .item.filled small{color:var(--deep)}
-.editor{display:none;margin-top:12px;border:1.5px dashed var(--main);border-radius:14px;padding:14px;background:#FFFAFC}
+.editor{display:none;margin-top:12px;border:1.5px dashed var(--main);border-radius:14px;padding:14px;background:#fff8fb}
 .editor.on{display:block}
 .editor h4{font-size:15px;margin-bottom:8px;color:var(--deep)}
 .editor .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-#f-preview{background:#FFF8FB;border-color:var(--line);min-height:240px;max-height:320px;font-size:14px;line-height:1.7}
+#f-preview{background:#fff8fb;border-color:var(--line);min-height:240px;max-height:320px;font-size:14px;line-height:1.7}
 .check{display:flex;gap:8px;align-items:center;margin-top:16px;font-size:15px;cursor:pointer}
 .check input{width:18px;height:18px;accent-color:var(--main)}
 .actions{display:flex;gap:10px;margin-top:14px}
 .actions .main{flex:1;padding:15px}
-.guide{margin-top:14px;font-size:13px;color:#8f858b;line-height:1.7}
+.guide{margin-top:14px;font-size:13px;color:#777078;line-height:1.7}
 
 /* ---------- 포트폴리오 ---------- */
 .ptabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:14px}
-.ptab{font:inherit;font-weight:700;font-size:15px;padding:9px 22px;border-radius:99px;border:1.5px solid var(--line);background:#fff;color:#8f858b;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
-.ptab:hover{border-color:var(--main)}
-.ptab.on{background:var(--main);border-color:var(--main);color:#fff}
+.ptab{font:inherit;font-weight:700;font-size:15px;padding:9px 22px;border-radius:99px;border:1.5px solid var(--line);background:#fff;color:#777078;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.ptab:hover{border-color:#ff8db6;color:#222}
+.ptab.on{background:#ff8db6;border-color:#ff8db6;color:#222}
 .stabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:20px}
 .stabs:empty{display:none}
-.stab{font:inherit;font-weight:700;font-size:13px;padding:5px 16px;border-radius:99px;border:1.5px solid var(--line);background:#fff;color:#8f858b;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
-.stab:hover{border-color:var(--deep)}
-.stab.on{background:var(--deep);border-color:var(--deep);color:#fff}
+.stab{font:inherit;font-weight:700;font-size:13px;padding:5px 16px;border-radius:99px;border:1.5px solid var(--line);background:#fff;color:#777078;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.stab:hover{border-color:#ff8db6;color:#222}
+.stab.on{background:#222;border-color:#222;color:#fff}
 .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media(max-width:560px){.pgrid{grid-template-columns:1fr}}
 .pcard{position:relative;display:block;background:#fff;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .2s,border-color .2s,box-shadow .2s}
-.pcard:hover{transform:translateY(-3px);border-color:var(--main);box-shadow:0 12px 24px -14px rgba(226,110,160,.6)}
+.pcard:hover{transform:translateY(-3px);border-color:#ff8db6;box-shadow:0 12px 24px -14px rgba(255,141,182,.45)}
 .pcard .ttl{text-align:center;font-size:13px;font-weight:700;padding:10px 0 4px;color:var(--deep)}
 .pcard .ttl::before{content:"⁝ "}
 .pcard .ttl::after{content:" ⁝"}
 .pcard .tag{position:absolute;top:10px;right:10px;font-size:12px;font-weight:700;color:#fff;background:#666;border-radius:6px;padding:2px 8px}
 .pcard img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;display:block}
-.pempty{grid-column:1/-1;text-align:center;color:#8f858b;padding:40px 0}
+.pempty{grid-column:1/-1;text-align:center;color:#777078;padding:40px 0}
 .more{display:block;margin:22px auto 0}
 .more[hidden]{display:none}
+
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+.site-nav{position:sticky;top:0;z-index:30;max-width:860px;margin:0 auto 30px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:11px 15px;border:1.5px solid #ffc5dd;border-radius:14px;background:rgba(255,255,255,.96)}
+.site-brand{font-weight:700;color:#ff8db6;text-decoration:none;white-space:nowrap}
+.site-nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.site-nav-links a{padding:6px 10px;border-radius:7px;color:#222;text-decoration:none;font-size:13px;transition:background .2s,color .2s}
+.site-nav-links a:hover,.site-nav-links a:focus{background:#ff8db6;color:#222;outline:none}
+.profile-card{max-width:860px;margin:0 auto 52px;display:flex;align-items:center;gap:18px;padding:16px 20px;border:1.5px solid #ffc5dd;border-radius:18px;background:#fffafd}
+.profile-heart{width:94px;height:88px;flex:0 0 94px;position:relative;overflow:hidden;clip-path:path("M47 84 C40 77 4 53 4 29 C4 10 25 1 47 22 C69 1 90 10 90 29 C90 53 54 77 47 84 Z");background:#ffc5dd;display:grid;place-items:center}
+.profile-heart img{width:100%;height:100%;object-fit:cover}
+.profile-heart-placeholder{font-size:11px;text-align:center;font-weight:700;color:#222}
+.profile-name{font-size:19px;font-weight:700;color:#222}
+.profile-desc{font-size:13px;color:#777}
+@media(max-width:560px){.site-nav{align-items:flex-start}.site-nav-links{width:100%}.site-nav-links a{padding:5px 7px}.profile-card{padding:13px}.profile-heart{width:78px;height:73px;flex-basis:78px}}
+
 </style>
+
+<link rel="preconnect" href="https://o6cdhdutve.execute-api.ap-northeast-2.amazonaws.com">
+<link rel="stylesheet" href="https://o6cdhdutve.execute-api.ap-northeast-2.amazonaws.com/v1/api/css/drop_fontstream_css/?sid=gAAAAABq8KDWIP2d42fhmBFyh24C4ptNR3Xks00pujQeqCbpWt7Nsj351xG5GvcAPmZZcNexiw25txqDBdVsXz77D3UcAZBfqC4AVw1P0gTN0nxvZNA8zwndKQzDt7bXj8YwrnU8qHJ0IpEy-SXUVzU1Ta7r-an_I0BPayYft3ct6-RF8Gmj3dhcOP3Vu9aSQNT0MeehuDll_eAD4vzTVKIcPKH1X71ugjFEvR6i7p8OIZx4BncpdtqrFMl3t1vxiP2wvk3frTLR" charset="utf-8" referrerpolicy="origin">
+
 </head>
 <body>
+
+<nav class="site-nav" aria-label="페이지 메뉴">
+  <a class="site-brand" href="#top">♥ DESIGN</a>
+  <div class="site-nav-links">
+    <a href="#sec-schedule">일정</a>
+    <a href="#sec-form">문의 양식</a>
+    <a href="#sec-portfolio">포트폴리오</a>
+    <a href="#sec-notice">공지사항</a>
+    <a href="#sec-price">가격</a>
+  </div>
+</nav>
+<div id="top"></div>
+<div class="profile-card">
+  <div class="profile-heart"><div class="profile-heart-placeholder">PROFILE<br>IMAGE</div></div>
+  <div>
+    <div class="profile-name">DESIGN</div>
+    <div class="profile-desc">작가 소개 문구를 입력해주세요.</div>
+  </div>
+</div>
 
 <section id="sec-schedule"><h2>작업 일정</h2><div class="card" id="schedule"></div></section>
 
@@ -106,11 +144,9 @@ h2::before{content:"";display:inline-block;width:5px;height:22px;background:var(
           <input type="date" id="f-due"></div>
         <div class="q"><label class="t" for="f-sample"><b>3.</b>희망 샘플 공개일</label>
           <input type="date" id="f-sample"></div>
-        <div class="q"><label class="t" for="f-pack"><b>4.</b>패키지 선택</label>
-          <select id="f-pack"></select></div>
       </div>
 
-      <div class="q"><label class="t"><b>5.</b>원하는 색감</label>
+      <div class="q"><label class="t"><b>4.</b>원하는 색감</label>
         <div class="colorrow">
           <input type="color" id="f-color" value="#ffffff" aria-label="색상 선택">
           <input type="text" id="f-hex" placeholder="#FFFFFF" maxlength="7">
@@ -119,14 +155,14 @@ h2::before{content:"";display:inline-block;width:5px;height:22px;background:var(
         <div class="chips" id="f-chips"></div>
       </div>
 
-      <div class="q"><label class="t" for="f-concept"><b>6.</b>원하는 요소 및 디자인 컨셉</label>
+      <div class="q"><label class="t" for="f-concept"><b>5.</b>원하는 요소 및 디자인 컨셉</label>
         <textarea id="f-concept" placeholder="원하는 색감, 요소, 참고자료 첨부 등 상세한 내용을 적어주세요"></textarea>
         <div class="hint">오마카세 및 부실한 설명으로 시작된 작업은 추후 수정이 어렵습니다.</div></div>
 
-      <div class="q"><label class="t"><b>7.</b>추가 옵션</label><div class="pills" id="f-extras"></div></div>
-      <div class="q"><label class="t"><b>8.</b>빠른 마감 옵션</label><div class="pills" id="f-rush"></div></div>
+      <div class="q"><label class="t"><b>5.</b>추가 옵션</label><div class="pills" id="f-extras"></div></div>
+      <div class="q"><label class="t"><b>5.</b>빠른 마감 옵션</label><div class="pills" id="f-rush"></div></div>
 
-      <div class="q"><label class="t"><b>9.</b>신청 하실 디자인 항목</label>
+      <div class="q"><label class="t"><b>5.</b>신청 하실 디자인 항목</label>
         <div class="items" id="f-items"></div>
         <div class="editor" id="f-editor">
           <h4 id="f-edtitle"></h4>
@@ -139,7 +175,7 @@ h2::before{content:"";display:inline-block;width:5px;height:22px;background:var(
         </div>
       </div>
 
-      <div class="q"><label class="t" for="f-etc"><b>10.</b>그 외 추가 문의 사항</label>
+      <div class="q"><label class="t" for="f-etc"><b>5.</b>그 외 추가 문의 사항</label>
         <textarea id="f-etc" placeholder="자유롭게 작성해주세요" style="min-height:90px"></textarea></div>
 
       <div class="q"><label class="t" for="f-preview">신청 내용 미리보기</label>
@@ -170,10 +206,11 @@ h2::before{content:"";display:inline-block;width:5px;height:22px;background:var(
 <script>
 /* ===== 여기만 고치면 돼요 ===== */
 const CONFIG = {
+  profile: {name:'DESIGN', description:'작가 소개 문구를 입력해주세요.', image:''},
   schedule: [
-    {name:'포스터 A', status:'work', label:'작업중', due:'11/15'},
-    {name:'배너 B', status:'open', label:'접수중', due:'-'},
-    {name:'로고 C', status:'done', label:'완료', due:'11/02'}
+    {name:'포스터 A'},
+    {name:'배너 B'},
+    {name:'로고 C'}
   ],
   notice: [
     '작업은 입금 확인 후 시작합니다.',
@@ -185,7 +222,6 @@ const CONFIG = {
     {group:'배너', items:[['상단배너',40000],['하단배너',30000]]}
   ],
   form: {
-    packages: ['없음', 'Basic 패키지', 'Standard 패키지', 'Premium 패키지'],
     extras:   ['PSD 파일 구매', '포트폴리오 비공개', '상업용 전환'],
     rush:     ['3일 이내', '2일 이내', '1일 이내'],   // '선택 안함'은 자동 추가
     items:    ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인']
@@ -213,9 +249,20 @@ const CONFIG = {
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+/* 프로필: CONFIG.profile의 image에 이미지 경로를 넣으면 하트 프레임에 표시됩니다. */
+const profile = CONFIG.profile || {};
+document.querySelector('.profile-name').textContent = profile.name || 'DESIGN';
+document.querySelector('.profile-desc').textContent = profile.description || '';
+if (profile.image) {
+  const img = document.createElement('img');
+  img.src = profile.image;
+  img.alt = '프로필 이미지';
+  document.querySelector('.profile-heart').replaceChildren(img);
+}
+
 /* 기본 섹션 */
 $('schedule').innerHTML = CONFIG.schedule.map(s =>
-  `<div class="status"><span class="badge ${s.status}">${s.label}</span><span>${s.name}</span><span style="margin-left:auto;color:#999">${s.due}</span></div>`).join('');
+  `<div class="status"><span class="badge ${s.status}">${s.label}</span><span>${s.name}</span><span style="margin-left:auto;color:#777">${s.due}</span></div>`).join('');
 $('notice').innerHTML = CONFIG.notice.map(t => `<li>${t}</li>`).join('');
 $('price').innerHTML = CONFIG.price.map(g =>
   `<div class="price-group"><h3>${g.group}</h3>${g.items.map(i =>
@@ -261,8 +308,6 @@ const F = CONFIG.form;
 let colors = [];
 let items = {};
 let current = null;
-
-$('f-pack').innerHTML = F.packages.map(p => `<option>${esc(p)}</option>`).join('');
 $('f-extras').innerHTML = F.extras.map(e =>
   `<label class="pill"><input type="checkbox" name="extra" value="${esc(e)}"><span>${esc(e)}</span></label>`).join('');
 $('f-rush').innerHTML = ['선택 안함', ...F.rush].map((r, i) =>
@@ -323,7 +368,6 @@ function buildText(){
     `방송 닉네임 및 주소 : ${v('f-nick')}`,
     `수령 희망 날짜 : ${v('f-due')}`,
     `희망 샘플 공개일 : ${v('f-sample')}`,
-    `패키지 선택 : ${$('f-pack').value}`,
     `원하는 색감 : ${colors.length ? colors.join(', ') : '(미입력)'}`,
     `원하는 요소 및 디자인 컨셉 : ${v('f-concept')}`, '',
     '[ 추가 옵션 ]',
