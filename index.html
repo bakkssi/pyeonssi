@@ -13,9 +13,7 @@
 
 :root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--ink:#4a3943;--mute:#c48aaa}
 *{box-sizing:border-box;margin:0}
-/* 안쪽 스크롤바 숨김 (스크롤바 2개 방지) */
-html{scrollbar-width:none;-ms-overflow-style:none}
-html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+html, body{overflow:auto; height:auto;}
 body{font-family:'Noto Sans KR',sans-serif;font-weight:300;color:var(--ink);background:transparent;padding:20px 16px 60px;line-height:1.6}
 button,input,select,textarea{font-family:inherit}
 section{max-width:900px;margin:0 auto 44px}
@@ -66,9 +64,6 @@ section{max-width:900px;margin:0 auto 44px}
 .cal-tag{font-family:'SchoolFont',sans-serif;font-size:9px;border-radius:5px;padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cal-tag.closed{background:#fce8f2;color:#c4527e}
 .cal-tag.holiday{background:#f5c6dc;color:#9e3060}
-.cal-tag.deadline{background:#fff3cd;color:#8a6000}
-.cal-tag.inprogress{background:#e0f4e8;color:#2d7a45}
-.cal-tag.custom{background:#e8e8fc;color:#5050c0}
 .cal-detail{margin-top:14px;padding:12px 16px;border:1.5px dashed var(--p3);border-radius:12px;background:#fffafc;font-size:14px;color:#8f6c7e}
 .cal-detail b{font-family:'SchoolFont',sans-serif;font-weight:400;color:var(--p2);font-size:15px;margin-right:8px}
 .cal-detail .cal-tag{display:inline-block;font-size:12px;padding:3px 9px;margin:2px 4px 2px 0}
@@ -99,7 +94,9 @@ section{max-width:900px;margin:0 auto 44px}
 .pill input:checked+span{background:var(--p1);border-color:var(--p1);color:#fff}
 .pill input:focus-visible+span{box-shadow:0 0 0 3px var(--p4)}
 .colorrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.colorrow input[type=color]{width:42px;height:42px;border:1px solid var(--p3);border-radius:10px;padding:3px;background:#fff;cursor:pointer}
+.colorrow input[type=color]{width:42px;height:42px;border:1.5px solid var(--p3);border-radius:10px;padding:0;background:#fff;cursor:pointer;-webkit-appearance:none;appearance:none;}
+.colorrow input[type=color]::-webkit-color-swatch-wrapper{padding:0;}
+.colorrow input[type=color]::-webkit-color-swatch{border:none;border-radius:8px;}
 .colorrow input[type=text]{width:140px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--p3);border-radius:18px;padding:3px 8px 3px 6px;background:#fff;font-family:'SchoolFont',sans-serif;font-size:12px;color:var(--p2)}
@@ -145,15 +142,10 @@ section{max-width:900px;margin:0 auto 44px}
 .more{display:block;margin:20px auto 0}
 .more[hidden]{display:none}
 
-/* ---------- 공지 / 패키지 ---------- */
+/* ---------- 공지 ---------- */
 .notice{list-style:none}
 .notice li{position:relative;padding:6px 0 6px 20px;font-size:14px;font-weight:400}
 .notice li::before{content:"";position:absolute;left:0;top:13px;width:10px;height:10px;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);background:var(--p1)}
-.price-group{margin-bottom:22px}
-.price-group:last-child{margin-bottom:0}
-.price-group h3{display:inline-block;background:var(--p4);color:var(--p2);font-family:'SchoolFont',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;padding:3px 12px;border-radius:20px;margin-bottom:6px}
-.row{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:.5px dashed var(--p3);font-size:14px;font-weight:400}
-.row b{white-space:nowrap;font-family:'SchoolFont',sans-serif;font-weight:400;color:var(--p2)}
 
 @media(max-width:640px){.grid2{grid-template-columns:1fr}}
 @media(max-width:560px){
@@ -234,11 +226,9 @@ section{max-width:900px;margin:0 auto 44px}
             <input type="date" id="f-due"></div>
           <div class="fq"><label class="fl" for="f-sample"><b>3.</b>희망 샘플 공개일</label>
             <input type="date" id="f-sample"></div>
-          <div class="fq"><label class="fl" for="f-pack"><b>4.</b>패키지 선택</label>
-            <select id="f-pack"></select></div>
         </div>
 
-        <div class="fq"><label class="fl"><b>5.</b>원하는 색감</label>
+        <div class="fq"><label class="fl"><b>4.</b>원하는 색감</label>
           <div class="colorrow">
             <input type="color" id="f-color" value="#ffffff" aria-label="색상 선택">
             <input type="text" id="f-hex" placeholder="#FFFFFF" maxlength="7">
@@ -247,14 +237,14 @@ section{max-width:900px;margin:0 auto 44px}
           <div class="chips" id="f-chips"></div>
         </div>
 
-        <div class="fq"><label class="fl" for="f-concept"><b>6.</b>원하는 요소 및 디자인 컨셉</label>
+        <div class="fq"><label class="fl" for="f-concept"><b>5.</b>원하는 요소 및 디자인 컨셉</label>
           <textarea id="f-concept" placeholder="원하는 색감, 요소, 참고자료 첨부 등 상세한 내용을 적어주세요"></textarea>
           <div class="hint">오마카세 및 부실한 설명으로 시작된 작업은 추후 수정이 어렵습니다.</div></div>
 
-        <div class="fq"><label class="fl"><b>7.</b>추가 옵션</label><div class="pills" id="f-extras"></div></div>
-        <div class="fq"><label class="fl"><b>8.</b>빠른 마감 옵션</label><div class="pills" id="f-rush"></div></div>
+        <div class="fq"><label class="fl"><b>6.</b>추가 옵션</label><div class="pills" id="f-extras"></div></div>
+        <div class="fq"><label class="fl"><b>7.</b>빠른 마감 옵션</label><div class="pills" id="f-rush"></div></div>
 
-        <div class="fq"><label class="fl"><b>9.</b>신청 하실 디자인 항목</label>
+        <div class="fq"><label class="fl"><b>8.</b>신청 하실 디자인 항목</label>
           <div class="items" id="f-items"></div>
           <div class="editor" id="f-editor">
             <h4 id="f-edtitle"></h4>
@@ -267,7 +257,7 @@ section{max-width:900px;margin:0 auto 44px}
           </div>
         </div>
 
-        <div class="fq"><label class="fl" for="f-etc"><b>10.</b>그 외 추가 문의 사항</label>
+        <div class="fq"><label class="fl" for="f-etc"><b>9.</b>그 외 추가 문의 사항</label>
           <textarea id="f-etc" placeholder="자유롭게 작성해주세요" style="min-height:90px"></textarea></div>
 
         <div class="fq"><label class="fl" for="f-preview">신청 내용 미리보기</label>
@@ -322,22 +312,6 @@ section{max-width:900px;margin:0 auto 44px}
   </div>
 </section>
 
-<!-- 패키지 -->
-<section id="sec-price">
-  <div class="pk">
-    <div class="pk-top">
-      <div class="pk-diamond"></div>
-      <div class="pk-in"><div>
-        <div class="pk-chip">패키지</div>
-        <div class="pk-title">PRICE.</div>
-        <div class="pk-sub">Package &amp; Price Guide</div>
-      </div></div>
-      <div class="pk-stars"></div>
-    </div>
-    <div class="pk-body" id="price"></div>
-  </div>
-</section>
-
 <script>
 /* ===== 여기만 고치면 돼요 ===== */
 const CONFIG = {
@@ -347,12 +321,9 @@ const CONFIG = {
     sub: 'Freelancer Schedule Manager',
     hint: '날짜를 눌러 일정을 확인하세요 ♡',
     footer: '편씨 디자인 스튜디오',
-    // 하루: {date:'2026-11-19', name:'작업불가', type:'holiday'}
-    // 기간: {from:'2026-11-26', to:'2026-11-27', name:'작업불가', type:'holiday'}
-    // type: closed(마감) / holiday(작업불가) / deadline(납품일) / inprogress(진행중) / custom(기타)
+    // type: closed(마감) / holiday(작업불가)
     events: [
-      {from:'2026-11-10', to:'2026-11-14', name:'작업 진행중', type:'inprogress'},
-      {date:'2026-11-15', name:'포스터 납품', type:'deadline'},
+      {date:'2026-11-15', name:'예약 마감', type:'closed'},
       {date:'2026-11-19', name:'작업불가', type:'holiday'},
       {from:'2026-11-26', to:'2026-11-27', name:'작업불가', type:'holiday'},
       {date:'2026-11-30', name:'접수 마감', type:'closed'}
@@ -363,12 +334,7 @@ const CONFIG = {
     '수정은 기본 2회 제공됩니다.',
     '제작 샘플은 포트폴리오로 공개될 수 있습니다.'
   ],
-  price: [
-    {group:'포스터', items:[['일반 홍보 포스터',20000],['가로형 썸네일',45000]]},
-    {group:'배너', items:[['상단배너',40000],['하단배너',30000]]}
-  ],
   form: {
-    packages: ['없음', 'Basic 패키지', 'Standard 패키지', 'Premium 패키지'],
     extras:   ['PSD 파일 구매', '포트폴리오 비공개', '상업용 전환'],
     rush:     ['3일 이내', '2일 이내', '1일 이내'],   // '선택 안함'은 자동 추가
     items:    ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인']
@@ -398,20 +364,14 @@ const starHTML = (n, sm) => Array(n).fill(`<div class="pk-star${sm ? ' sm' : ''}
 /* 헤더 별 장식 */
 document.querySelectorAll('.pk-stars').forEach(el => { el.innerHTML = starHTML(22) + starHTML(5, true); });
 
-/* 공지 / 패키지 */
+/* 공지사항 */
 $('notice').innerHTML = CONFIG.notice.map(t => `<li>${t}</li>`).join('');
-$('price').innerHTML = CONFIG.price.map(g =>
-  `<div class="price-group"><h3>${g.group}</h3>${g.items.map(i =>
-    `<div class="row"><span>${i[0]}</span><b>${i[1].toLocaleString()}원</b></div>`).join('')}</div>`).join('');
 
 /* ===== 작업 일정 (달력, 읽기 전용) ===== */
 const C = CONFIG.calendar;
 const TYPES = {
   closed:     {label:'마감',     dot:'background:#fce8f2;border:1px solid #f5c6dc'},
-  holiday:    {label:'작업불가', dot:'background:#f5c6dc'},
-  deadline:   {label:'납품일',   dot:'background:#fff3cd'},
-  inprogress: {label:'진행중',   dot:'background:#e0f4e8'},
-  custom:     {label:'기타',     dot:'background:#e8e8fc'}
+  holiday:    {label:'작업불가', dot:'background:#f5c6dc'}
 };
 const pad = n => String(n).padStart(2, '0');
 const mk = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
@@ -424,7 +384,7 @@ C.events.forEach(e => {
   const cur = new Date(fy, fm - 1, fd), end = new Date(ty, tm - 1, td);
   for (let n = 0; cur <= end && n < 400; n++) {
     const k = mk(cur.getFullYear(), cur.getMonth(), cur.getDate());
-    (evMap[k] = evMap[k] || []).push({name: e.name, type: TYPES[e.type] ? e.type : 'custom'});
+    (evMap[k] = evMap[k] || []).push({name: e.name, type: TYPES[e.type] ? e.type : 'closed'});
     cur.setDate(cur.getDate() + 1);
   }
 });
@@ -520,7 +480,6 @@ let colors = [];
 let items = {};
 let current = null;
 
-$('f-pack').innerHTML = F.packages.map(p => `<option>${esc(p)}</option>`).join('');
 $('f-extras').innerHTML = F.extras.map(e =>
   `<label class="pill"><input type="checkbox" name="extra" value="${esc(e)}"><span>${esc(e)}</span></label>`).join('');
 $('f-rush').innerHTML = ['선택 안함', ...F.rush].map((r, i) =>
@@ -579,7 +538,6 @@ function buildText(){
     `방송 닉네임 및 주소 : ${v('f-nick')}`,
     `수령 희망 날짜 : ${v('f-due')}`,
     `희망 샘플 공개일 : ${v('f-sample')}`,
-    `패키지 선택 : ${$('f-pack').value}`,
     `원하는 색감 : ${colors.length ? colors.join(', ') : '(미입력)'}`,
     `원하는 요소 및 디자인 컨셉 : ${v('f-concept')}`, '',
     '[ 추가 옵션 ]',
@@ -595,7 +553,7 @@ function update(){
   const ta = $('f-preview');
   ta.value = buildText();
   ta.style.height = 'auto';
-  ta.style.height = (ta.scrollHeight + 4) + 'px';   // 미리보기 칸 안에 스크롤바가 생기지 않게 자동 높이
+  ta.style.height = (ta.scrollHeight + 4) + 'px';
   $('f-copy').disabled = !$('f-read').checked;
 }
 $('f').addEventListener('input', update);
@@ -621,7 +579,7 @@ $('f-reset').onclick = () => {
 renderItems(); renderChips(); update();
 
 /* ===== 부모(아트머그)에 높이와 앵커 위치 전달 ===== */
-const ANCHORS = {schedule:'sec-schedule', form:'sec-form', portfolio:'sec-portfolio', notice:'sec-notice', price:'sec-price'};
+const ANCHORS = {schedule:'sec-schedule', form:'sec-form', portfolio:'sec-portfolio', notice:'sec-notice'};
 const docH = () => Math.ceil(document.body.getBoundingClientRect().height);
 let lastH = 0;
 function send(){
@@ -635,7 +593,7 @@ addEventListener('load', send);
 addEventListener('resize', send);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(send);
 new ResizeObserver(send).observe(document.body);
-setInterval(() => { if (docH() !== lastH) send(); }, 600);   // 글꼴·이미지가 늦게 불러와져도 높이 재전송
+setInterval(() => { if (docH() !== lastH) send(); }, 600);
 </script>
 </body>
 </html>
