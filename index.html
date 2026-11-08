@@ -8,10 +8,10 @@
 :root{--main:#F296BD;--deep:#D9739F;--soft:#FFF0F6;--line:#FBDCE9;--text:#4A3943}
 *{box-sizing:border-box;margin:0}
 body{font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;color:var(--text);background:transparent;padding:20px 16px 60px;line-height:1.7}
-section{max-width:760px;margin:0 auto 70px}
+section{max-width:860px;margin:0 auto 70px}
 h2{font-size:26px;margin-bottom:18px}
-h2::before{content:"♥ ";color:var(--main)}
-.card{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:20px 24px}
+h2::before{content:"";display:inline-block;width:5px;height:22px;background:var(--main);border-radius:3px;margin-right:10px;vertical-align:-3px}
+.card{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:22px 26px}
 .status{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
 .status:last-child{border:0}
 .badge{font-size:13px;font-weight:700;color:#fff;border-radius:99px;padding:3px 12px}
@@ -21,18 +21,154 @@ h2::before{content:"♥ ";color:var(--main)}
 .price-group h3{font-size:18px;color:var(--deep);margin-bottom:8px}
 .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
 .row b{white-space:nowrap}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.grid img{width:100%;border-radius:14px;border:1.5px solid var(--line);display:block}
+
+/* ---------- 문의 양식 ---------- */
+.form .q{margin-bottom:22px}
+.form label.t{display:block;font-weight:700;font-size:15px;margin-bottom:8px}
+.form label.t b{color:var(--main);margin-right:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.form input[type=text],.form input[type=date],.form select,.form textarea{width:100%;font:inherit;font-size:15px;color:var(--text);background:#faf7f8;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--main);box-shadow:0 0 0 3px #FFE3EF}
+.form textarea{resize:vertical;min-height:110px}
+.hint{font-size:13px;color:#8f858b;margin-top:6px}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{position:relative}
+.pill input{position:absolute;opacity:0;pointer-events:none}
+.pill span{display:inline-block;padding:9px 18px;border:1.5px solid var(--line);border-radius:99px;background:#fff;cursor:pointer;font-size:15px;transition:background .2s,border-color .2s}
+.pill input:checked+span{background:#FFD6E6;border-color:var(--main);font-weight:700}
+.pill input:focus-visible+span{box-shadow:0 0 0 3px #FFE3EF}
+.colorrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.colorrow input[type=color]{width:46px;height:46px;border:1.5px solid var(--line);border-radius:12px;padding:3px;background:#fff;cursor:pointer}
+.colorrow input[type=text]{width:140px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 18px;background:var(--main);color:#fff;cursor:pointer;transition:transform .15s,opacity .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:var(--text);border:1.5px solid var(--line)}
+.btn:disabled{background:#ddd;color:#fff;cursor:not-allowed;transform:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:99px;padding:4px 8px 4px 6px;background:#fff;font-size:14px}
+.chip i{width:18px;height:18px;border-radius:50%;border:1px solid #ddd;display:inline-block}
+.chip button{border:0;background:none;cursor:pointer;color:#999;font-size:16px;line-height:1}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font:inherit;font-size:15px;color:var(--text);text-align:left;transition:background .2s,border-color .2s}
+.item small{font-size:12px;font-weight:700;color:#8f858b}
+.item:hover{border-color:var(--main)}
+.item.filled{background:var(--soft);border-color:var(--main)}
+.item.filled small{color:var(--deep)}
+.editor{display:none;margin-top:12px;border:1.5px dashed var(--main);border-radius:14px;padding:14px;background:#FFFAFC}
+.editor.on{display:block}
+.editor h4{font-size:15px;margin-bottom:8px;color:var(--deep)}
+.editor .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+#f-preview{background:#FFF8FB;border-color:var(--line);min-height:240px;max-height:320px;font-size:14px;line-height:1.7}
+.check{display:flex;gap:8px;align-items:center;margin-top:16px;font-size:15px;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--main)}
+.actions{display:flex;gap:10px;margin-top:14px}
+.actions .main{flex:1;padding:15px}
+.guide{margin-top:14px;font-size:13px;color:#8f858b;line-height:1.7}
+
+/* ---------- 포트폴리오 ---------- */
+.ptabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:14px}
+.ptab{font:inherit;font-weight:700;font-size:15px;padding:9px 22px;border-radius:99px;border:1.5px solid var(--line);background:#fff;color:#8f858b;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.ptab:hover{border-color:var(--main)}
+.ptab.on{background:var(--main);border-color:var(--main);color:#fff}
+.stabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:20px}
+.stabs:empty{display:none}
+.stab{font:inherit;font-weight:700;font-size:13px;padding:5px 16px;border-radius:99px;border:1.5px solid var(--line);background:#fff;color:#8f858b;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.stab:hover{border-color:var(--deep)}
+.stab.on{background:var(--deep);border-color:var(--deep);color:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:560px){.pgrid{grid-template-columns:1fr}}
+.pcard{position:relative;display:block;background:#fff;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .2s,border-color .2s,box-shadow .2s}
+.pcard:hover{transform:translateY(-3px);border-color:var(--main);box-shadow:0 12px 24px -14px rgba(226,110,160,.6)}
+.pcard .ttl{text-align:center;font-size:13px;font-weight:700;padding:10px 0 4px;color:var(--deep)}
+.pcard .ttl::before{content:"⁝ "}
+.pcard .ttl::after{content:" ⁝"}
+.pcard .tag{position:absolute;top:10px;right:10px;font-size:12px;font-weight:700;color:#fff;background:#666;border-radius:6px;padding:2px 8px}
+.pcard img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;display:block}
+.pempty{grid-column:1/-1;text-align:center;color:#8f858b;padding:40px 0}
+.more{display:block;margin:22px auto 0}
+.more[hidden]{display:none}
 </style>
 </head>
 <body>
 
 <section id="sec-schedule"><h2>작업 일정</h2><div class="card" id="schedule"></div></section>
+
+<section id="sec-form">
+  <h2>문의 양식</h2>
+  <div class="card form">
+    <form id="f" onsubmit="return false">
+
+      <div class="grid2">
+        <div class="q"><label class="t" for="f-nick"><b>1.</b>방송 닉네임 및 주소</label>
+          <input type="text" id="f-nick" placeholder="방송 닉네임과 주소를 입력해주세요"></div>
+        <div class="q"><label class="t" for="f-due"><b>2.</b>수령 희망 날짜</label>
+          <input type="date" id="f-due"></div>
+        <div class="q"><label class="t" for="f-sample"><b>3.</b>희망 샘플 공개일</label>
+          <input type="date" id="f-sample"></div>
+        <div class="q"><label class="t" for="f-pack"><b>4.</b>패키지 선택</label>
+          <select id="f-pack"></select></div>
+      </div>
+
+      <div class="q"><label class="t"><b>5.</b>원하는 색감</label>
+        <div class="colorrow">
+          <input type="color" id="f-color" value="#ffffff" aria-label="색상 선택">
+          <input type="text" id="f-hex" placeholder="#FFFFFF" maxlength="7">
+          <button type="button" class="btn" id="f-addcolor">+ 추가</button>
+        </div>
+        <div class="chips" id="f-chips"></div>
+      </div>
+
+      <div class="q"><label class="t" for="f-concept"><b>6.</b>원하는 요소 및 디자인 컨셉</label>
+        <textarea id="f-concept" placeholder="원하는 색감, 요소, 참고자료 첨부 등 상세한 내용을 적어주세요"></textarea>
+        <div class="hint">오마카세 및 부실한 설명으로 시작된 작업은 추후 수정이 어렵습니다.</div></div>
+
+      <div class="q"><label class="t"><b>7.</b>추가 옵션</label><div class="pills" id="f-extras"></div></div>
+      <div class="q"><label class="t"><b>8.</b>빠른 마감 옵션</label><div class="pills" id="f-rush"></div></div>
+
+      <div class="q"><label class="t"><b>9.</b>신청 하실 디자인 항목</label>
+        <div class="items" id="f-items"></div>
+        <div class="editor" id="f-editor">
+          <h4 id="f-edtitle"></h4>
+          <textarea id="f-edtext" placeholder="수량, 사이즈, 문구 등 이 항목에 필요한 내용을 적어주세요"></textarea>
+          <div class="acts">
+            <button type="button" class="btn" id="f-edsave">저장</button>
+            <button type="button" class="btn ghost" id="f-eddel">이 항목 삭제</button>
+            <button type="button" class="btn ghost" id="f-edclose">닫기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="q"><label class="t" for="f-etc"><b>10.</b>그 외 추가 문의 사항</label>
+        <textarea id="f-etc" placeholder="자유롭게 작성해주세요" style="min-height:90px"></textarea></div>
+
+      <div class="q"><label class="t" for="f-preview">신청 내용 미리보기</label>
+        <textarea id="f-preview" readonly></textarea></div>
+
+      <label class="check"><input type="checkbox" id="f-read"> 공지사항을 다 읽으셨나요?</label>
+      <div class="actions">
+        <button type="button" class="btn ghost" id="f-reset">↺ 초기화</button>
+        <button type="button" class="btn main" id="f-copy" disabled>신청 내용 복사하기</button>
+      </div>
+      <div class="guide">복사한 내용은 이 페이지의 <b>‘작가에게 문의하기’</b> 창에 붙여넣어 보내주세요.<br>
+        ※ 결제 전에는 연락처(카톡·DM·메일 등)를 적지 마세요.</div>
+    </form>
+  </div>
+</section>
+
+<section id="sec-portfolio">
+  <h2>포트폴리오</h2>
+  <div class="ptabs" id="p-tabs"></div>
+  <div class="stabs" id="p-subs"></div>
+  <div class="pgrid" id="p-grid"></div>
+  <button type="button" class="btn ghost more" id="p-more" hidden>더보기</button>
+</section>
+
 <section id="sec-notice"><h2>공지사항</h2><div class="card"><ul class="notice" id="notice"></ul></div></section>
 <section id="sec-price"><h2>패키지</h2><div class="card" id="price"></div></section>
-<section id="sec-portfolio"><h2>포트폴리오</h2><div class="grid" id="portfolio"></div></section>
 
 <script>
+/* ===== 여기만 고치면 돼요 ===== */
 const CONFIG = {
   schedule: [
     {name:'포스터 A', status:'work', label:'작업중', due:'11/15'},
@@ -48,22 +184,187 @@ const CONFIG = {
     {group:'포스터', items:[['일반 홍보 포스터',20000],['가로형 썸네일',45000]]},
     {group:'배너', items:[['상단배너',40000],['하단배너',30000]]}
   ],
-  portfolio: [
-    'https://placehold.co/600x400?text=1',
-    'https://placehold.co/600x400?text=2'
-  ]
+  form: {
+    packages: ['없음', 'Basic 패키지', 'Standard 패키지', 'Premium 패키지'],
+    extras:   ['PSD 파일 구매', '포트폴리오 비공개', '상업용 전환'],
+    rush:     ['3일 이내', '2일 이내', '1일 이내'],   // '선택 안함'은 자동 추가
+    items:    ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인']
+  },
+  portfolio: {
+    pageSize: 6,   // 한 번에 보여줄 개수
+    cats: ['Overlay', 'CSS', 'Schedule', 'Poster', 'RTPoster'],   // 상단 탭
+    // cat: 상단 탭 이름과 같게 / sub: 하위 탭(없으면 생략) / title: 카드 위 라벨(생략하면 'CSS Design' 식) / color: 라벨 색(생략 가능)
+    // img: 이미지 주소 (같은 저장소의 img 폴더에 올렸다면 'img/1.png')
+    items: [
+      {cat:'CSS', sub:'후원', img:'https://placehold.co/800x600/FFF0F6/D9739F?text=CSS+1', color:'#D9739F'},
+      {cat:'CSS', sub:'후원', img:'https://placehold.co/800x600/FFF0F6/D9739F?text=CSS+2', color:'#9c3d3d'},
+      {cat:'CSS', sub:'애니메이션', img:'https://placehold.co/800x600/FFF0F6/D9739F?text=CSS+3', color:'#c9a227'},
+      {cat:'CSS', sub:'애니메이션', img:'https://placehold.co/800x600/FFF0F6/D9739F?text=CSS+4'},
+      {cat:'Overlay', img:'https://placehold.co/800x600/F0F5FF/6b8ad9?text=Overlay+1'},
+      {cat:'Overlay', img:'https://placehold.co/800x600/F0F5FF/6b8ad9?text=Overlay+2'},
+      {cat:'Schedule', img:'https://placehold.co/800x600/FFF8F0/d9a273?text=Schedule+1'},
+      {cat:'Poster', img:'https://placehold.co/800x600/F5F0FF/9a73d9?text=Poster+1'},
+      {cat:'RTPoster', img:'https://placehold.co/800x600/F0FFF7/73d9a2?text=RTPoster+1'}
+    ]
+  }
 };
+/* ============================== */
 
 const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* 기본 섹션 */
 $('schedule').innerHTML = CONFIG.schedule.map(s =>
   `<div class="status"><span class="badge ${s.status}">${s.label}</span><span>${s.name}</span><span style="margin-left:auto;color:#999">${s.due}</span></div>`).join('');
 $('notice').innerHTML = CONFIG.notice.map(t => `<li>${t}</li>`).join('');
 $('price').innerHTML = CONFIG.price.map(g =>
   `<div class="price-group"><h3>${g.group}</h3>${g.items.map(i =>
     `<div class="row"><span>${i[0]}</span><b>${i[1].toLocaleString()}원</b></div>`).join('')}</div>`).join('');
-$('portfolio').innerHTML = CONFIG.portfolio.map(src => `<img src="${src}" alt="포트폴리오" loading="lazy">`).join('');
 
-const ANCHORS = {schedule:'sec-schedule', notice:'sec-notice', price:'sec-price', portfolio:'sec-portfolio'};
+/* 포트폴리오 */
+const P = CONFIG.portfolio;
+let pcat = 'ALL', psub = '전체', pshown = P.pageSize;
+
+function renderPortfolio(){
+  $('p-tabs').innerHTML = ['ALL', ...P.cats].map(c =>
+    `<button type="button" class="ptab ${c === pcat ? 'on' : ''}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
+
+  const subs = pcat === 'ALL' ? [] : [...new Set(P.items.filter(i => i.cat === pcat && i.sub).map(i => i.sub))];
+  $('p-subs').innerHTML = subs.length
+    ? ['전체', ...subs].map(s => `<button type="button" class="stab ${s === psub ? 'on' : ''}" data-s="${esc(s)}">${esc(s)}</button>`).join('')
+    : '';
+
+  const list = P.items.filter(i => (pcat === 'ALL' || i.cat === pcat) && (psub === '전체' || i.sub === psub));
+  $('p-grid').innerHTML = list.length
+    ? list.slice(0, pshown).map(i =>
+        `<a class="pcard" href="${esc(i.img)}" target="_blank" rel="noopener">
+           <span class="tag">${esc(i.cat)}</span>
+           <div class="ttl" ${i.color ? `style="color:${esc(i.color)}"` : ''}>${esc(i.title || i.cat + ' Design')}</div>
+           <img src="${esc(i.img)}" alt="${esc(i.cat)} 포트폴리오" loading="lazy">
+         </a>`).join('')
+    : '<div class="pempty">아직 등록된 작업이 없어요</div>';
+  $('p-more').hidden = list.length <= pshown;
+}
+$('p-tabs').addEventListener('click', e => {
+  const b = e.target.closest('.ptab'); if (!b) return;
+  pcat = b.dataset.c; psub = '전체'; pshown = P.pageSize; renderPortfolio();
+});
+$('p-subs').addEventListener('click', e => {
+  const b = e.target.closest('.stab'); if (!b) return;
+  psub = b.dataset.s; pshown = P.pageSize; renderPortfolio();
+});
+$('p-more').onclick = () => { pshown += P.pageSize; renderPortfolio(); };
+renderPortfolio();
+
+/* 문의 양식 */
+const F = CONFIG.form;
+let colors = [];
+let items = {};
+let current = null;
+
+$('f-pack').innerHTML = F.packages.map(p => `<option>${esc(p)}</option>`).join('');
+$('f-extras').innerHTML = F.extras.map(e =>
+  `<label class="pill"><input type="checkbox" name="extra" value="${esc(e)}"><span>${esc(e)}</span></label>`).join('');
+$('f-rush').innerHTML = ['선택 안함', ...F.rush].map((r, i) =>
+  `<label class="pill"><input type="radio" name="rush" value="${esc(r)}" ${i === 0 ? 'checked' : ''}><span>${esc(r)}</span></label>`).join('');
+
+function renderItems(){
+  $('f-items').innerHTML = F.items.map(n =>
+    `<button type="button" class="item ${items[n] ? 'filled' : ''}" data-n="${esc(n)}"><span>${esc(n)}</span><small>${items[n] ? '입력됨 ✓' : '입력하기 ›'}</small></button>`).join('');
+}
+function renderChips(){
+  $('f-chips').innerHTML = colors.map((c, i) =>
+    `<span class="chip"><i style="background:${c}"></i>${c}<button type="button" data-i="${i}" aria-label="삭제">×</button></span>`).join('');
+}
+function closeEditor(){ current = null; $('f-editor').classList.remove('on'); }
+
+$('f-items').addEventListener('click', e => {
+  const b = e.target.closest('.item'); if (!b) return;
+  current = b.dataset.n;
+  $('f-edtitle').textContent = current + ' 입력';
+  $('f-edtext').value = items[current] || '';
+  $('f-editor').classList.add('on');
+  $('f-edtext').focus();
+});
+$('f-edsave').onclick = () => {
+  const t = $('f-edtext').value.trim();
+  if (t) items[current] = t; else delete items[current];
+  closeEditor(); renderItems(); update();
+};
+$('f-eddel').onclick = () => { delete items[current]; closeEditor(); renderItems(); update(); };
+$('f-edclose').onclick = closeEditor;
+
+/* 색감 */
+$('f-color').addEventListener('input', () => { $('f-hex').value = $('f-color').value.toUpperCase(); });
+$('f-hex').addEventListener('input', () => {
+  const v = $('f-hex').value.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(v)) $('f-color').value = v;
+});
+$('f-addcolor').onclick = () => {
+  let v = ($('f-hex').value.trim() || $('f-color').value).toUpperCase();
+  if (!v.startsWith('#')) v = '#' + v;
+  if (!/^#[0-9A-F]{6}$/.test(v)) { $('f-hex').focus(); return; }
+  if (!colors.includes(v)) colors.push(v);
+  renderChips(); update();
+};
+$('f-chips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  colors.splice(+b.dataset.i, 1); renderChips(); update();
+});
+
+/* 미리보기 텍스트 */
+const v = id => $(id).value.trim() || '(미입력)';
+function buildText(){
+  const extras = [...document.querySelectorAll('input[name=extra]:checked')].map(x => x.value);
+  const rush = document.querySelector('input[name=rush]:checked').value;
+  const lines = Object.keys(items).map(k => `- ${k} : ${items[k].replace(/\n/g, '\n  ')}`);
+  return [
+    '[ 신청 내용 ]', '',
+    `방송 닉네임 및 주소 : ${v('f-nick')}`,
+    `수령 희망 날짜 : ${v('f-due')}`,
+    `희망 샘플 공개일 : ${v('f-sample')}`,
+    `패키지 선택 : ${$('f-pack').value}`,
+    `원하는 색감 : ${colors.length ? colors.join(', ') : '(미입력)'}`,
+    `원하는 요소 및 디자인 컨셉 : ${v('f-concept')}`, '',
+    '[ 추가 옵션 ]',
+    extras.length ? extras.map(x => `- ${x}`).join('\n') : '- 없음', '',
+    `빠른 마감 옵션 : ${rush}`, '',
+    '[ 신청 디자인 항목 ]',
+    lines.length ? lines.join('\n') : '- (미선택)', '',
+    '[ 그 외 추가 문의 사항 ]',
+    v('f-etc')
+  ].join('\n');
+}
+function update(){
+  $('f-preview').value = buildText();
+  $('f-copy').disabled = !$('f-read').checked;
+}
+$('f').addEventListener('input', update);
+$('f').addEventListener('change', update);
+
+/* 복사 / 초기화 */
+async function copyText(t){
+  try { await navigator.clipboard.writeText(t); return true; }
+  catch(e){
+    const ta = $('f-preview'); ta.removeAttribute('readonly'); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch(_){}
+    ta.setAttribute('readonly', ''); return ok;
+  }
+}
+$('f-copy').onclick = async () => {
+  const ok = await copyText($('f-preview').value);
+  const b = $('f-copy'), old = '신청 내용 복사하기';
+  b.textContent = ok ? '복사 완료! 문의창에 붙여넣어 주세요' : '복사 실패 · 미리보기를 직접 복사해 주세요';
+  setTimeout(() => b.textContent = old, 2800);
+};
+$('f-reset').onclick = () => {
+  $('f').reset(); colors = []; items = {}; closeEditor(); renderChips(); renderItems(); update();
+};
+
+renderItems(); renderChips(); update();
+
+/* 부모(아트머그)에 높이와 앵커 위치 전달 */
+const ANCHORS = {schedule:'sec-schedule', form:'sec-form', portfolio:'sec-portfolio', notice:'sec-notice', price:'sec-price'};
 function send(){
   const anchors = {};
   for (const k in ANCHORS) anchors[k] = $(ANCHORS[k]).getBoundingClientRect().top + scrollY;
