@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>상세페이지</title>
+<style>
+:root{--main:#F296BD;--deep:#D9739F;--soft:#FFF0F6;--line:#FBDCE9;--text:#4A3943}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;color:var(--text);background:transparent;padding:20px 16px 60px;line-height:1.7}
+section{max-width:760px;margin:0 auto 70px}
+h2{font-size:26px;margin-bottom:18px}
+h2::before{content:"♥ ";color:var(--main)}
+.card{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:20px 24px}
+.status{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.status:last-child{border:0}
+.badge{font-size:13px;font-weight:700;color:#fff;border-radius:99px;padding:3px 12px}
+.badge.open{background:var(--main)}.badge.work{background:#9BB7F0}.badge.done{background:#bbb}
+.notice li{margin-left:18px;margin-bottom:6px}
+.price-group{margin-bottom:22px}
+.price-group h3{font-size:18px;color:var(--deep);margin-bottom:8px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.row b{white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.grid img{width:100%;border-radius:14px;border:1.5px solid var(--line);display:block}
+</style>
+</head>
+<body>
+
+<section id="sec-schedule"><h2>작업 일정</h2><div class="card" id="schedule"></div></section>
+<section id="sec-notice"><h2>공지사항</h2><div class="card"><ul class="notice" id="notice"></ul></div></section>
+<section id="sec-price"><h2>패키지</h2><div class="card" id="price"></div></section>
+<section id="sec-portfolio"><h2>포트폴리오</h2><div class="grid" id="portfolio"></div></section>
+
+<script>
+const CONFIG = {
+  schedule: [
+    {name:'포스터 A', status:'work', label:'작업중', due:'11/15'},
+    {name:'배너 B', status:'open', label:'접수중', due:'-'},
+    {name:'로고 C', status:'done', label:'완료', due:'11/02'}
+  ],
+  notice: [
+    '작업은 입금 확인 후 시작합니다.',
+    '수정은 기본 2회 제공됩니다.',
+    '제작 샘플은 포트폴리오로 공개될 수 있습니다.'
+  ],
+  price: [
+    {group:'포스터', items:[['일반 홍보 포스터',20000],['가로형 썸네일',45000]]},
+    {group:'배너', items:[['상단배너',40000],['하단배너',30000]]}
+  ],
+  portfolio: [
+    'https://placehold.co/600x400?text=1',
+    'https://placehold.co/600x400?text=2'
+  ]
+};
+
+const $ = id => document.getElementById(id);
+$('schedule').innerHTML = CONFIG.schedule.map(s =>
+  `<div class="status"><span class="badge ${s.status}">${s.label}</span><span>${s.name}</span><span style="margin-left:auto;color:#999">${s.due}</span></div>`).join('');
+$('notice').innerHTML = CONFIG.notice.map(t => `<li>${t}</li>`).join('');
+$('price').innerHTML = CONFIG.price.map(g =>
+  `<div class="price-group"><h3>${g.group}</h3>${g.items.map(i =>
+    `<div class="row"><span>${i[0]}</span><b>${i[1].toLocaleString()}원</b></div>`).join('')}</div>`).join('');
+$('portfolio').innerHTML = CONFIG.portfolio.map(src => `<img src="${src}" alt="포트폴리오" loading="lazy">`).join('');
+
+const ANCHORS = {schedule:'sec-schedule', notice:'sec-notice', price:'sec-price', portfolio:'sec-portfolio'};
+function send(){
+  const anchors = {};
+  for (const k in ANCHORS) anchors[k] = $(ANCHORS[k]).getBoundingClientRect().top + scrollY;
+  parent.postMessage({type:'embedHeight', height:document.documentElement.scrollHeight, anchors}, '*');
+}
+addEventListener('message', e => { if (e.data && e.data.type === 'requestHeight') send(); });
+addEventListener('load', send);
+new ResizeObserver(send).observe(document.body);
+</script>
+</body>
+</html>
