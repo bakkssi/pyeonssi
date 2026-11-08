@@ -1,20 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>상세페이지</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Noto+Sans+KR:wght@300;400;500&display=swap');
+@font-face{font-family:'SchoolFont';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'SchoolFont';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-B.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+
 :root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--ink:#4a3943;--mute:#c48aaa}
 *{box-sizing:border-box;margin:0}
 
 /* iframe 내 이중 스크롤 방지 */
 html, body {
-margin: 0;
-padding: 0;
-height: auto !important;
-min-height: 100%;
-overflow: visible !important;
-scrollbar-width: none;
--ms-overflow-style: none;
+  margin: 0;
+  padding: 0;
+  height: auto !important;
+  min-height: 100%;
+  overflow: visible !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
-display: none;
-width: 0;
-height: 0;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 body{font-family:'Noto Sans KR',sans-serif;font-weight:300;color:var(--ink);background:transparent;padding:20px 16px 60px;line-height:1.6}
@@ -100,16 +113,16 @@ section{max-width:900px;margin:0 auto 44px}
 /* 색상 선택 (검은 테두리 제거) */
 .colorrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .colorrow input[type=color]{
-width:42px;
-height:42px;
-border:1.5px solid var(--p3);
-border-radius:10px;
-padding:0;
-background:#fff;
-cursor:pointer;
-outline:none;
--webkit-appearance:none;
-appearance:none;
+  width:42px;
+  height:42px;
+  border:1.5px solid var(--p3);
+  border-radius:10px;
+  padding:0;
+  background:#fff;
+  cursor:pointer;
+  outline:none;
+  -webkit-appearance:none;
+  appearance:none;
 }
 .colorrow input[type=color]::-webkit-color-swatch-wrapper{padding:0}
 .colorrow input[type=color]::-webkit-color-swatch{border:none;border-radius:8px}
@@ -166,70 +179,457 @@ appearance:none;
 
 @media(max-width:640px){.grid2{grid-template-columns:1fr}}
 @media(max-width:560px){
-.pk-top{padding:18px 18px 12px}
-.pk-title{font-size:32px}
-.pk-title.big{font-size:40px}
-.pk-body{padding:16px 14px 20px}
-.cal-nav{align-items:flex-start}
-.cal-grid,.cal-wd{gap:3px}
-.cal-cell{min-height:62px;padding:5px 4px;border-radius:9px}
-.cal-num{font-size:12px}
-.cal-tag{font-size:8px;padding:1px 3px}
-.cal-thanks{font-size:12px}
-.pgrid{grid-template-columns:1fr}
+  .pk-top{padding:18px 18px 12px}
+  .pk-title{font-size:32px}
+  .pk-title.big{font-size:40px}
+  .pk-body{padding:16px 14px 20px}
+  .cal-nav{align-items:flex-start}
+  .cal-grid,.cal-wd{gap:3px}
+  .cal-cell{min-height:62px;padding:5px 4px;border-radius:9px}
+  .cal-num{font-size:12px}
+  .cal-tag{font-size:8px;padding:1px 3px}
+  .cal-thanks{font-size:12px}
+  .pgrid{grid-template-columns:1fr}
 }
+</style>
+</head>
+<body>
 
-
-    <div class="grid2">
-      <div class="fq"><label class="fl" for="f-nick"><b>1.</b>방송 닉네임 및 주소</label>
-        <input type="text" id="f-nick" placeholder="방송 닉네임과 주소를 입력해주세요"></div>
-      <div class="fq"><label class="fl" for="f-due"><b>2.</b>수령 희망 날짜</label>
-        <input type="date" id="f-due"></div>
-      <div class="fq"><label class="fl" for="f-sample"><b>3.</b>희망 샘플 공개일</label>
-        <input type="date" id="f-sample"></div>
-    </div>
-
-    <div class="fq"><label class="fl"><b>4.</b>원하는 색감</label>
-      <div class="colorrow">
-        <input type="color" id="f-color" value="#ffffff" aria-label="색상 선택">
-        <input type="text" id="f-hex" placeholder="#FFFFFF" maxlength="7">
-        <button type="button" class="btn" id="f-addcolor">+ 추가</button>
-      </div>
-      <div class="chips" id="f-chips"></div>
-    </div>
-
-    <div class="fq"><label class="fl" for="f-concept"><b>5.</b>원하는 요소 및 디자인 컨셉</label>
-      <textarea id="f-concept" placeholder="원하는 색감, 요소, 참고자료 첨부 등 상세한 내용을 적어주세요"></textarea>
-      <div class="hint">오마카세 및 부실한 설명으로 시작된 작업은 추후 수정이 어렵습니다.</div></div>
-
-    <div class="fq"><label class="fl"><b>6.</b>추가 옵션</label><div class="pills" id="f-extras"></div></div>
-    <div class="fq"><label class="fl"><b>7.</b>빠른 마감 옵션</label><div class="pills" id="f-rush"></div></div>
-
-    <div class="fq"><label class="fl"><b>8.</b>신청 하실 디자인 항목</label>
-      <div class="items" id="f-items"></div>
-      <div class="editor" id="f-editor">
-        <h4 id="f-edtitle"></h4>
-        <textarea id="f-edtext" placeholder="수량, 사이즈, 문구 등 이 항목에 필요한 내용을 적어주세요"></textarea>
-        <div class="acts">
-          <button type="button" class="btn" id="f-edsave">저장 ✦</button>
-          <button type="button" class="btn ghost" id="f-eddel">이 항목 삭제</button>
-          <button type="button" class="btn ghost" id="f-edclose">닫기</button>
+<!-- 작업 일정 -->
+<section id="sec-schedule">
+  <div class="pk">
+    <div class="pk-top">
+      <div class="pk-diamond"></div>
+      <div class="pk-in">
+        <div>
+          <div class="pk-chip" id="cal-chip"></div>
+          <div class="pk-title big" id="cal-title"></div>
+          <div class="pk-sub" id="cal-sub"></div>
+        </div>
+        <div class="cal-nav">
+          <div class="cal-month" id="cal-month"></div>
+          <div class="cal-btns">
+            <button type="button" class="cal-btn" id="cal-this">이번달</button>
+            <button type="button" class="cal-btn" id="cal-prev">◂ 이전</button>
+            <button type="button" class="cal-btn" id="cal-next">다음 ▸</button>
+          </div>
         </div>
       </div>
+      <div class="pk-stars"></div>
     </div>
-
-    <div class="fq"><label class="fl" for="f-etc"><b>9.</b>그 외 추가 문의 사항</label>
-      <textarea id="f-etc" placeholder="자유롭게 작성해주세요" style="min-height:90px"></textarea></div>
-
-    <div class="fq"><label class="fl" for="f-preview">신청 내용 미리보기</label>
-      <textarea id="f-preview" readonly></textarea></div>
-
-    <label class="check"><input type="checkbox" id="f-read"> 공지사항을 다 읽으셨나요?</label>
-    <div class="actions">
-      <button type="button" class="btn ghost" id="f-reset">↺ 초기화</button>
-      <button type="button" class="btn main" id="f-copy" disabled>신청 내용 복사하기</button>
+    <div class="pk-body">
+      <div class="pk-label">Schedule Overview</div>
+      <div class="cal-wd">
+        <div class="cal-w">일</div><div class="cal-w">월</div><div class="cal-w">화</div><div class="cal-w">수</div><div class="cal-w">목</div><div class="cal-w">금</div><div class="cal-w sat">토</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-detail" id="cal-detail"></div>
+      <div class="cal-legend" id="cal-legend"></div>
+      <div class="cal-div"></div>
+      <div class="cal-foot">
+        <div class="cal-fstars" id="cal-fstars"></div>
+        <div class="cal-thanks" id="cal-thanks"></div>
+      </div>
     </div>
-    <div class="guide">복사한 내용은 이 페이지의 <b>‘작가에게 문의하기’</b> 창에 붙여넣어 보내주세요.<br>
-      ※ 결제 전에는 연락처(카톡·DM·메일 등)를 적지 마세요.</div>
-  </form>
-</div>
+  </div>
+</section>
+
+<!-- 문의 양식 -->
+<section id="sec-form">
+  <div class="pk">
+    <div class="pk-top">
+      <div class="pk-diamond"></div>
+      <div class="pk-in"><div>
+        <div class="pk-chip">문의 양식</div>
+        <div class="pk-title">FORM.</div>
+        <div class="pk-sub">Commission Request</div>
+      </div></div>
+      <div class="pk-stars"></div>
+    </div>
+    <div class="pk-body form">
+      <form id="f" onsubmit="return false">
+
+        <div class="grid2">
+          <div class="fq"><label class="fl" for="f-nick"><b>1.</b>방송 닉네임 및 주소</label>
+            <input type="text" id="f-nick" placeholder="방송 닉네임과 주소를 입력해주세요"></div>
+          <div class="fq"><label class="fl" for="f-due"><b>2.</b>수령 희망 날짜</label>
+            <input type="date" id="f-due"></div>
+          <div class="fq"><label class="fl" for="f-sample"><b>3.</b>희망 샘플 공개일</label>
+            <input type="date" id="f-sample"></div>
+        </div>
+
+        <div class="fq"><label class="fl"><b>4.</b>원하는 색감</label>
+          <div class="colorrow">
+            <input type="color" id="f-color" value="#ffffff" aria-label="색상 선택">
+            <input type="text" id="f-hex" placeholder="#FFFFFF" maxlength="7">
+            <button type="button" class="btn" id="f-addcolor">+ 추가</button>
+          </div>
+          <div class="chips" id="f-chips"></div>
+        </div>
+
+        <div class="fq"><label class="fl" for="f-concept"><b>5.</b>원하는 요소 및 디자인 컨셉</label>
+          <textarea id="f-concept" placeholder="원하는 색감, 요소, 참고자료 첨부 등 상세한 내용을 적어주세요"></textarea>
+          <div class="hint">오마카세 및 부실한 설명으로 시작된 작업은 추후 수정이 어렵습니다.</div></div>
+
+        <div class="fq"><label class="fl"><b>6.</b>추가 옵션</label><div class="pills" id="f-extras"></div></div>
+        <div class="fq"><label class="fl"><b>7.</b>빠른 마감 옵션</label><div class="pills" id="f-rush"></div></div>
+
+        <div class="fq"><label class="fl"><b>8.</b>신청 하실 디자인 항목</label>
+          <div class="items" id="f-items"></div>
+          <div class="editor" id="f-editor">
+            <h4 id="f-edtitle"></h4>
+            <textarea id="f-edtext" placeholder="수량, 사이즈, 문구 등 이 항목에 필요한 내용을 적어주세요"></textarea>
+            <div class="acts">
+              <button type="button" class="btn" id="f-edsave">저장 ✦</button>
+              <button type="button" class="btn ghost" id="f-eddel">이 항목 삭제</button>
+              <button type="button" class="btn ghost" id="f-edclose">닫기</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="fq"><label class="fl" for="f-etc"><b>9.</b>그 외 추가 문의 사항</label>
+          <textarea id="f-etc" placeholder="자유롭게 작성해주세요" style="min-height:90px"></textarea></div>
+
+        <div class="fq"><label class="fl" for="f-preview">신청 내용 미리보기</label>
+          <textarea id="f-preview" readonly></textarea></div>
+
+        <label class="check"><input type="checkbox" id="f-read"> 공지사항을 다 읽으셨나요?</label>
+        <div class="actions">
+          <button type="button" class="btn ghost" id="f-reset">↺ 초기화</button>
+          <button type="button" class="btn main" id="f-copy" disabled>신청 내용 복사하기</button>
+        </div>
+        <div class="guide">복사한 내용은 이 페이지의 <b>‘작가에게 문의하기’</b> 창에 붙여넣어 보내주세요.<br>
+          ※ 결제 전에는 연락처(카톡·DM·메일 등)를 적지 마세요.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- 포트폴리오 -->
+<section id="sec-portfolio">
+  <div class="pk">
+    <div class="pk-top">
+      <div class="pk-diamond"></div>
+      <div class="pk-in"><div>
+        <div class="pk-chip">포트폴리오</div>
+        <div class="pk-title">WORKS.</div>
+        <div class="pk-sub">Selected Works</div>
+      </div></div>
+      <div class="pk-stars"></div>
+    </div>
+    <div class="pk-body">
+      <div class="ptabs" id="p-tabs"></div>
+      <div class="stabs" id="p-subs"></div>
+      <div class="pgrid" id="p-grid"></div>
+      <button type="button" class="btn ghost more" id="p-more" hidden>더보기</button>
+    </div>
+  </div>
+</section>
+
+<!-- 공지사항 -->
+<section id="sec-notice">
+  <div class="pk">
+    <div class="pk-top">
+      <div class="pk-diamond"></div>
+      <div class="pk-in"><div>
+        <div class="pk-chip">공지사항</div>
+        <div class="pk-title">NOTICE.</div>
+        <div class="pk-sub">Please Read First</div>
+      </div></div>
+      <div class="pk-stars"></div>
+    </div>
+    <div class="pk-body"><ul class="notice" id="notice"></ul></div>
+  </div>
+</section>
+
+<script>
+/* ===== 기본 설정 ===== */
+const CONFIG = {
+  calendar: {
+    chip: '마감 캘린더',
+    title: 'SCHED.',
+    sub: 'Freelancer Schedule Manager',
+    hint: '날짜를 눌러 일정을 확인하세요 ♡',
+    footer: '편씨 디자인 스튜디오',
+    // type: closed(마감) / holiday(작업불가)
+    events: [
+      {date:'2026-11-15', name:'예약 마감', type:'closed'},
+      {date:'2026-11-19', name:'작업불가', type:'holiday'},
+      {from:'2026-11-26', to:'2026-11-27', name:'작업불가', type:'holiday'},
+      {date:'2026-11-30', name:'접수 마감', type:'closed'}
+    ]
+  },
+  notice: [
+    '작업은 입금 확인 후 시작합니다.',
+    '수정은 기본 2회 제공됩니다.',
+    '제작 샘플은 포트폴리오로 공개될 수 있습니다.'
+  ],
+  form: {
+    extras:   ['PSD 파일 구매', '포트폴리오 비공개', '상업용 전환'],
+    rush:     ['3일 이내', '2일 이내', '1일 이내'],
+    items:    ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인']
+  },
+  portfolio: {
+    pageSize: 6,
+    cats: ['Overlay', 'CSS', 'Schedule', 'Poster', 'RTPoster'],
+    items: [
+      {cat:'CSS', sub:'후원', img:'https://placehold.co/800x600/FFF0F6/D9739F?text=CSS+1', color:'#D9739F'},
+      {cat:'CSS', sub:'후원', img:'https://placehold.co/800x600/FFF0F6/D9739F?text=CSS+2', color:'#9c3d3d'},
+      {cat:'CSS', sub:'애니메이션', img:'https://placehold.co/800x600/FFF0F6/D9739F?text=CSS+3', color:'#c9a227'},
+      {cat:'CSS', sub:'애니메이션', img:'https://placehold.co/800x600/FFF0F6/D9739F?text=CSS+4'},
+      {cat:'Overlay', img:'https://placehold.co/800x600/F0F5FF/6b8ad9?text=Overlay+1'},
+      {cat:'Overlay', img:'https://placehold.co/800x600/F0F5FF/6b8ad9?text=Overlay+2'},
+      {cat:'Schedule', img:'https://placehold.co/800x600/FFF8F0/d9a273?text=Schedule+1'},
+      {cat:'Poster', img:'https://placehold.co/800x600/F5F0FF/9a73d9?text=Poster+1'},
+      {cat:'RTPoster', img:'https://placehold.co/800x600/F0FFF7/73d9a2?text=RTPoster+1'}
+    ]
+  }
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const starHTML = (n, sm) => Array(n).fill(`<div class="pk-star${sm ? ' sm' : ''}"></div>`).join('');
+
+document.querySelectorAll('.pk-stars').forEach(el => { el.innerHTML = starHTML(22) + starHTML(5, true); });
+$('notice').innerHTML = CONFIG.notice.map(t => `<li>${t}</li>`).join('');
+
+/* ===== 달력 로직 ===== */
+const C = CONFIG.calendar;
+const TYPES = {
+  closed:  {label:'마감',     dot:'background:#fce8f2;border:1px solid #f5c6dc'},
+  holiday: {label:'작업불가', dot:'background:#f5c6dc'}
+};
+const pad = n => String(n).padStart(2, '0');
+const mk = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+const evMap = {};
+C.events.forEach(e => {
+  const from = e.from || e.date, to = e.to || from;
+  if (!from) return;
+  const [fy, fm, fd] = from.split('-').map(Number);
+  const [ty, tm, td] = to.split('-').map(Number);
+  const cur = new Date(fy, fm - 1, fd), end = new Date(ty, tm - 1, td);
+  for (let n = 0; cur <= end && n < 400; n++) {
+    const k = mk(cur.getFullYear(), cur.getMonth(), cur.getDate());
+    (evMap[k] = evMap[k] || []).push({name: e.name, type: TYPES[e.type] ? e.type : 'closed'});
+    cur.setDate(cur.getDate() + 1);
+  }
+});
+
+const today = new Date();
+let vy = today.getFullYear(), vm = today.getMonth(), selKey = null;
+
+$('cal-chip').textContent = C.chip;
+$('cal-title').textContent = C.title;
+$('cal-sub').textContent = C.sub;
+$('cal-fstars').innerHTML = `<div class="cal-frow">${starHTML(5)}</div><div class="cal-frow">${starHTML(3)}</div>`;
+$('cal-thanks').innerHTML = `${esc(C.hint)}<br>${esc(C.footer)}`;
+$('cal-legend').innerHTML = Object.keys(TYPES).map(k =>
+  `<div class="cal-li"><div class="cal-dot" style="${TYPES[k].dot}"></div><span class="cal-ll">${TYPES[k].label}</span></div>`).join('');
+
+function renderDetail(){
+  const box = $('cal-detail');
+  if (!selKey) { box.innerHTML = esc(C.hint); return; }
+  const [y, m, d] = selKey.split('-').map(Number);
+  const evs = evMap[selKey] || [];
+  box.innerHTML = `<b>${m}월 ${d}일</b>` + (evs.length
+    ? evs.map(e => `<span class="cal-tag ${e.type}">${esc(e.name)}</span>`).join('')
+    : '등록된 일정이 없어요');
+}
+function renderCal(){
+  const grid = $('cal-grid');
+  grid.innerHTML = '';
+  $('cal-month').textContent = `${vy}년 ${vm + 1}월`;
+  $('cal-this').className = 'cal-btn' + (vy === today.getFullYear() && vm === today.getMonth() ? ' on' : '');
+  const first = new Date(vy, vm, 1).getDay();
+  const days = new Date(vy, vm + 1, 0).getDate();
+  for (let i = 0; i < first; i++) {
+    const e = document.createElement('div'); e.className = 'cal-cell empty'; grid.appendChild(e);
+  }
+  for (let d = 1; d <= days; d++) {
+    const dow = (first + d - 1) % 7, key = mk(vy, vm, d);
+    const isToday = vy === today.getFullYear() && vm === today.getMonth() && d === today.getDate();
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell' + (isToday ? ' today' : '') + (dow === 0 ? ' sun' : '') + (dow === 6 ? ' sat' : '') + (key === selKey ? ' sel' : '');
+    cell.innerHTML = `<div class="cal-num">${d}</div><div class="cal-tags">` +
+      (evMap[key] || []).map(e => `<div class="cal-tag ${e.type}">${esc(e.name)}</div>`).join('') + '</div>';
+    cell.onclick = () => { selKey = key; renderCal(); renderDetail(); send(); };
+    grid.appendChild(cell);
+  }
+}
+function changeMo(n){
+  vm += n;
+  if (vm > 11) { vm = 0; vy++; }
+  if (vm < 0) { vm = 11; vy--; }
+  selKey = null; renderCal(); renderDetail(); send();
+}
+$('cal-prev').onclick = () => changeMo(-1);
+$('cal-next').onclick = () => changeMo(1);
+$('cal-this').onclick = () => { vy = today.getFullYear(); vm = today.getMonth(); selKey = null; renderCal(); renderDetail(); send(); };
+renderCal(); renderDetail();
+
+/* ===== 포트폴리오 로직 ===== */
+const P = CONFIG.portfolio;
+let pcat = 'ALL', psub = '전체', pshown = P.pageSize;
+
+function renderPortfolio(){
+  $('p-tabs').innerHTML = ['ALL', ...P.cats].map(c =>
+    `<button type="button" class="ptab ${c === pcat ? 'on' : ''}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
+  const subs = pcat === 'ALL' ? [] : [...new Set(P.items.filter(i => i.cat === pcat && i.sub).map(i => i.sub))];
+  $('p-subs').innerHTML = subs.length
+    ? ['전체', ...subs].map(s => `<button type="button" class="stab ${s === psub ? 'on' : ''}" data-s="${esc(s)}">${esc(s)}</button>`).join('')
+    : '';
+  const list = P.items.filter(i => (pcat === 'ALL' || i.cat === pcat) && (psub === '전체' || i.sub === psub));
+  $('p-grid').innerHTML = list.length
+    ? list.slice(0, pshown).map(i =>
+        `<a class="pcard" href="${esc(i.img)}" target="_blank" rel="noopener">
+           <span class="tag">${esc(i.cat)}</span>
+           <div class="ttl" ${i.color ? `style="color:${esc(i.color)}"` : ''}>${esc(i.title || i.cat + ' Design')}</div>
+           <img src="${esc(i.img)}" alt="${esc(i.cat)} 포트폴리오" loading="lazy" onload="send()">
+         </a>`).join('')
+    : '<div class="pempty">아직 등록된 작업이 없어요</div>';
+  $('p-more').hidden = list.length <= pshown;
+}
+$('p-tabs').addEventListener('click', e => {
+  const b = e.target.closest('.ptab'); if (!b) return;
+  pcat = b.dataset.c; psub = '전체'; pshown = P.pageSize; renderPortfolio(); send();
+});
+$('p-subs').addEventListener('click', e => {
+  const b = e.target.closest('.stab'); if (!b) return;
+  psub = b.dataset.s; pshown = P.pageSize; renderPortfolio(); send();
+});
+$('p-more').onclick = () => { pshown += P.pageSize; renderPortfolio(); send(); };
+renderPortfolio();
+
+/* ===== 문의 양식 로직 ===== */
+const F = CONFIG.form;
+let colors = [];
+let items = {};
+let current = null;
+
+$('f-extras').innerHTML = F.extras.map(e =>
+  `<label class="pill"><input type="checkbox" name="extra" value="${esc(e)}"><span>${esc(e)}</span></label>`).join('');
+$('f-rush').innerHTML = ['선택 안함', ...F.rush].map((r, i) =>
+  `<label class="pill"><input type="radio" name="rush" value="${esc(r)}" ${i === 0 ? 'checked' : ''}><span>${esc(r)}</span></label>`).join('');
+
+function renderItems(){
+  $('f-items').innerHTML = F.items.map(n =>
+    `<button type="button" class="item ${items[n] ? 'filled' : ''}" data-n="${esc(n)}"><span>${esc(n)}</span><small>${items[n] ? '입력됨 ✓' : '입력하기 ›'}</small></button>`).join('');
+}
+function renderChips(){
+  $('f-chips').innerHTML = colors.map((c, i) =>
+    `<span class="chip"><i style="background:${c}"></i>${c}<button type="button" data-i="${i}" aria-label="삭제">×</button></span>`).join('');
+}
+function closeEditor(){ current = null; $('f-editor').classList.remove('on'); send(); }
+
+$('f-items').addEventListener('click', e => {
+  const b = e.target.closest('.item'); if (!b) return;
+  current = b.dataset.n;
+  $('f-edtitle').textContent = current + ' 입력';
+  $('f-edtext').value = items[current] || '';
+  $('f-editor').classList.add('on');
+  $('f-edtext').focus();
+  send();
+});
+$('f-edsave').onclick = () => {
+  const t = $('f-edtext').value.trim();
+  if (t) items[current] = t; else delete items[current];
+  closeEditor(); renderItems(); update();
+};
+$('f-eddel').onclick = () => { delete items[current]; closeEditor(); renderItems(); update(); };
+$('f-edclose').onclick = closeEditor;
+
+$('f-color').addEventListener('input', () => { $('f-hex').value = $('f-color').value.toUpperCase(); });
+$('f-hex').addEventListener('input', () => {
+  const v = $('f-hex').value.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(v)) $('f-color').value = v;
+});
+$('f-addcolor').onclick = () => {
+  let v = ($('f-hex').value.trim() || $('f-color').value).toUpperCase();
+  if (!v.startsWith('#')) v = '#' + v;
+  if (!/^#[0-9A-F]{6}$/.test(v)) { $('f-hex').focus(); return; }
+  if (!colors.includes(v)) colors.push(v);
+  renderChips(); update();
+};
+$('f-chips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  colors.splice(+b.dataset.i, 1); renderChips(); update();
+});
+
+const v = id => $(id).value.trim() || '(미입력)';
+function buildText(){
+  const extras = [...document.querySelectorAll('input[name=extra]:checked')].map(x => x.value);
+  const rush = document.querySelector('input[name=rush]:checked').value;
+  const lines = Object.keys(items).map(k => `- ${k} : ${items[k].replace(/\n/g, '\n  ')}`);
+  return [
+    '[ 신청 내용 ]', '',
+    `방송 닉네임 및 주소 : ${v('f-nick')}`,
+    `수령 희망 날짜 : ${v('f-due')}`,
+    `희망 샘플 공개일 : ${v('f-sample')}`,
+    `원하는 색감 : ${colors.length ? colors.join(', ') : '(미입력)'}`,
+    `원하는 요소 및 디자인 컨셉 : ${v('f-concept')}`, '',
+    '[ 추가 옵션 ]',
+    extras.length ? extras.map(x => `- ${x}`).join('\n') : '- 없음', '',
+    `빠른 마감 옵션 : ${rush}`, '',
+    '[ 신청 디자인 항목 ]',
+    lines.length ? lines.join('\n') : '- (미선택)', '',
+    '[ 그 외 추가 문의 사항 ]',
+    v('f-etc')
+  ].join('\n');
+}
+function update(){
+  const ta = $('f-preview');
+  ta.value = buildText();
+  ta.style.height = 'auto';
+  ta.style.height = (ta.scrollHeight + 4) + 'px';
+  $('f-copy').disabled = !$('f-read').checked;
+  send();
+}
+$('f').addEventListener('input', update);
+$('f').addEventListener('change', update);
+
+async function copyText(t){
+  try { await navigator.clipboard.writeText(t); return true; }
+  catch(e){
+    const ta = $('f-preview'); ta.removeAttribute('readonly'); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch(_){}
+    ta.setAttribute('readonly', ''); return ok;
+  }
+}
+$('f-copy').onclick = async () => {
+  const ok = await copyText($('f-preview').value);
+  const b = $('f-copy'), old = '신청 내용 복사하기';
+  b.textContent = ok ? '복사 완료! 문의창에 붙여넣어 주세요' : '복사 실패 · 미리보기를 직접 복사해 주세요';
+  setTimeout(() => b.textContent = old, 2800);
+};
+$('f-reset').onclick = () => {
+  $('f').reset(); colors = []; items = {}; closeEditor(); renderChips(); renderItems(); update();
+};
+renderItems(); renderChips(); update();
+
+/* ===== 외부 사이트(아트머그) 높이 및 스크롤 감지 자동 전달 ===== */
+const ANCHORS = {schedule:'sec-schedule', form:'sec-form', portfolio:'sec-portfolio', notice:'sec-notice'};
+const docH = () => Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.getBoundingClientRect().height);
+let lastH = 0;
+
+function send(){
+  const currentHeight = Math.ceil(docH());
+  const anchors = {};
+  for (const k in ANCHORS) {
+    const el = $(ANCHORS[k]);
+    if (el) anchors[k] = el.getBoundingClientRect().top + window.scrollY;
+  }
+  lastH = currentHeight;
+  // 아트머그 및 기타 부모 프레임으로 높이 데이터 전송
+  parent.postMessage({ type: 'embedHeight', height: currentHeight, anchors }, '*');
+  parent.postMessage({ height: currentHeight }, '*');
+}
+
+addEventListener('message', e => { if (e.data && (e.data.type === 'requestHeight' || e.data === 'getHeight')) send(); });
+addEventListener('load', send);
+addEventListener('resize', send);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(send);
+new ResizeObserver(send).observe(document.body);
+setInterval(send, 500);
+</script>
+</body>
+</html>
