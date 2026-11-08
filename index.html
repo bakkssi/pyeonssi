@@ -636,3 +636,13 @@ setInterval(send, 400);
 </script>
 </body>
 </html>
+// iframe 내부의 콘텐츠 높이가 바뀔 때마다 주기적으로 부모 창(아트머그)에 높이 전달
+setInterval(function() {
+  var h = Math.max(
+    document.body.scrollHeight, 
+    document.documentElement.scrollHeight, 
+    document.body.offsetHeight
+  );
+  parent.postMessage({ type: 'embedHeight', height: h }, '*');
+  parent.postMessage(h, '*');
+}, 200);
