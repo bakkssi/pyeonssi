@@ -18,11 +18,11 @@ html{scrollbar-width:none;-ms-overflow-style:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 body{font-family:'Noto Sans KR',sans-serif;font-weight:300;color:var(--ink);background:transparent;padding:20px 16px 60px;line-height:1.6}
 button,input,select,textarea{font-family:'Noto Sans KR',sans-serif;font-weight:300}
-section{max-width:860px;margin:0 auto 40px}
+section{max-width:1120px;margin:0 auto 40px}
 
 /* ---------- 공통 카드 (마감 캘린더 / 견적서 스타일) ---------- */
 .card{background:#fff;border-radius:20px;overflow:hidden;border:1.5px solid var(--p3)}
-.card-top{background:var(--p4);padding:26px 32px 18px;position:relative}
+.card-top{background:var(--p4);padding:28px 40px 18px;position:relative}
 .diamond-pattern{position:absolute;inset:0;opacity:.22;background-image:repeating-linear-gradient(45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px),repeating-linear-gradient(-45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px)}
 .top-inner{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
 .chip{background:var(--p1);color:#fff;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:6px}
@@ -32,7 +32,7 @@ section{max-width:860px;margin:0 auto 40px}
 .star-divider{display:flex;gap:5px;align-items:center;position:relative;z-index:1;padding-top:14px;flex-wrap:wrap}
 .star{width:9px;height:9px;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);background:var(--p1);opacity:.55;flex-shrink:0}
 .star.sm{width:6px;height:6px;opacity:.35}
-.card-body{padding:20px 28px 26px}
+.card-body{padding:24px 40px 30px}
 .section-label{font-size:9px;letter-spacing:3px;color:var(--p1);text-transform:uppercase;margin-bottom:10px;font-weight:500}
 .divider{height:.5px;background:var(--p3);margin:16px 0}
 
@@ -54,7 +54,7 @@ section{max-width:860px;margin:0 auto 40px}
 .wday{text-align:center;font-size:10px;letter-spacing:2px;color:var(--p1);padding:5px 0;font-weight:500}
 .wday.sat{color:#88b4d8}
 .days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.day-cell{min-height:84px;border-radius:12px;border:.5px solid var(--p4);background:#fff;padding:7px 8px 6px;cursor:pointer;transition:border-color .15s,box-shadow .12s;position:relative;display:flex;flex-direction:column;min-width:0}
+.day-cell{min-height:96px;border-radius:12px;border:.5px solid var(--p4);background:#fff;padding:7px 8px 6px;cursor:pointer;transition:border-color .15s,box-shadow .12s;position:relative;display:flex;flex-direction:column;min-width:0}
 .day-cell:hover{border-color:var(--p3);box-shadow:0 0 0 2.5px #fce8f255}
 .day-cell.empty{background:transparent;border-color:transparent;cursor:default;pointer-events:none}
 .day-cell.today{background:var(--p4);border-color:var(--p1)}
