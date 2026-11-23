@@ -374,20 +374,11 @@ const CONFIG = {
     items: ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인']
   },
   portfolio: {
-    pageSize: 6,
+    pageSize: 12,   // 한 번에 보여줄 개수 (넘으면 '더보기' 버튼이 생겨요)
     cats: ['Overlay', 'CSS', 'Schedule', 'Poster', 'RTPoster'],
-    // img: 이미지 주소 (같은 저장소에 올린 파일이면 'img/css-01.png')
-    items: [
-      {cat:'CSS', sub:'후원', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=CSS+1'},
-      {cat:'CSS', sub:'후원', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=CSS+2'},
-      {cat:'CSS', sub:'애니메이션', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=CSS+3'},
-      {cat:'CSS', sub:'애니메이션', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=CSS+4'},
-      {cat:'Overlay', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=Overlay+1'},
-      {cat:'Overlay', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=Overlay+2'},
-      {cat:'Schedule', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=Schedule+1'},
-      {cat:'Poster', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=Poster+1'},
-      {cat:'RTPoster', img:'https://placehold.co/800x600/FCE8F2/C4527E?text=RTPoster+1'}
-    ]
+    // 작업은 admin.html(관리 페이지)에서 + / − 로 관리해요. 저장하면 portfolio.json 파일이 자동으로 만들어져요.
+    // portfolio.json을 못 불러올 때만 아래 목록을 대신 보여줘요.
+    items: []
   }
 };
 /* ============================== */
@@ -480,6 +471,8 @@ $('cal-this').onclick = () => { vy = today.getFullYear(); vm = today.getMonth();
 renderCal(); renderDetail();
 
 /* ===== 포트폴리오 ===== */
+const RAW = 'https://raw.githubusercontent.com/bakkssi/pyeonssi/main/';   // 방금 올린 이미지를 바로 보여주기 위한 주소
+const isRel = s => !/^(https?:)?\/\//.test(s);
 const P = CONFIG.portfolio;
 let pcat = 'ALL', psub = '전체', pshown = P.pageSize;
 
@@ -493,10 +486,10 @@ function renderPortfolio(){
   const list = P.items.filter(i => (pcat === 'ALL' || i.cat === pcat) && (psub === '전체' || i.sub === psub));
   $('p-grid').innerHTML = list.length
     ? list.slice(0, pshown).map(i =>
-        `<a class="pcard" href="${esc(i.img)}" target="_blank" rel="noopener">
+        `<a class="pcard" href="${esc(isRel(i.img) ? RAW + i.img : i.img)}" target="_blank" rel="noopener">
            <span class="ptag">${esc(i.cat)}</span>
            <div class="ttl" ${i.color ? `style="color:${esc(i.color)}"` : ''}>${esc(i.title || i.cat + ' Design')}</div>
-           <img src="${esc(i.img)}" alt="${esc(i.cat)} 포트폴리오" loading="lazy">
+           <img src="${esc(i.img)}" ${isRel(i.img) ? `data-raw="${esc(RAW + i.img)}" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.dataset.raw}"` : ''} alt="${esc(i.cat)} 포트폴리오" loading="lazy">
          </a>`).join('')
     : '<div class="pempty">아직 등록된 작업이 없어요</div>';
   $('p-more').hidden = list.length <= pshown;
@@ -510,7 +503,21 @@ $('p-subs').addEventListener('click', e => {
   psub = b.dataset.s; pshown = P.pageSize; renderPortfolio();
 });
 $('p-more').onclick = () => { pshown += P.pageSize; renderPortfolio(); };
-renderPortfolio();
+/* portfolio.json (관리 페이지에서 저장되는 파일)을 불러와서 표시
+   1순위: GitHub 원본 파일 (저장 직후 바로 반영) / 2순위: 사이트에 올라간 파일 */
+async function loadPortfolio(){
+  const urls = [RAW + 'portfolio.json?t=' + Date.now(), 'portfolio.json?v=' + Date.now()];
+  for (const u of urls) {
+    try {
+      const r = await fetch(u, {cache: 'no-store'});
+      if (!r.ok) continue;
+      const j = await r.json();
+      if (j && Array.isArray(j.items)) { P.items = j.items; if (Array.isArray(j.cats) && j.cats.length) P.cats = j.cats; break; }
+    } catch(e) {}
+  }
+  renderPortfolio();
+}
+loadPortfolio();
 
 /* ===== 문의 양식 ===== */
 const F = CONFIG.form;
