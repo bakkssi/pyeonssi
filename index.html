@@ -716,18 +716,22 @@ const TYPES = {
 const pad = n => String(n).padStart(2, '0');
 const mk = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
 const evMap = {};
-C.events.forEach(e => {
-  const from = e.from || e.date, to = e.to || from;
-  if (!from) return;
-  const [fy, fm, fd] = from.split('-').map(Number);
-  const [ty, tm, td] = to.split('-').map(Number);
-  const cur = new Date(fy, fm - 1, fd), end = new Date(ty, tm - 1, td);
-  for (let n = 0; cur <= end && n < 400; n++) {
-    const k = mk(cur.getFullYear(), cur.getMonth(), cur.getDate());
-    (evMap[k] = evMap[k] || []).push({name: e.name, type: TYPES[e.type] ? e.type : 'closed'});
-    cur.setDate(cur.getDate() + 1);
-  }
-});
+function buildEvMap(){
+  Object.keys(evMap).forEach(k => delete evMap[k]);
+  C.events.forEach(e => {
+    const from = e.from || e.date, to = e.to || from;
+    if (!from) return;
+    const [fy, fm, fd] = from.split('-').map(Number);
+    const [ty, tm, td] = to.split('-').map(Number);
+    const cur = new Date(fy, fm - 1, fd), end = new Date(ty, tm - 1, td);
+    for (let n = 0; cur <= end && n < 400; n++) {
+      const k = mk(cur.getFullYear(), cur.getMonth(), cur.getDate());
+      (evMap[k] = evMap[k] || []).push({name: e.name, type: TYPES[e.type] ? e.type : 'closed'});
+      cur.setDate(cur.getDate() + 1);
+    }
+  });
+}
+buildEvMap();
 
 const today = new Date();
 let vy = today.getFullYear(), vm = today.getMonth(), selKey = null;
@@ -785,17 +789,20 @@ renderCal(); renderDetail();
 if (parent === window) document.documentElement.classList.add('solo');
 
 /* ===== 미니홈피 머리말 / 프로필 / 탭 ===== */
-const H = CONFIG.home;
-$('mh-title').textContent = H.title;
-$('mh-date').textContent = `${today.getFullYear()}.${pad(today.getMonth() + 1)}.${pad(today.getDate())}`;
-$('mh-status').textContent = H.status;
-$('mh-photo').innerHTML = H.photo ? `<img src="${esc(H.photo)}" alt="${esc(H.name)} 프로필" onerror="this.parentNode.textContent='♥'">` : '♥';
-$('mh-name').textContent = H.name;
-$('mh-handle').textContent = H.handle;
-$('mh-mood').textContent = H.mood;
-$('mh-qna').innerHTML = H.qna.map(([q, a]) =>
-  `<li><span>Q. ${esc(q)}</span><span class="dots"></span><span class="a">${esc(a)}</span></li>`).join('');
-$('mh-intro').textContent = H.intro;
+function renderHome(){
+  const H = CONFIG.home;
+  $('mh-title').textContent = H.title;
+  $('mh-date').textContent = `${today.getFullYear()}.${pad(today.getMonth() + 1)}.${pad(today.getDate())}`;
+  $('mh-status').textContent = H.status;
+  $('mh-photo').innerHTML = H.photo ? `<img src="${esc(H.photo)}" alt="${esc(H.name)} 프로필" onerror="this.parentNode.textContent='♥'">` : '♥';
+  $('mh-name').textContent = H.name;
+  $('mh-handle').textContent = H.handle;
+  $('mh-mood').textContent = H.mood;
+  $('mh-qna').innerHTML = (H.qna || []).map(([q, a]) =>
+    `<li><span>Q. ${esc(q)}</span><span class="dots"></span><span class="a">${esc(a)}</span></li>`).join('');
+  $('mh-intro').textContent = H.intro;
+}
+renderHome();
 
 /* 탭을 누르면 그 칸으로 이동 (아트머그 안에서는 바깥 페이지를 스크롤해요) */
 $('mh-tabs').addEventListener('click', e => {
@@ -945,6 +952,7 @@ else $('f-packwrap').style.display = 'none';
 function priceOf(n){
   const p = (F.prices || {})[n];
   if (typeof p === 'number' && p > 0) return p.toLocaleString() + '원';
+  if (typeof p === 'string' && /^\d+$/.test(p.trim()) && +p > 0) return (+p).toLocaleString() + '원';
   return (typeof p === 'string' && p.trim()) ? p.trim() : '';
 }
 function renderItems(){
@@ -1122,6 +1130,32 @@ $('f-reset').onclick = () => {
   renderChips(); renderItems(); markDates(); update();
 };
 renderItems(); renderChips(); update();
+
+/* ===== settings.json (관리 페이지에서 저장) 불러와서 홈 · 일정 · 디자인 항목에 적용 =====
+   파일이 없으면 위 CONFIG 값을 그대로 써요 */
+async function loadSettings(){
+  const t = Date.now();
+  const [a, b] = await Promise.all([getJSON(RAW + 'settings.json?t=' + t, 4000), getJSON('settings.json?v=' + t, 4000)]);
+  const s = [a, b].find(x => x && typeof x === 'object');
+  if (!s) return;
+  if (s.home) {
+    Object.keys(s.home).forEach(k => {
+      const v = s.home[k];
+      if (k === 'qna') { if (Array.isArray(v) && v.length) CONFIG.home.qna = v; }
+      else if (k === 'photo' || (v != null && String(v).trim() !== '')) CONFIG.home[k] = v;   // 빈 칸은 원래 글자 유지
+    });
+    renderHome();
+  }
+  if (Array.isArray(s.events)) { C.events = s.events; buildEvMap(); renderCal(); renderDetail(); }
+  if (Array.isArray(s.items)) {
+    F.items = s.items.map(i => i.name).filter(Boolean);
+    F.prices = {}; F.forms = {};
+    s.items.forEach(i => { if (!i.name) return; F.prices[i.name] = i.price; F.forms[i.name] = i.fields || []; });
+    Object.keys(items).forEach(k => { if (!F.items.includes(k)) delete items[k]; });
+    renderItems(); update();
+  }
+}
+loadSettings();
 
 /* ===== 부모(아트머그)에 높이와 앵커 위치 전달 ===== */
 const ANCHORS = {schedule:'sec-schedule', form:'sec-form', portfolio:'sec-portfolio'};
