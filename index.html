@@ -6,6 +6,7 @@
 <title>상세페이지</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Noto+Sans+KR:wght@300;400;500&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css');   /* 갈무리 : 도트(픽셀) 폰트, OFL 무료 */
 @font-face{font-family:'SchoolFont';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'SchoolFont';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-B.woff2') format('woff2');font-weight:700;font-display:swap}
 @font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');font-weight:100;font-display:swap}
@@ -21,7 +22,7 @@
 :root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--sub:#d48aab;--mute:#c48aaa;--ink:#444;
   /* 폰트 바꾸기: 여기 네 줄만 고치면 페이지 전체가 바뀌어요 (예전 폰트: 'Noto Sans KR' / 'SchoolFont') */
   --f-body:'Paperozi',sans-serif;          /* 본문·입력칸 */
-  --f-point:'Paperozi',sans-serif;         /* 버튼·라벨·태그 */
+  --f-point:'Galmuri11','Paperozi',sans-serif;   /* 버튼·라벨·태그 (미니홈피 느낌 도트 폰트) */
   --f-deco:'Paperozi',sans-serif;          /* 맺음말 */
   --f-title:'Playfair Display',serif;      /* 큰 영문 제목 (SCHED. / FORM. / WORKS.) */
   --f-weight:700}                          /* 한글 폰트 굵기 (100~900) */
@@ -137,8 +138,8 @@ section{max-width:1120px;margin:0 auto 40px}
 .cchip button{border:0;background:none;cursor:pointer;color:var(--p3);font-size:16px;line-height:1;width:16px;height:16px;padding:0}
 .cchip button:hover{color:#e8609a}
 .items{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
-.item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1.5px solid var(--p3);border-radius:12px;background:#fff;cursor:pointer;font-size:13px;font-weight:400;color:#444;text-align:left;transition:background .15s,border-color .15s}
-.item small{font-family:var(--f-point);font-weight:400;font-size:11px;color:var(--mute)}
+.item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1.5px solid var(--p3);border-radius:12px;background:#fff;cursor:pointer;font-size:13px;color:#444;text-align:left;transition:background .15s,border-color .15s}
+.item small{font-family:var(--f-point);font-size:11px;color:var(--mute)}
 .item:hover{border-color:var(--p1)}
 .item.filled{background:var(--p4);border-color:var(--p1)}
 .item.filled small{color:var(--p2)}
@@ -216,10 +217,40 @@ section{max-width:1120px;margin:0 auto 40px}
 .form input[type=date]:not(.filled){color:var(--soft);font-weight:var(--soft-weight) !important}
 .form #f-preview{color:var(--soft);font-weight:var(--soft-weight) !important}
 /* 레퍼런스 체크 문구·디자인 항목 이름 : 얇게(500) + 진한 색 */
-.form .refbox,.form .item span{color:#2a2a2a;font-weight:var(--soft-weight) !important}
+.form .refbox,.form .item .nm{color:#2a2a2a;font-weight:var(--soft-weight) !important}
 .form .refbox:has(input:checked){color:var(--p2)}
 
+/* ---------- 필수 표시 / 날짜 경고 / 빠진 항목 / 예상 금액 / 문의창 이동 ---------- */
+.fl .req{font-style:normal;font-size:10px;line-height:1;padding:3px 6px;margin-left:6px;border-radius:5px;background:var(--p4);color:var(--p2);vertical-align:2px}
+.warn{font-size:12px;color:#d0507f;margin-top:6px}
+.warn:empty{display:none}
+.form input.err,.form .items.err{border-color:#e8609a !important;box-shadow:0 0 0 3px #fde3ee}
+.form .items.err{border:1.5px solid;border-radius:14px;padding:6px}
+.miss{margin-top:14px;padding:10px 14px;border-radius:10px;background:#fde3ee;color:#c0396f;font-size:13px}
+.miss[hidden],.total[hidden],.goqna[hidden]{display:none}
+.total{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-top:12px;padding:12px 16px;border-radius:12px;background:var(--p5);border:1.5px dashed var(--p3)}
+.total span{font-size:13px;color:var(--p2)}
+.total b{font-size:18px;color:var(--p2)}
+.total small{flex-basis:100%;font-size:11px;color:var(--mute)}
+.goqna{display:flex;width:100%;margin-top:10px;padding:12px;background:#2a2a2a;color:#ffc5dd}
+.goqna:hover{opacity:.9}
+
+/* ---------- 작은 글씨는 500으로 (굵은 700에서 뭉쳐 보이지 않게) ---------- */
+html body .sub,html body .section-label,html body .wday,html body .tag,html body .hint,html body .legend-label,
+html body .notes-text,html body .item small,html body .ptag,html body .cchip,html body .nav-btn,html body .stab,
+html body .fl .req,html body .warn,html body .total small,html body .chip,html body .day-num{font-weight:500 !important}
+
 @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+/* ---------- 휴대폰 달력 : 일정 글자 대신 점으로, 날짜를 누르면 아래에 내용 표시 ---------- */
+@media(max-width:560px){
+  .day-cell{min-height:52px}
+  .tags{flex-direction:row;flex-wrap:wrap;gap:3px;flex:none;overflow:visible}
+  .day-cell .tag{flex:none;width:7px;height:7px;padding:0;border-radius:50%;font-size:0;line-height:0}
+  .day-cell .tag.closed{background:var(--p1)}
+  .day-cell .tag.holiday{background:#9e3060}
+  .legend-item:nth-child(1) .legend-dot{background:var(--p1) !important;border:0 !important;border-radius:50%}
+  .legend-item:nth-child(2) .legend-dot{background:#9e3060 !important;border:0 !important;border-radius:50%}
+}
 @media(max-width:560px){
   .card-top{padding:20px 18px 14px}
   .big-title{font-size:40px}
@@ -233,12 +264,135 @@ section{max-width:1120px;margin:0 auto 40px}
   .thanks{font-size:12px}
   .thanks.lg{font-size:15px}
 }
+
+/* =====================================================================
+   미니홈피 컨셉 : 모눈 배경 + 도트 무늬 바인더 + 고리 + 오른쪽 탭 + 도트 폰트
+   색은 아래 변수만 바꾸면 돼요
+   ===================================================================== */
+:root{--frame:#f6a9c9;--frame-line:#e589b0;--frame-dot:#ffd6e7;--line:#ecd3de;--grid:#f7dbe7}
+body{background-color:#fff4f9;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;padding:28px 16px 60px}
+.mh-wrap{max-width:1150px;margin:0 auto;padding-right:70px}
+.binder{position:relative;padding:18px;border:2px solid var(--frame-line);border-radius:22px;background-color:var(--frame);background-image:radial-gradient(circle,var(--frame-dot) 3px,transparent 3.6px);background-size:26px 26px;background-position:13px 13px}
+.mh-page{position:relative;background:#fff;border:2px solid var(--frame-line);border-radius:14px;padding:22px 26px 26px}
+section{max-width:none;margin:0}
+
+/* 오른쪽 탭 */
+.mh-tabs{position:absolute;top:64px;right:-66px;display:flex;flex-direction:column;gap:6px;z-index:2}
+.mh-tab{width:66px;padding:12px 0 12px 2px;font-family:'Galmuri11',sans-serif;font-size:12px;color:#fff;background:#f08ab5;border:2px solid var(--frame-line);border-left:0;border-radius:0 10px 10px 0;cursor:pointer;transition:background .15s,color .15s}
+.mh-tab:hover{background:#f6a0c3}
+.mh-tab.on{background:#fff;color:var(--p2)}
+
+/* 바인더 고리 */
+.rings{position:relative;height:26px}
+.rings i{position:absolute;top:-16px;width:15px;height:58px;border-radius:8px;border:3px solid #b9b2b6;background:linear-gradient(90deg,#e6e3e5,#fff 45%,#d6d2d4);z-index:1}
+.rings i:nth-child(1){left:14%}.rings i:nth-child(2){left:calc(14% + 34px)}
+.rings i:nth-child(3){right:calc(14% + 34px)}.rings i:nth-child(4){right:14%}
+
+/* 머리말 */
+.mh-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding-bottom:14px;margin-bottom:20px;border-bottom:1.5px dashed var(--line)}
+.mh-count{font-family:'Galmuri11',sans-serif;font-size:11px;letter-spacing:1px;color:#8a8086}
+.mh-count b{color:#e0457f;margin-left:4px}
+.mh-count i{font-style:normal;color:#ccc;margin:0 8px}
+.mh-title{font-family:'Galmuri11',sans-serif;font-size:22px;line-height:1.3;color:#333;margin-top:6px}
+.mh-hearts{font-family:'Galmuri11',sans-serif;font-size:22px;letter-spacing:3px;color:#ef5d97}
+
+/* 첫 페이지 : 왼쪽 프로필 + 오른쪽 일정 */
+.mh-spread{display:grid;grid-template-columns:250px minmax(0,1fr)}
+.mh-profile{padding-right:22px;margin-right:24px;border-right:1.5px dashed var(--line)}
+.mh-photo{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--line);background:var(--p5);overflow:hidden;font-family:'Galmuri11',sans-serif;font-size:48px;color:var(--p3)}
+.mh-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.mh-name{margin:14px 0 10px}
+.mh-name b{display:block;font-family:'Galmuri11',sans-serif;font-size:18px;color:#333}
+.mh-name small{font-size:11px;color:#a8959f}
+.mh-mood{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid var(--p3);font-family:'Galmuri11',sans-serif;font-size:11px;color:#6f9fc4}
+.mh-mood b{color:var(--p2);font-size:12px}
+.mh-qna{margin-top:12px;border:1.5px solid #d9d2d6}
+.mh-qna-h{display:flex;justify-content:space-between;padding:6px 10px;background:#f6f3f5;border-bottom:1px solid #e2dce0;font-family:'Galmuri11',sans-serif;font-size:12px;color:#555}
+.mh-qna ul{list-style:none;padding:0}
+.mh-qna li{display:flex;align-items:baseline;gap:6px;padding:7px 10px;border-top:1px solid #f0ebee;font-family:'Galmuri11',sans-serif;font-size:11px;color:#666}
+.mh-qna li:first-child{border-top:0}
+.mh-qna li .dots{flex:1;min-width:10px;border-bottom:1px dotted #c9bfc5;transform:translateY(-3px)}
+.mh-qna li span{white-space:nowrap}
+.mh-qna li .a{color:#333}
+.mh-qna li:hover{background:var(--p1);color:#fff}
+.mh-qna li:hover .a{color:#fff}
+.mh-qna li:hover .dots{border-color:#fff}
+.mh-intro{margin-top:12px;font-family:'Galmuri11',sans-serif;font-size:11px;color:#a8959f;text-align:center}
+
+/* 기존 카드 → 페이지 안 패널로 */
+.card{background:transparent;border:0;border-radius:0;overflow:visible}
+.card-top{background:transparent;padding:0 0 12px;margin-bottom:18px;border-bottom:1.5px dashed var(--line)}
+.diamond-pattern,.star-divider{display:none}
+.card-body{padding:0}
+.big-title,.big-title.md{font-size:34px}
+.chip{border-radius:4px;font-size:11px;padding:3px 8px;letter-spacing:0}
+.sub{font-family:'Galmuri11',sans-serif;font-size:10px;letter-spacing:2px}
+.section-label{font-family:'Galmuri11',sans-serif;font-size:11px;letter-spacing:1px;color:#e0457f}
+.section-label::before{content:"▸ "}
+.month-label{font-size:15px}
+
+/* 네모난 레트로 느낌 (둥근 모서리 줄이기) */
+.day-cell{border-radius:4px;border:1px solid #efe6ea}
+.day-cell.empty{border-color:transparent}
+.nav-btn,.btn-save,.btn-cancel,.pill span,.item,.refbox,.ptab,.stab,.cchip,.goqna{border-radius:4px}
+.btn-save{border:1.5px solid var(--frame-line)}
+.btn-cancel{border:1.5px solid var(--p3)}
+.form input[type=text],.form input[type=date],.form select,.form textarea{border-radius:4px;border-color:#e2cfd8}
+.legend,.cal-detail,.notes-section,.total,.miss,.editor,.pcard,.colorrow input[type=color]{border-radius:6px}
+.pcard .ptag{border-radius:3px}
+
+/* 휴대폰·좁은 화면 */
+@media(max-width:760px){
+  .mh-wrap{padding-right:0}
+  .binder{padding:10px;border-radius:16px}
+  .mh-tabs{position:static;flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:4px;margin:0 6px -2px}
+  .mh-tab{width:auto;padding:8px 12px;border:2px solid var(--frame-line);border-bottom:0;border-radius:8px 8px 0 0}
+  .mh-page{padding:16px 14px 20px}
+  .mh-spread{grid-template-columns:1fr}
+  .mh-profile{padding:0 0 18px;margin:0 0 18px;border-right:0;border-bottom:1.5px dashed var(--line)}
+  .mh-photo{max-width:150px;margin:0 auto}
+  .mh-name{text-align:center}
+  .rings i:nth-child(2),.rings i:nth-child(3){display:none}
+  .big-title,.big-title.md{font-size:28px}
+  .mh-hearts{display:none}
+}
 </style>
 </head>
 <body>
 
+<div class="mh-wrap">
+<div class="binder">
+
+  <!-- 오른쪽 탭 -->
+  <nav class="mh-tabs" id="mh-tabs">
+    <button type="button" class="mh-tab on" data-go="top">홈</button>
+    <button type="button" class="mh-tab" data-go="sec-schedule">일정</button>
+    <button type="button" class="mh-tab" data-go="sec-form">신청서</button>
+    <button type="button" class="mh-tab" data-go="sec-portfolio">작업물</button>
+  </nav>
+
+  <!-- 첫 페이지 : 머리말 + 프로필 + 일정 -->
+  <div class="mh-page" id="top">
+    <header class="mh-head">
+      <div>
+        <div class="mh-count">TODAY <b id="mh-date"></b><i>|</i>STATUS <b id="mh-status"></b></div>
+        <h1 class="mh-title" id="mh-title"></h1>
+      </div>
+      <div class="mh-hearts" aria-hidden="true">♥♥♥♥♥</div>
+    </header>
+
 <!-- 작업 일정 -->
-<section id="sec-schedule">
+<section id="sec-schedule" class="mh-spread">
+  <aside class="mh-profile">
+    <div class="mh-photo" id="mh-photo"></div>
+    <div class="mh-name"><b id="mh-name"></b><small id="mh-handle"></small></div>
+    <div class="mh-mood"><span>TODAY IS _</span><b id="mh-mood"></b></div>
+    <div class="mh-qna">
+      <div class="mh-qna-h">작업 문답 <span>▾</span></div>
+      <ul id="mh-qna"></ul>
+    </div>
+    <p class="mh-intro" id="mh-intro"></p>
+  </aside>
   <div class="card">
     <div class="card-top">
       <div class="diamond-pattern"></div>
@@ -275,7 +429,11 @@ section{max-width:1120px;margin:0 auto 40px}
     </div>
   </div>
 </section>
+  </div>
 
+  <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+  <div class="mh-page">
 <!-- 문의 양식 -->
 <section id="sec-form">
   <div class="card">
@@ -292,12 +450,12 @@ section{max-width:1120px;margin:0 auto 40px}
       <form id="f" onsubmit="return false">
 
         <div class="grid2">
-          <div class="fq"><label class="fl" for="f-nick"><b></b>방송 닉네임 및 주소</label>
+          <div class="fq"><label class="fl" for="f-nick"><b></b>방송 닉네임 및 주소<i class="req">필수</i></label>
             <input type="text" id="f-nick" placeholder="방송 닉네임과 주소를 입력해주세요"></div>
-          <div class="fq"><label class="fl" for="f-due"><b></b>수령 희망 날짜</label>
-            <input type="date" id="f-due"></div>
+          <div class="fq"><label class="fl" for="f-due"><b></b>수령 희망 날짜<i class="req">필수</i></label>
+            <input type="date" id="f-due"><div class="warn" id="w-due"></div></div>
           <div class="fq"><label class="fl" for="f-sample"><b></b>희망 샘플 공개일</label>
-            <input type="date" id="f-sample"></div>
+            <input type="date" id="f-sample"><div class="warn" id="w-sample"></div></div>
           <div class="fq"><label class="fl" for="f-ref"><b></b>레퍼런스 이미지</label>
             <label class="refbox"><input type="checkbox" id="f-ref">레퍼런스 이미지는 문의 단계에서 첨부할게요</label></div>
           <div class="fq" id="f-packwrap"><label class="fl" for="f-pack"><b></b>패키지 선택</label>
@@ -317,8 +475,9 @@ section{max-width:1120px;margin:0 auto 40px}
           <textarea id="f-concept" placeholder="원하는 색감, 요소, 참고자료 첨부 등 상세한 내용을 적어주세요"></textarea>
           <div class="hint">오마카세 및 부실한 설명으로 시작된 작업은 추후 수정이 어렵습니다.</div></div>
 
-        <div class="fq"><label class="fl"><b></b>신청 하실 디자인 항목</label>
+        <div class="fq"><label class="fl"><b></b>신청 하실 디자인 항목<i class="req">필수</i></label>
           <div class="items" id="f-items"></div>
+          <div class="total" id="f-total" hidden></div>
           <div class="editor" id="f-editor">
             <h4 id="f-edtitle"></h4>
             <div class="ef" id="f-edfields"></div>
@@ -334,10 +493,12 @@ section{max-width:1120px;margin:0 auto 40px}
           <textarea id="f-preview" readonly></textarea></div>
 
         <label class="check"><input type="checkbox" id="f-read"> 공지사항을 다 읽으셨나요?</label>
+        <div class="miss" id="f-miss" hidden></div>
         <div class="actions">
           <button type="button" class="btn-save main" id="f-copy" disabled>신청 내용 복사하기</button>
           <button type="button" class="btn-cancel" id="f-reset"><span class="ic">↺</span>초기화</button>
         </div>
+        <button type="button" class="btn-save goqna" id="f-goqna" hidden>복사한 내용 붙여넣으러 문의창으로 이동<span class="ic">↓</span></button>
         <div class="notes-section">
           <div class="section-label">안내 사항</div>
           <div class="notes-text">
@@ -349,7 +510,11 @@ section{max-width:1120px;margin:0 auto 40px}
     </div>
   </div>
 </section>
+  </div>
 
+  <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+  <div class="mh-page">
 <!-- 포트폴리오 -->
 <section id="sec-portfolio">
   <div class="card">
@@ -370,6 +535,10 @@ section{max-width:1120px;margin:0 auto 40px}
     </div>
   </div>
 </section>
+  </div>
+
+</div>
+</div>
 
 <div class="lb" id="lb" hidden>
   <div class="lb-bg"></div>
@@ -387,6 +556,24 @@ section{max-width:1120px;margin:0 auto 40px}
 <script>
 /* ===== 여기만 고치면 돼요 ===== */
 const CONFIG = {
+  // 첫 페이지 머리말 + 왼쪽 프로필 칸
+  home: {
+    title: "PYEONSSI's design room",
+    status: '접수중',                     // 머리말 STATUS 자리
+    photo: '',                            // 프로필 사진 주소. 비워두면 ♥ 칸으로 나와요 (예: 'images/profile.png')
+    name: '편씨',
+    handle: '패널 · 티콘 · 방송 디자인',
+    mood: '♡ 의뢰 환영',                  // TODAY IS _ 옆에 나오는 말
+    // 작업 문답 : [질문, 답]  (아트머그 상세 옵션 내용이에요)
+    qna: [
+      ['제출 파일 유형은?', 'PNG'],
+      ['해상도는?', '300dpi'],
+      ['기본 사이즈는?', '300×300'],
+      ['수정 횟수는?', '1회'],
+      ['작업 기간은?', '시작일로부터 4일']
+    ],
+    intro: '✧ 좋은 하루 보내세요 ✧'
+  },
   calendar: {
     chip: '마감 캘린더',
     title: 'SCHED.',
@@ -422,8 +609,7 @@ const CONFIG = {
       '다시보기': '20,000원~',
       '썸네일': '15,000원~',
       '그 외 디자인': '문의'
-    },
-    // 주문 항목을 누르면 열리는 양식이에요. 항목 이름은 위 items와 똑같이 써야 해요.
+    },    // 주문 항목을 누르면 열리는 양식이에요. 항목 이름은 위 items와 똑같이 써야 해요.
     // k: 칸 이름 / t: text(한 줄)·area(여러 줄)·date(날짜)·select(고르기) / ph: 안내 글자 / opts: select 선택지
     // 양식을 안 만든 항목은 '요청 내용' 한 칸짜리가 자동으로 나와요.
     forms: {
@@ -592,6 +778,29 @@ $('cal-next').onclick = () => changeMo(1);
 $('cal-this').onclick = () => { vy = today.getFullYear(); vm = today.getMonth(); selKey = null; renderCal(); renderDetail(); };
 renderCal(); renderDetail();
 
+/* ===== 미니홈피 머리말 / 프로필 / 탭 ===== */
+const H = CONFIG.home;
+$('mh-title').textContent = H.title;
+$('mh-date').textContent = `${today.getFullYear()}.${pad(today.getMonth() + 1)}.${pad(today.getDate())}`;
+$('mh-status').textContent = H.status;
+$('mh-photo').innerHTML = H.photo ? `<img src="${esc(H.photo)}" alt="${esc(H.name)} 프로필">` : '♥';
+$('mh-name').textContent = H.name;
+$('mh-handle').textContent = H.handle;
+$('mh-mood').textContent = H.mood;
+$('mh-qna').innerHTML = H.qna.map(([q, a]) =>
+  `<li><span>Q. ${esc(q)}</span><span class="dots"></span><span class="a">${esc(a)}</span></li>`).join('');
+$('mh-intro').textContent = H.intro;
+
+/* 탭을 누르면 그 칸으로 이동 (아트머그 안에서는 바깥 페이지를 스크롤해요) */
+$('mh-tabs').addEventListener('click', e => {
+  const b = e.target.closest('.mh-tab'); if (!b) return;
+  document.querySelectorAll('.mh-tab').forEach(t => t.classList.toggle('on', t === b));
+  const el = $(b.dataset.go);
+  const y = b.dataset.go === 'top' ? 0 : Math.max(0, el.getBoundingClientRect().top + scrollY - 12);
+  if (parent !== window) { try { parent.postMessage({type: 'goTo', y}, '*'); } catch(_) {} }
+  else scrollTo({top: y, behavior: 'smooth'});
+});
+
 /* ===== 포트폴리오 ===== */
 const RAW = 'https://raw.githubusercontent.com/bakkssi/pyeonssi/main/';   // 방금 올린 이미지를 바로 보여주기 위한 주소
 const isRel = s => !/^(https?:)?\/\//.test(s);
@@ -736,7 +945,7 @@ function renderItems(){
   $('f-items').innerHTML = F.items.map(n => {
     const p = priceOf(n);
     const label = items[n] ? (p ? '✓ ' + p : '입력됨 ✓') : (p || '입력하기 ›');
-    return `<button type="button" class="item ${items[n] ? 'filled' : ''}" data-n="${esc(n)}"><span>${esc(n)}</span><small>${esc(label)}</small></button>`;
+    return `<button type="button" class="item ${items[n] ? 'filled' : ''}" data-n="${esc(n)}"><span class="nm">${esc(n)}</span><small>${esc(label)}</small></button>`;
   }).join('');
 }
 function renderChips(){
@@ -769,6 +978,7 @@ $('f-edsave').onclick = () => {
   const vals = {};
   $('f-edfields').querySelectorAll('[data-k]').forEach(el => { const t = el.value.trim(); if (t) vals[el.dataset.k] = t; });
   if (Object.keys(vals).length) items[current] = vals; else delete items[current];
+  if (items[current]) $('f-items').classList.remove('err');
   closeEditor(); renderItems(); update();
 };
 $('f-eddel').onclick = () => { delete items[current]; closeEditor(); renderItems(); update(); };
@@ -804,15 +1014,67 @@ function buildText(){
     `원하는 색감 : ${colors.length ? colors.join(', ') : '(미입력)'}`,
     `원하는 요소 및 디자인 컨셉 : ${v('f-concept')}`, '',
     '[ 신청 디자인 항목 ]',
-    lines.length ? lines.join('\n') : '- (미선택)'
+    lines.length ? lines.join('\n') : '- (미선택)',
+    ...(totalText() ? ['', `예상 금액 : ${totalText()}`] : [])
   ].join('\n');
 }
+
+/* ----- 예상 금액 합계 (고른 항목의 시작 가격을 더해요. '문의' 항목은 따로 표시) ----- */
+function priceNum(n){
+  const p = (F.prices || {})[n];
+  if (typeof p === 'number') return p > 0 ? p : null;
+  const digits = String(p || '').replace(/[^0-9]/g, '');
+  return digits ? +digits : null;
+}
+function totalText(){
+  const ks = Object.keys(items); if (!ks.length) return '';
+  let sum = 0, ask = 0;
+  ks.forEach(k => { const n = priceNum(k); if (n === null) ask++; else sum += n; });
+  return (sum ? `${sum.toLocaleString()}원~` : '') + (ask ? `${sum ? ' + ' : ''}문의 항목 ${ask}개 별도` : '');
+}
+function renderTotal(){
+  const t = totalText(), box = $('f-total');
+  box.hidden = !t;
+  box.innerHTML = t ? `<span>예상 금액</span><b>${esc(t)}</b><small>시작 가격 기준이에요. 정확한 금액은 상담 후 안내드려요.</small>` : '';
+}
+
+/* ----- 날짜 확인 : 지난 날짜 / 작업불가·마감일 / 샘플일이 수령일보다 늦음 ----- */
+const todayKey = mk(today.getFullYear(), today.getMonth(), today.getDate());
+['f-due', 'f-sample'].forEach(id => $(id).min = todayKey);
+function dateWarn(val){
+  if (!val) return '';
+  if (val < todayKey) return '이미 지난 날짜예요.';
+  const evs = evMap[val] || [];
+  if (evs.some(e => e.type === 'holiday')) return '작업불가일이에요. 위 달력을 확인하고 다른 날짜를 골라주세요.';
+  if (evs.some(e => e.type === 'closed')) return '마감일이에요. 일정이 빠듯할 수 있어요.';
+  return '';
+}
+function checkDates(){
+  const due = $('f-due').value, sample = $('f-sample').value;
+  $('w-due').textContent = dateWarn(due);
+  $('w-sample').textContent = dateWarn(sample) || (due && sample && sample > due ? '샘플 공개일이 수령 희망 날짜보다 늦어요.' : '');
+}
+
 function update(){
   const ta = $('f-preview');
   ta.value = buildText();
   ta.style.height = 'auto';
   ta.style.height = (ta.scrollHeight + 4) + 'px';   // 미리보기 칸 안에 스크롤바가 생기지 않게 자동 높이
   $('f-copy').disabled = !$('f-read').checked;
+  renderTotal(); checkDates();
+}
+
+/* ----- 필수 항목 확인 (빠진 칸은 빨갛게 표시) ----- */
+function missingFields(){
+  const miss = [];
+  if (!$('f-nick').value.trim()) miss.push(['방송 닉네임 및 주소', $('f-nick')]);
+  if (!$('f-due').value) miss.push(['수령 희망 날짜', $('f-due')]);
+  if (!Object.keys(items).length) miss.push(['신청 디자인 항목', $('f-items')]);
+  return miss;
+}
+function clearErr(){
+  document.querySelectorAll('.form .err').forEach(el => el.classList.remove('err'));
+  $('f-miss').hidden = true;
 }
 /* 날짜를 고르면 진한 글씨로 */
 const markDates = () => document.querySelectorAll('.form input[type=date]').forEach(d => d.classList.toggle('filled', !!d.value));
@@ -830,13 +1092,28 @@ async function copyText(t){
   }
 }
 $('f-copy').onclick = async () => {
+  clearErr();
+  const miss = missingFields();
+  if (miss.length) {
+    miss.forEach(([, el]) => el.classList.add('err'));
+    $('f-miss').textContent = '빠진 필수 항목이 있어요 : ' + miss.map(m => m[0]).join(', ');
+    $('f-miss').hidden = false;
+    miss[0][1].scrollIntoView({behavior: 'smooth', block: 'center'});
+    return;
+  }
   const ok = await copyText($('f-preview').value);
   const b = $('f-copy'), old = '신청 내용 복사하기';
   b.textContent = ok ? '복사 완료! 문의창에 붙여넣어 주세요' : '복사 실패 · 미리보기를 직접 복사해 주세요';
   setTimeout(() => b.textContent = old, 2800);
+  if (ok) $('f-goqna').hidden = false;
 };
+/* 빠진 칸을 채우면 빨간 표시 지우기 */
+$('f').addEventListener('input', e => { const el = e.target.closest('.err'); if (el) el.classList.remove('err'); });
+/* 아트머그의 '문의 및 답변'으로 이동 (artmug-custom.html 쪽에서 받아서 스크롤해요) */
+$('f-goqna').onclick = () => { try { parent.postMessage({type: 'goQna'}, '*'); } catch(e) {} };
 $('f-reset').onclick = () => {
-  $('f').reset(); colors = []; items = {}; closeEditor(); renderChips(); renderItems(); markDates(); update();
+  $('f').reset(); colors = []; items = {}; closeEditor(); clearErr(); $('f-goqna').hidden = true;
+  renderChips(); renderItems(); markDates(); update();
 };
 renderItems(); renderChips(); update();
 
