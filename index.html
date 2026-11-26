@@ -169,14 +169,16 @@ section{max-width:1120px;margin:0 auto 40px}
 .stab{font-family:var(--f-point);font-weight:400;font-size:12px;letter-spacing:1px;padding:4px 14px;border-radius:14px;border:1.5px solid var(--p3);background:#fff;color:var(--mute);cursor:pointer;transition:background .15s,color .15s}
 .stab:hover{background:var(--p4)}
 .stab.on{background:var(--p2);border-color:var(--p2);color:#fff}
-.pgrid{display:flex;gap:14px;align-items:flex-start}
-.mcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:14px}
-.pcard{position:relative;display:block;background:#fff;border:1.5px solid var(--p3);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;cursor:zoom-in;transition:transform .2s,border-color .2s,box-shadow .2s}
+/* 줄 맞춤 : 한 줄에서 가장 큰 이미지 높이에 맞추고, 작은 이미지는 가운데 두고 위아래를 채워요 */
+.pgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:stretch}
+.pgrid .pempty{grid-column:1/-1}
+.pcard{position:relative;display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--p3);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;cursor:zoom-in;transition:transform .2s,border-color .2s,box-shadow .2s}
 .pcard:hover{transform:translateY(-3px);border-color:var(--p1);box-shadow:0 12px 24px -14px rgba(226,110,160,.6)}
 .pcard .ttl{text-align:center;font-family:var(--f-point);font-weight:400;font-size:13px;padding:10px 0 4px;color:var(--p2)}
 .pcard .ttl::before{content:"⁝ "}
 .pcard .ttl::after{content:" ⁝"}
 .pcard .ptag{position:absolute;bottom:10px;right:10px;z-index:1;font-family:var(--f-point);font-weight:400;font-size:11px;color:#fff;background:var(--p1);border-radius:6px;padding:2px 8px}
+.pcard .pimg{flex:1;display:flex;align-items:center;justify-content:center;background:var(--p5)}
 .pcard img{width:100%;height:auto;display:block;background:var(--p5)}
 .pempty{width:100%;text-align:center;color:var(--mute);padding:40px 0;font-family:var(--f-point)}
 .more{display:flex;margin:20px auto 0}
@@ -862,7 +864,7 @@ function cardHTML(i, idx){
   return `<a class="pcard" href="${esc(rel ? RAW + i.img : i.img)}" data-i="${idx}">
     <span class="ptag">${esc(i.cat)}</span>
     <div class="ttl" ${i.color ? `style="color:${esc(i.color)}"` : ''}>${esc(i.title || i.cat + ' Design')}</div>
-    <img src="${esc(i.img)}"${ar}${fb} alt="${esc(i.cat)} 포트폴리오" loading="lazy">
+    <div class="pimg"><img src="${esc(i.img)}"${ar}${fb} alt="${esc(i.cat)} 포트폴리오" loading="lazy"></div>
   </a>`;
 }
 function renderPortfolio(){
@@ -878,14 +880,9 @@ function renderPortfolio(){
   if (!shownList.length) {
     $('p-grid').innerHTML = '<div class="pempty">아직 등록된 작업이 없어요</div>';
   } else {
-    /* 한 줄에 4장씩, 이미지 비율 그대로. 가장 짧은 칸에 차례로 쌓아요 */
-    const hs = Array(lastCols).fill(0), bk = Array.from({length: lastCols}, () => []);
-    shownList.forEach((i, idx) => {
-      const c = hs.indexOf(Math.min(...hs));
-      bk[c].push(cardHTML(i, idx));
-      hs[c] += (i.r > 0 ? i.r : 1.25) + 0.15;
-    });
-    $('p-grid').innerHTML = bk.map(b => `<div class="mcol">${b.join('')}</div>`).join('');
+    /* 한 줄에 4장씩 줄을 맞춰 놓아요 (줄 높이 = 그 줄에서 가장 큰 이미지) */
+    $('p-grid').style.gridTemplateColumns = `repeat(${lastCols}, minmax(0, 1fr))`;
+    $('p-grid').innerHTML = shownList.map((i, idx) => cardHTML(i, idx)).join('');
   }
   $('p-more').hidden = list.length <= pshown;
 }
@@ -899,7 +896,7 @@ $('p-subs').addEventListener('click', e => {
   const b = e.target.closest('.stab'); if (!b) return;
   psub = b.dataset.s; pshown = P.pageSize; renderPortfolio();
 });
-$('p-more').onclick = () => { pshown += P.pageSize; renderPortfolio(); };
+$('p-more').onclick = () => { pshown = Infinity; renderPortfolio(); };   // 한 번 누르면 전부 보여줘요
 /* ===== 이미지 크게 보기 (새 창 없이 같은 화면, 뒷배경 블러) ===== */
 const lb = $('lb'), lbBox = $('lb-box'), lbImg = $('lb-img');
 let lbIdx = -1, lbY = 0, vp = null;
@@ -908,6 +905,8 @@ function showLB(){
   const i = shownList[lbIdx]; if (!i) return;
   const rel = isRel(i.img);
   lbImg.onerror = () => { if (rel && lbImg.src !== RAW + i.img) lbImg.src = RAW + i.img; };
+  lbImg.onload = sizeLB;
+  lbImg.style.width = ''; lbImg.style.visibility = 'hidden';   // 크기를 맞추기 전엔 숨겨서 깜빡임 방지
   lbImg.src = i.img;
   $('lb-cap').textContent = [i.title, i.cat + (i.sub ? ' · ' + i.sub : '')].filter(Boolean).join('  |  ');
   $('lb-prev').hidden = lbIdx <= 0;
@@ -921,7 +920,21 @@ function placeLB(){
   const dh = docHeight() || 1e6;
   h = Math.min(h, dh); top = Math.max(0, Math.min(top, dh - h));
   lbBox.style.top = top + 'px'; lbBox.style.height = h + 'px';
-  lbImg.style.maxHeight = Math.max(220, h - 120) + 'px';
+  lbH = h;
+  sizeLB();
+}
+/* 크게 보기 이미지 크기 : 보이는 화면의 약 65% (세로 68% · 가로 70% 안에서 비율 그대로, 작은 이미지는 키워요) */
+let lbH = 0;
+function sizeLB(){
+  if (!lbImg.naturalWidth || !lbH) return;
+  const r = lbImg.naturalHeight / lbImg.naturalWidth;
+  const bw = lbBox.clientWidth;
+  const availW = Math.max(160, Math.min(bw * 0.70, bw - 128));   // 양옆 화살표 자리는 비워둬요
+  const availH = Math.max(160, lbH * 0.68);
+  const w = Math.min(availW, availH / r);
+  lbImg.style.maxHeight = 'none';
+  lbImg.style.width = Math.round(w) + 'px';
+  lbImg.style.visibility = '';
 }
 function openLB(idx, y){
   lbIdx = idx; lbY = y; vp = null;
