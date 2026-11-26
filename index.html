@@ -270,9 +270,12 @@ html body .fl .req,html body .warn,html body .total small,html body .chip,html b
    색은 아래 변수만 바꾸면 돼요
    ===================================================================== */
 :root{--frame:#f6a9c9;--frame-line:#e589b0;--frame-dot:#ffd6e7;--line:#ecd3de;--grid:#f7dbe7}
-body{background-color:#fff4f9;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;padding:28px 16px 60px}
+/* 모눈 배경 : 아트머그 안에서는 바깥 페이지 전체에 깔고(artmug-custom.html), 이 파일만 열었을 때만 여기서 깔아요 */
+body{background:transparent;padding:28px 16px 60px}
+html.solo body{background-color:#fff4f9;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
 .mh-wrap{max-width:1150px;margin:0 auto;padding-right:70px}
-.binder{position:relative;padding:18px;border:2px solid var(--frame-line);border-radius:22px;background-color:var(--frame);background-image:radial-gradient(circle,var(--frame-dot) 3px,transparent 3.6px);background-size:26px 26px;background-position:13px 13px}
+/* 물방울 : 20px 간격, 한 줄씩 엇갈려(지그재그) 배치 */
+.binder{position:relative;padding:18px;border:2px solid var(--frame-line);border-radius:22px;background-color:var(--frame);background-image:radial-gradient(circle,var(--frame-dot) 2.6px,transparent 3.2px),radial-gradient(circle,var(--frame-dot) 2.6px,transparent 3.2px);background-size:20px 20px;background-position:0 0,10px 10px}
 .mh-page{position:relative;background:#fff;border:2px solid var(--frame-line);border-radius:14px;padding:22px 26px 26px}
 section{max-width:none;margin:0}
 
@@ -560,7 +563,7 @@ const CONFIG = {
   home: {
     title: "PYEONSSI's design room",
     status: '접수중',                     // 머리말 STATUS 자리
-    photo: '',                            // 프로필 사진 주소. 비워두면 ♥ 칸으로 나와요 (예: 'images/profile.png')
+    photo: 'profile.png',                 // 프로필 사진 파일. GitHub에 profile.png로 올리면 바로 나와요 (없으면 ♥ 칸)
     name: '편씨',
     handle: '패널 · 티콘 · 방송 디자인',
     mood: '♡ 의뢰 환영',                  // TODAY IS _ 옆에 나오는 말
@@ -778,12 +781,15 @@ $('cal-next').onclick = () => changeMo(1);
 $('cal-this').onclick = () => { vy = today.getFullYear(); vm = today.getMonth(); selKey = null; renderCal(); renderDetail(); };
 renderCal(); renderDetail();
 
+/* 아트머그 밖에서 이 파일만 열었을 때 표시 (모눈 배경을 이 페이지에 깔기 위해) */
+if (parent === window) document.documentElement.classList.add('solo');
+
 /* ===== 미니홈피 머리말 / 프로필 / 탭 ===== */
 const H = CONFIG.home;
 $('mh-title').textContent = H.title;
 $('mh-date').textContent = `${today.getFullYear()}.${pad(today.getMonth() + 1)}.${pad(today.getDate())}`;
 $('mh-status').textContent = H.status;
-$('mh-photo').innerHTML = H.photo ? `<img src="${esc(H.photo)}" alt="${esc(H.name)} 프로필">` : '♥';
+$('mh-photo').innerHTML = H.photo ? `<img src="${esc(H.photo)}" alt="${esc(H.name)} 프로필" onerror="this.parentNode.textContent='♥'">` : '♥';
 $('mh-name').textContent = H.name;
 $('mh-handle').textContent = H.handle;
 $('mh-mood').textContent = H.mood;
