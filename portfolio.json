@@ -9,6 +9,21 @@
  "items": [
   {
    "cat": "Poster",
+   "img": "img/p-mwxg1uld-4.webp",
+   "r": 1.25
+  },
+  {
+   "cat": "Poster",
+   "img": "img/p-mwxg1mhg-3.webp",
+   "r": 1.25
+  },
+  {
+   "cat": "Poster",
+   "img": "img/p-mwxg1las-2.webp",
+   "r": 1.25
+  },
+  {
+   "cat": "Poster",
    "img": "img/p-mwujkd97-2.webp"
   }
  ]
