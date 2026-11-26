@@ -134,15 +134,16 @@ section{max-width:1120px;margin:0 auto 40px}
 .stab{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:12px;letter-spacing:1px;padding:4px 14px;border-radius:14px;border:1.5px solid var(--p3);background:#fff;color:var(--mute);cursor:pointer;transition:background .15s,color .15s}
 .stab:hover{background:var(--p4)}
 .stab.on{background:var(--p2);border-color:var(--p2);color:#fff}
-.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.pcard{position:relative;display:block;background:#fff;border:1.5px solid var(--p3);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .2s,border-color .2s,box-shadow .2s}
+.pgrid{display:flex;gap:14px;align-items:flex-start}
+.mcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:14px}
+.pcard{position:relative;display:block;background:#fff;border:1.5px solid var(--p3);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;cursor:zoom-in;transition:transform .2s,border-color .2s,box-shadow .2s}
 .pcard:hover{transform:translateY(-3px);border-color:var(--p1);box-shadow:0 12px 24px -14px rgba(226,110,160,.6)}
 .pcard .ttl{text-align:center;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:13px;padding:10px 0 4px;color:var(--p2)}
 .pcard .ttl::before{content:"⁝ "}
 .pcard .ttl::after{content:" ⁝"}
-.pcard .ptag{position:absolute;top:10px;right:10px;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:11px;color:#fff;background:var(--p1);border-radius:6px;padding:2px 8px}
-.pcard img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;display:block}
-.pempty{grid-column:1/-1;text-align:center;color:var(--mute);padding:40px 0;font-family:'SchoolFont',sans-serif}
+.pcard .ptag{position:absolute;top:10px;right:10px;z-index:1;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:11px;color:#fff;background:var(--p1);border-radius:6px;padding:2px 8px}
+.pcard img{width:100%;height:auto;display:block;background:var(--p5)}
+.pempty{width:100%;text-align:center;color:var(--mute);padding:40px 0;font-family:'SchoolFont',sans-serif}
 .more{display:block;margin:20px auto 0}
 .more[hidden]{display:none}
 
@@ -150,6 +151,27 @@ section{max-width:1120px;margin:0 auto 40px}
 .notice{list-style:none}
 .notice li{position:relative;padding:3px 0 3px 18px}
 .notice li::before{content:"";position:absolute;left:0;top:11px;width:9px;height:9px;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);background:var(--p1);opacity:.7}
+
+/* ---------- 이미지 크게 보기 (같은 화면 + 뒷배경 블러) ---------- */
+.lb{position:absolute;left:0;top:0;width:100%;z-index:1000}
+.lb[hidden]{display:none}
+.lb-bg{position:absolute;inset:0;background:rgba(255,245,249,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.lb-box{position:absolute;left:0;right:0;display:flex;align-items:center;justify-content:center;padding:0 64px}
+.lb-in{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:100%;min-width:0}
+.lb-in img{display:block;max-width:100%;width:auto;height:auto;border-radius:14px;border:3px solid #fff;box-shadow:0 20px 50px -20px rgba(196,82,126,.55);background:#fff}
+.lb-cap{font-family:'SchoolFont',sans-serif;font-size:13px;color:var(--p2);text-align:center}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1.5px solid var(--p3);background:#fff;color:var(--p2);font-size:26px;line-height:1;cursor:pointer}
+.lb-nav[hidden]{display:none}
+.lb-prev{left:12px}
+.lb-next{right:12px}
+.lb-x{position:absolute;top:14px;right:16px;width:40px;height:40px;border-radius:50%;border:0;background:var(--p1);color:#fff;font-size:24px;line-height:1;cursor:pointer}
+
+/* ---------- 주문 항목별 양식 ---------- */
+.ef{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.ef-row.full{grid-column:1/-1}
+.ef-row label{display:block;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:12px;color:var(--p2);letter-spacing:1px;margin-bottom:4px}
+.ef textarea{min-height:76px}
+@media(max-width:640px){.ef{grid-template-columns:1fr}}
 
 @media(max-width:640px){.grid2{grid-template-columns:1fr}}
 @media(max-width:560px){
@@ -164,7 +186,6 @@ section{max-width:1120px;margin:0 auto 40px}
   .tag{font-size:8px;padding:1px 3px}
   .thanks{font-size:12px}
   .thanks.lg{font-size:15px}
-  .pgrid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -255,7 +276,7 @@ section{max-width:1120px;margin:0 auto 40px}
           <div class="items" id="f-items"></div>
           <div class="editor" id="f-editor">
             <h4 id="f-edtitle"></h4>
-            <textarea id="f-edtext" placeholder="수량, 사이즈, 문구 등 이 항목에 필요한 내용을 적어주세요"></textarea>
+            <div class="ef" id="f-edfields"></div>
             <div class="acts">
               <button type="button" class="btn-save" id="f-edsave">저장</button>
               <button type="button" class="btn-cancel" id="f-eddel">이 항목 삭제</button>
@@ -333,6 +354,19 @@ section{max-width:1120px;margin:0 auto 40px}
   </div>
 </section>
 
+<div class="lb" id="lb" hidden>
+  <div class="lb-bg"></div>
+  <div class="lb-box" id="lb-box">
+    <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="이전">‹</button>
+    <div class="lb-in">
+      <img id="lb-img" alt="">
+      <div class="lb-cap" id="lb-cap"></div>
+    </div>
+    <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="다음">›</button>
+    <button type="button" class="lb-x" id="lb-x" aria-label="닫기">×</button>
+  </div>
+</div>
+
 <script>
 /* ===== 여기만 고치면 돼요 ===== */
 const CONFIG = {
@@ -371,7 +405,83 @@ const CONFIG = {
       {name:'2일 이내', price:25000},
       {name:'1일 이내', price:40000}
     ],
-    items: ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인']
+    items: ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인'],
+    // 주문 항목을 누르면 열리는 양식이에요. 항목 이름은 위 items와 똑같이 써야 해요.
+    // k: 칸 이름 / t: text(한 줄)·area(여러 줄)·date(날짜)·select(고르기) / ph: 안내 글자 / opts: select 선택지
+    // 양식을 안 만든 항목은 '요청 내용' 한 칸짜리가 자동으로 나와요.
+    forms: {
+      '포스터': [
+        {k:'수량', t:'text', ph:'예: 2종'},
+        {k:'사이즈', t:'text', ph:'예: A3 / 1080x1350'},
+        {k:'내용(문구)', t:'area', ph:'포스터에 들어갈 문구를 적어주세요'},
+        {k:'날짜', t:'date'},
+        {k:'일정·시간', t:'text', ph:'예: 저녁 8시 SOOP 방송'},
+        {k:'RT 단위', t:'text', ph:'RT 이벤트용이면 적어주세요 (예: 100RT)'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      'RT포스터': [
+        {k:'수량', t:'text', ph:'예: 1종 (장수 제한 없음)'},
+        {k:'내용(문구)', t:'area', ph:'포스터에 들어갈 문구를 적어주세요'},
+        {k:'이벤트 날짜', t:'date'},
+        {k:'RT 단위', t:'text', ph:'예: 100RT / 500RT / 1000RT'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      'PPT': [
+        {k:'수량', t:'text', ph:'예: 1세트'},
+        {k:'장수', t:'text', ph:'예: 5장 내외'},
+        {k:'용도', t:'select', opts:['방송 오프닝','자기소개','후원 안내','기타']},
+        {k:'표지', t:'area', ph:'표지에 들어갈 제목·문구·닉네임'},
+        {k:'내용', t:'area', ph:'장별 구성을 적어주세요 (예: 2장 자기소개, 3장 후원 안내)'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      '스케줄표': [
+        {k:'종류', t:'select', opts:['대형','소형 세로형','팀 스케줄표','월간 스케줄표']},
+        {k:'수량', t:'text', ph:'예: 1종'},
+        {k:'시작 날짜', t:'date'},
+        {k:'방송 일정', t:'area', ph:'요일·시간·방송 내용을 적어주세요'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      '유튜브': [
+        {k:'종류', t:'select', opts:['채널아트','일반 썸네일','커버곡 썸네일 + 로고']},
+        {k:'수량', t:'text', ph:'예: 1종'},
+        {k:'제목·문구', t:'area', ph:'이미지에 들어갈 제목과 문구'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      'SOOP 배너': [
+        {k:'종류', t:'select', opts:['상단배너','플로팅배너','하단배너']},
+        {k:'수량', t:'text', ph:'예: 1종'},
+        {k:'문구', t:'area', ph:'배너에 들어갈 문구'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      '치지직 배너': [
+        {k:'수량', t:'text', ph:'예: 1종'},
+        {k:'문구', t:'area', ph:'배너에 들어갈 문구'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      '대기화면': [
+        {k:'수량', t:'text', ph:'예: 1종'},
+        {k:'문구', t:'area', ph:'대기화면에 들어갈 문구 (예: 잠시 후 시작합니다)'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      '로고': [
+        {k:'종류', t:'select', opts:['닉네임 로고','컨텐츠·콘서트 로고','핫클립 로고','커버곡 로고']},
+        {k:'로고 글자', t:'text', ph:'로고에 들어갈 글자'},
+        {k:'분위기·색감', t:'area', ph:'원하는 느낌을 적어주세요'}
+      ],
+      '다시보기': [
+        {k:'수량', t:'text', ph:'예: 1종'},
+        {k:'문구', t:'area', ph:'들어갈 문구'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      '썸네일': [
+        {k:'용도', t:'select', opts:['방송 썸네일','유튜브 썸네일','기타']},
+        {k:'수량', t:'text', ph:'예: 1종'},
+        {k:'제목·문구', t:'area', ph:'이미지에 들어갈 제목과 문구'}
+      ],
+      '그 외 디자인': [
+        {k:'작업 설명', t:'area', ph:'어떤 디자인이 필요한지 자세히 적어주세요'}
+      ]
+    }
   },
   portfolio: {
     pageSize: 12,   // 한 번에 보여줄 개수 (넘으면 '더보기' 버튼이 생겨요)
@@ -476,6 +586,18 @@ const isRel = s => !/^(https?:)?\/\//.test(s);
 const P = CONFIG.portfolio;
 let pcat = 'ALL', psub = '전체', pshown = P.pageSize;
 
+function colCount(){ const w = document.documentElement.clientWidth; return w >= 760 ? 3 : (w >= 480 ? 2 : 1); }
+let shownList = [], lastCols = 0;
+function cardHTML(i, idx){
+  const rel = isRel(i.img);
+  const ar = i.r > 0 ? ` style="aspect-ratio:${(1 / i.r).toFixed(4)}"` : '';
+  const fb = rel ? ` data-raw="${esc(RAW + i.img)}" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.dataset.raw}"` : '';
+  return `<a class="pcard" href="${esc(rel ? RAW + i.img : i.img)}" data-i="${idx}">
+    <span class="ptag">${esc(i.cat)}</span>
+    <div class="ttl" ${i.color ? `style="color:${esc(i.color)}"` : ''}>${esc(i.title || i.cat + ' Design')}</div>
+    <img src="${esc(i.img)}"${ar}${fb} alt="${esc(i.cat)} 포트폴리오" loading="lazy">
+  </a>`;
+}
 function renderPortfolio(){
   $('p-tabs').innerHTML = ['ALL', ...P.cats].map(c =>
     `<button type="button" class="ptab ${c === pcat ? 'on' : ''}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
@@ -484,16 +606,24 @@ function renderPortfolio(){
     ? ['전체', ...subs].map(s => `<button type="button" class="stab ${s === psub ? 'on' : ''}" data-s="${esc(s)}">${esc(s)}</button>`).join('')
     : '';
   const list = P.items.filter(i => (pcat === 'ALL' || i.cat === pcat) && (psub === '전체' || i.sub === psub));
-  $('p-grid').innerHTML = list.length
-    ? list.slice(0, pshown).map(i =>
-        `<a class="pcard" href="${esc(isRel(i.img) ? RAW + i.img : i.img)}" target="_blank" rel="noopener">
-           <span class="ptag">${esc(i.cat)}</span>
-           <div class="ttl" ${i.color ? `style="color:${esc(i.color)}"` : ''}>${esc(i.title || i.cat + ' Design')}</div>
-           <img src="${esc(i.img)}" ${isRel(i.img) ? `data-raw="${esc(RAW + i.img)}" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.dataset.raw}"` : ''} alt="${esc(i.cat)} 포트폴리오" loading="lazy">
-         </a>`).join('')
-    : '<div class="pempty">아직 등록된 작업이 없어요</div>';
+  shownList = list.slice(0, pshown);
+  lastCols = colCount();
+  if (!shownList.length) {
+    $('p-grid').innerHTML = '<div class="pempty">아직 등록된 작업이 없어요</div>';
+  } else {
+    /* 한 줄에 3장씩, 이미지 비율 그대로. 가장 짧은 칸에 차례로 쌓아요 */
+    const hs = Array(lastCols).fill(0), bk = Array.from({length: lastCols}, () => []);
+    shownList.forEach((i, idx) => {
+      const c = hs.indexOf(Math.min(...hs));
+      bk[c].push(cardHTML(i, idx));
+      hs[c] += (i.r > 0 ? i.r : 1.25) + 0.15;
+    });
+    $('p-grid').innerHTML = bk.map(b => `<div class="mcol">${b.join('')}</div>`).join('');
+  }
   $('p-more').hidden = list.length <= pshown;
 }
+let rzT;
+addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(() => { if (colCount() !== lastCols) renderPortfolio(); }, 200); });
 $('p-tabs').addEventListener('click', e => {
   const b = e.target.closest('.ptab'); if (!b) return;
   pcat = b.dataset.c; psub = '전체'; pshown = P.pageSize; renderPortfolio();
@@ -503,18 +633,68 @@ $('p-subs').addEventListener('click', e => {
   psub = b.dataset.s; pshown = P.pageSize; renderPortfolio();
 });
 $('p-more').onclick = () => { pshown += P.pageSize; renderPortfolio(); };
+/* ===== 이미지 크게 보기 (새 창 없이 같은 화면, 뒷배경 블러) ===== */
+const lb = $('lb'), lbBox = $('lb-box'), lbImg = $('lb-img');
+let lbIdx = -1, lbY = 0, vp = null;
+const docHeight = () => Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+function showLB(){
+  const i = shownList[lbIdx]; if (!i) return;
+  const rel = isRel(i.img);
+  lbImg.onerror = () => { if (rel && lbImg.src !== RAW + i.img) lbImg.src = RAW + i.img; };
+  lbImg.src = i.img;
+  $('lb-cap').textContent = [i.title, i.cat + (i.sub ? ' · ' + i.sub : '')].filter(Boolean).join('  |  ');
+  $('lb-prev').hidden = lbIdx <= 0;
+  $('lb-next').hidden = lbIdx >= shownList.length - 1;
+}
+function placeLB(){
+  const sh = Math.min((window.screen && screen.availHeight) || 800, 1000);
+  let top, h;
+  if (vp) { top = vp.top; h = vp.height; }              // 아트머그가 알려준 지금 보이는 화면
+  else { h = Math.round(sh * 0.85); top = lbY - h / 2; } // 못 받으면 누른 위치 기준으로 추정
+  const dh = docHeight() || 1e6;
+  h = Math.min(h, dh); top = Math.max(0, Math.min(top, dh - h));
+  lbBox.style.top = top + 'px'; lbBox.style.height = h + 'px';
+  lbImg.style.maxHeight = Math.max(220, h - 120) + 'px';
+}
+function openLB(idx, y){
+  lbIdx = idx; lbY = y; vp = null;
+  lb.style.height = docHeight() + 'px';
+  lb.hidden = false; showLB(); placeLB();
+  try { parent.postMessage({type: 'getViewport'}, '*'); } catch(e) {}
+}
+function closeLB(){ lb.hidden = true; lbImg.removeAttribute('src'); }
+function stepLB(d){ const n = lbIdx + d; if (n < 0 || n >= shownList.length) return; lbIdx = n; showLB(); }
+$('p-grid').addEventListener('click', e => {
+  const a = e.target.closest('.pcard'); if (!a) return;
+  e.preventDefault();
+  openLB(+a.dataset.i, e.clientY + (window.scrollY || 0));
+});
+lb.addEventListener('click', e => {
+  if (e.target.closest('#lb-x')) closeLB();
+  else if (e.target.closest('#lb-prev')) stepLB(-1);
+  else if (e.target.closest('#lb-next')) stepLB(1);
+  else if (!e.target.closest('#lb-img')) closeLB();
+});
+document.addEventListener('keydown', e => {
+  if (lb.hidden) return;
+  if (e.key === 'Escape') closeLB();
+  if (e.key === 'ArrowLeft') stepLB(-1);
+  if (e.key === 'ArrowRight') stepLB(1);
+});
+
 /* portfolio.json (관리 페이지에서 저장되는 파일)을 불러와서 표시
-   1순위: GitHub 원본 파일 (저장 직후 바로 반영) / 2순위: 사이트에 올라간 파일 */
+   GitHub 원본(저장 직후 바로 반영)과 사이트 파일을 동시에 불러오고, 원본이 늦거나 막혀 있으면 4초 뒤 사이트 파일로 표시해요 */
+function getJSON(u, ms){
+  const c = new AbortController(), t = setTimeout(() => c.abort(), ms);
+  return fetch(u, {cache: 'no-store', signal: c.signal})
+    .then(r => { clearTimeout(t); if (!r.ok) throw 0; return r.json(); })
+    .catch(() => { clearTimeout(t); return null; });
+}
 async function loadPortfolio(){
-  const urls = [RAW + 'portfolio.json?t=' + Date.now(), 'portfolio.json?v=' + Date.now()];
-  for (const u of urls) {
-    try {
-      const r = await fetch(u, {cache: 'no-store'});
-      if (!r.ok) continue;
-      const j = await r.json();
-      if (j && Array.isArray(j.items)) { P.items = j.items; if (Array.isArray(j.cats) && j.cats.length) P.cats = j.cats; break; }
-    } catch(e) {}
-  }
+  const t = Date.now();
+  const [a, b] = await Promise.all([getJSON(RAW + 'portfolio.json?t=' + t, 4000), getJSON('portfolio.json?v=' + t, 4000)]);
+  const j = [a, b].find(x => x && Array.isArray(x.items));
+  if (j) { P.items = j.items; if (Array.isArray(j.cats) && j.cats.length) P.cats = j.cats; }
   renderPortfolio();
 }
 loadPortfolio();
@@ -546,17 +726,30 @@ function renderChips(){
 }
 function closeEditor(){ current = null; $('f-editor').classList.remove('on'); }
 
+function fieldsFor(name){
+  const f = (F.forms || {})[name];
+  return (f && f.length) ? f : [{k:'요청 내용', t:'area', ph:'수량, 사이즈, 문구 등 필요한 내용을 적어주세요'}];
+}
 $('f-items').addEventListener('click', e => {
   const b = e.target.closest('.item'); if (!b) return;
   current = b.dataset.n;
-  $('f-edtitle').textContent = current + ' 입력';
-  $('f-edtext').value = items[current] || '';
+  const vals = items[current] || {};
+  $('f-edtitle').textContent = current + ' 양식';
+  $('f-edfields').innerHTML = fieldsFor(current).map((f, i) => {
+    const id = 'ef-' + i, val = vals[f.k] || '', k = esc(f.k), ph = esc(f.ph || '');
+    let ctl;
+    if (f.t === 'area') ctl = `<textarea id="${id}" data-k="${k}" placeholder="${ph}">${esc(val)}</textarea>`;
+    else if (f.t === 'select') ctl = `<select id="${id}" data-k="${k}"><option value="">선택 안함</option>${(f.opts || []).map(o => `<option ${o === val ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
+    else ctl = `<input type="${f.t === 'date' ? 'date' : 'text'}" id="${id}" data-k="${k}" value="${esc(val)}" placeholder="${ph}">`;
+    return `<div class="ef-row ${f.t === 'area' ? 'full' : ''}"><label for="${id}">${k}</label>${ctl}</div>`;
+  }).join('');
   $('f-editor').classList.add('on');
-  $('f-edtext').focus();
+  const first = $('f-edfields').querySelector('[data-k]'); if (first) first.focus();
 });
 $('f-edsave').onclick = () => {
-  const t = $('f-edtext').value.trim();
-  if (t) items[current] = t; else delete items[current];
+  const vals = {};
+  $('f-edfields').querySelectorAll('[data-k]').forEach(el => { const t = el.value.trim(); if (t) vals[el.dataset.k] = t; });
+  if (Object.keys(vals).length) items[current] = vals; else delete items[current];
   closeEditor(); renderItems(); update();
 };
 $('f-eddel').onclick = () => { delete items[current]; closeEditor(); renderItems(); update(); };
@@ -584,7 +777,7 @@ function buildText(){
   const exs = [...document.querySelectorAll('input[name=extra]:checked')].map(x => F.extras[+x.value]);
   const rs = RUSH[+document.querySelector('input[name=rush]:checked').value];
   const sum = exs.reduce((a, e) => a + (e.price || 0), 0) + (rs.price || 0);
-  const lines = Object.keys(items).map(k => `- ${k} : ${items[k].replace(/\n/g, '\n  ')}`);
+  const lines = Object.keys(items).map(k => `- ${k}\n` + Object.keys(items[k]).map(f => `  · ${f} : ${String(items[k][f]).replace(/\n/g, '\n    ')}`).join('\n'));
   return [
     '[ 신청 내용 ]', '',
     `방송 닉네임 및 주소 : ${v('f-nick')}`,
@@ -642,7 +835,11 @@ function send(){
   lastH = docH();
   parent.postMessage({type:'embedHeight', height:lastH, anchors}, '*');
 }
-addEventListener('message', e => { if (e.data && e.data.type === 'requestHeight') send(); });
+addEventListener('message', e => {
+  const d = e.data || {};
+  if (d.type === 'requestHeight') send();
+  if (d.type === 'viewport' && d.height > 0) { vp = {top: +d.top || 0, height: +d.height}; if (!lb.hidden) placeLB(); }
+});
 addEventListener('load', send);
 addEventListener('resize', send);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(send);
