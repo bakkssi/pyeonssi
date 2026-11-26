@@ -1,30 +1,28 @@
 {
  "cats": [
-  "Overlay",
-  "CSS",
-  "Schedule",
-  "Poster",
-  "RTPoster"
+  "스케줄",
+  "포스터",
+  "치지직 패널",
+  "PPT",
+  "팬카페",
+  "로고",
+  "채널 아트",
+  "오버레이",
+  "다시보기",
+  "로딩 화면"
  ],
  "items": [
   {
-   "cat": "Poster",
-   "img": "img/p-mwxg1uld-4.webp",
+   "cat": "포스터",
+   "img": "img/p-mwxlr6y8-54.webp",
+   "sub": "홍보 포스터",
    "r": 1.25
   },
   {
-   "cat": "Poster",
-   "img": "img/p-mwxg1mhg-3.webp",
+   "cat": "포스터",
+   "img": "img/p-mwxlpaqq-53.webp",
+   "sub": "RT 포스터",
    "r": 1.25
-  },
-  {
-   "cat": "Poster",
-   "img": "img/p-mwxg1las-2.webp",
-   "r": 1.25
-  },
-  {
-   "cat": "Poster",
-   "img": "img/p-mwujkd97-2.webp"
   }
  ]
 }
