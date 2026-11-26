@@ -11,13 +11,21 @@
 @font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');font-weight:500;font-display:swap}
 @font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');font-weight:700;font-display:swap}
 
-:root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--sub:#d48aab;--mute:#c48aaa;--ink:#444}
+:root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--sub:#d48aab;--mute:#c48aaa;--ink:#444;
+  /* 폰트 바꾸기: 여기 세 줄만 고치면 페이지 전체가 바뀌어요 */
+  --f-body:'Noto Sans KR',sans-serif;      /* 본문·입력칸 */
+  --f-point:'SchoolFont',sans-serif;       /* 버튼·라벨·태그 */
+  --f-deco:'Paperozi',sans-serif}          /* 맺음말 */
 *{box-sizing:border-box;margin:0}
+/* 버튼·알약 안 글자/기호를 상하좌우 정가운데로 */
+button,.chip,.pill span,.cchip,.tag,.ptag{letter-spacing:0 !important}
+button{display:inline-flex;align-items:center;justify-content:center;gap:5px;line-height:1.2;text-align:center}
+.ic{display:inline-block;line-height:1;font-size:.95em}
 /* 안쪽 스크롤바 숨김 (스크롤바 2개 방지) */
 html{scrollbar-width:none;-ms-overflow-style:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
-body{font-family:'Noto Sans KR',sans-serif;font-weight:300;color:var(--ink);background:transparent;padding:20px 16px 60px;line-height:1.6}
-button,input,select,textarea{font-family:'Noto Sans KR',sans-serif;font-weight:300}
+body{font-family:var(--f-body);font-weight:300;color:var(--ink);background:transparent;padding:20px 16px 60px;line-height:1.6}
+button,input,select,textarea{font-family:var(--f-body);font-weight:300}
 section{max-width:1120px;margin:0 auto 40px}
 
 /* ---------- 공통 카드 (마감 캘린더 / 견적서 스타일) ---------- */
@@ -25,7 +33,7 @@ section{max-width:1120px;margin:0 auto 40px}
 .card-top{background:var(--p4);padding:28px 40px 18px;position:relative}
 .diamond-pattern{position:absolute;inset:0;opacity:.22;background-image:repeating-linear-gradient(45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px),repeating-linear-gradient(-45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px)}
 .top-inner{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
-.chip{background:var(--p1);color:#fff;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:6px}
+.chip{background:var(--p1);color:#fff;font-family:var(--f-point);font-weight:400;font-size:13px;letter-spacing:2px;padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:6px}
 .big-title{font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:62px;line-height:1;letter-spacing:2px;color:var(--p2)}
 .big-title.md{font-size:48px}
 .sub{font-size:9px;letter-spacing:3px;color:var(--sub);text-transform:uppercase;margin-top:8px}
@@ -37,17 +45,17 @@ section{max-width:1120px;margin:0 auto 40px}
 .divider{height:.5px;background:var(--p3);margin:16px 0}
 
 /* 공통 버튼 */
-.btn-save{background:var(--p1);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-family:'SchoolFont',sans-serif;font-weight:400;letter-spacing:1px;transition:opacity .15s}
+.btn-save{background:var(--p1);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-family:var(--f-point);font-weight:400;letter-spacing:1px;transition:opacity .15s}
 .btn-save:hover{opacity:.88}
-.btn-cancel{background:var(--p4);color:var(--p2);border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-family:'SchoolFont',sans-serif;font-weight:400;letter-spacing:1px;transition:background .15s}
+.btn-cancel{background:var(--p4);color:var(--p2);border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-family:var(--f-point);font-weight:400;letter-spacing:1px;transition:background .15s}
 .btn-cancel:hover{background:var(--p3)}
 .btn-save:disabled{background:#e6dfe3;color:#fff;cursor:not-allowed;opacity:1}
 
 /* ---------- 작업 일정 (달력) ---------- */
 .nav-block{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.month-label{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:17px;color:var(--p2);letter-spacing:1px}
+.month-label{font-family:var(--f-point);font-weight:400;font-size:17px;color:var(--p2);letter-spacing:1px}
 .nav-btns{display:flex;gap:6px}
-.nav-btn{background:#fff;border:1.5px solid var(--p3);color:var(--p1);border-radius:18px;padding:5px 14px;font-size:12px;font-family:'SchoolFont',sans-serif;font-weight:400;cursor:pointer;letter-spacing:1px;transition:background .15s}
+.nav-btn{background:#fff;border:1.5px solid var(--p3);color:var(--p1);border-radius:18px;padding:5px 14px;font-size:12px;font-family:var(--f-point);font-weight:400;cursor:pointer;letter-spacing:1px;transition:background .15s}
 .nav-btn:hover{background:var(--p4)}
 .nav-btn.active{background:var(--p1);color:#fff;border-color:var(--p1)}
 .weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px}
@@ -64,25 +72,33 @@ section{max-width:1120px;margin:0 auto 40px}
 .day-num{font-size:14px;font-weight:500;color:#555;margin-bottom:4px}
 .day-cell.today .day-num{color:var(--p2);font-weight:700}
 .tags{display:flex;flex-direction:column;gap:2px;flex:1;overflow:hidden}
-.tag{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:9px;border-radius:5px;padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-family:var(--f-point);font-weight:400;font-size:9px;border-radius:5px;padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tag.closed{background:var(--p4);color:var(--p2)}
 .tag.holiday{background:var(--p3);color:#9e3060}
 .cal-detail{margin-top:14px;padding:12px 16px;border:1.5px dashed var(--p3);border-radius:12px;background:#fffafc;font-size:13px;color:#a8798f}
-.cal-detail b{font-family:'SchoolFont',sans-serif;font-weight:400;color:var(--p2);font-size:15px;margin-right:8px}
+.cal-detail b{font-family:var(--f-point);font-weight:400;color:var(--p2);font-size:15px;margin-right:8px}
 .cal-detail .tag{display:inline-block;font-size:12px;padding:3px 9px;margin:2px 4px 2px 0}
 .legend{display:flex;flex-wrap:wrap;gap:10px;padding:12px 16px;background:var(--p5);border-radius:12px;margin-top:14px}
 .legend-item{display:flex;align-items:center;gap:6px}
 .legend-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
-.legend-label{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:12px;color:var(--mute)}
+.legend-label{font-family:var(--f-point);font-weight:400;font-size:12px;color:var(--mute)}
 .footer-area{margin-top:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
 .footer-stars{display:flex;flex-direction:column;gap:5px}
 .footer-row{display:flex;gap:5px}
-.thanks{font-family:'Paperozi',sans-serif;font-weight:500;font-size:14px;letter-spacing:1px;color:var(--p1);text-align:right;line-height:1.7}
+.thanks{font-family:var(--f-deco);font-weight:500;font-size:14px;letter-spacing:1px;color:var(--p1);text-align:right;line-height:1.7}
 .thanks.lg{font-size:20px;line-height:1.35;letter-spacing:2px}
 
 /* ---------- 문의 양식 ---------- */
+.form{counter-reset:q}
 .fq{margin-bottom:22px}
-.fl{display:block;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:14px;color:var(--p2);letter-spacing:1px;margin-bottom:8px}
+.fq[hidden]{display:none}
+/* 질문 번호 자동 매기기 (숨긴 칸은 건너뜀) */
+.fq .fl b::before{counter-increment:q;content:counter(q) "."}
+.refbox{display:flex;align-items:center;gap:8px;min-height:41px;padding:0 12px;border:1px solid var(--p3);border-radius:9px;background:#fff;font-size:13px;font-weight:400;color:#555;cursor:pointer;transition:border-color .15s,background .15s}
+.refbox:hover{border-color:var(--p1)}
+.refbox input{width:16px;height:16px;margin:0;flex-shrink:0;accent-color:var(--p1)}
+.refbox:has(input:checked){background:var(--p4);border-color:var(--p1);color:var(--p2)}
+.fl{display:block;font-family:var(--f-point);font-weight:400;font-size:14px;color:var(--p2);letter-spacing:1px;margin-bottom:8px}
 .fl b{color:var(--p1);margin-right:6px;font-weight:400}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
 .form input[type=text],.form input[type=date],.form select,.form textarea{width:100%;font-size:13px;color:#333;background:#fff;border:1px solid var(--p3);border-radius:9px;padding:9px 12px;outline:none;transition:border-color .15s,box-shadow .15s}
@@ -92,29 +108,33 @@ section{max-width:1120px;margin:0 auto 40px}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
 .pill{position:relative}
 .pill input{position:absolute;opacity:0;pointer-events:none}
-.pill span{display:inline-block;padding:6px 16px;border:1.5px solid var(--p3);border-radius:18px;background:#fff;cursor:pointer;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:13px;letter-spacing:1px;color:var(--p2);transition:background .15s,color .15s,border-color .15s}
+.pill span{display:inline-block;padding:6px 16px;border:1.5px solid var(--p3);border-radius:18px;background:#fff;cursor:pointer;font-family:var(--f-point);font-weight:400;font-size:13px;letter-spacing:1px;color:var(--p2);transition:background .15s,color .15s,border-color .15s}
 .pill span:hover{background:var(--p4)}
 .pill input:checked+span{background:var(--p1);border-color:var(--p1);color:#fff}
 .pill input:focus-visible+span{box-shadow:0 0 0 3px var(--p4)}
 .pill em{font-style:normal;font-size:12px;color:var(--p1);margin-left:4px}
 .pill input:checked+span em{color:#fff}
 .colorrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.colorrow input[type=color]{width:40px;height:40px;border:1px solid var(--p3);border-radius:10px;padding:3px;background:#fff;cursor:pointer}
+.colorrow input[type=color]{-webkit-appearance:none;appearance:none;width:40px;height:40px;border:1px solid var(--p3);border-radius:10px;padding:3px;background:#fff;cursor:pointer}
+/* 색 선택칸 안쪽 검은 테두리 없애기 */
+.colorrow input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.colorrow input[type=color]::-webkit-color-swatch{border:none;border-radius:7px}
+.colorrow input[type=color]::-moz-color-swatch{border:none;border-radius:7px}
 .colorrow input[type=text]{width:140px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.cchip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--p3);border-radius:18px;padding:3px 8px 3px 6px;background:#fff;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:12px;color:var(--p2)}
-.cchip i{width:16px;height:16px;border-radius:50%;border:1px solid #ddd;display:inline-block}
-.cchip button{border:0;background:none;cursor:pointer;color:var(--p3);font-size:16px;line-height:1}
+.cchip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--p3);border-radius:18px;padding:3px 8px 3px 6px;background:#fff;font-family:var(--f-point);font-weight:400;font-size:12px;color:var(--p2)}
+.cchip i{width:16px;height:16px;border-radius:50%;border:1px solid var(--p3);display:inline-block}
+.cchip button{border:0;background:none;cursor:pointer;color:var(--p3);font-size:16px;line-height:1;width:16px;height:16px;padding:0}
 .cchip button:hover{color:#e8609a}
 .items{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1.5px solid var(--p3);border-radius:12px;background:#fff;cursor:pointer;font-size:13px;font-weight:400;color:#444;text-align:left;transition:background .15s,border-color .15s}
-.item small{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:11px;color:var(--mute)}
+.item small{font-family:var(--f-point);font-weight:400;font-size:11px;color:var(--mute)}
 .item:hover{border-color:var(--p1)}
 .item.filled{background:var(--p4);border-color:var(--p1)}
 .item.filled small{color:var(--p2)}
 .editor{display:none;margin-top:12px;border:1.5px dashed var(--p3);border-radius:12px;padding:14px;background:#fffafc}
 .editor.on{display:block}
-.editor h4{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:14px;margin-bottom:8px;color:var(--p2)}
+.editor h4{font-family:var(--f-point);font-weight:400;font-size:14px;margin-bottom:8px;color:var(--p2)}
 .editor .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 #f-preview{background:var(--p5);min-height:240px;resize:none;overflow:hidden;font-size:12.5px;line-height:1.8}
 .check{display:flex;gap:8px;align-items:center;margin-top:16px;font-size:13px;font-weight:400;cursor:pointer}
@@ -122,29 +142,29 @@ section{max-width:1120px;margin:0 auto 40px}
 .actions{display:flex;gap:10px;margin-top:14px}
 .actions .main{flex:1;padding:13px}
 .notes-section{background:var(--p5);border-radius:12px;padding:14px 16px;margin-top:16px}
-.notes-text{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:12px;color:var(--mute);line-height:2}
+.notes-text{font-family:var(--f-point);font-weight:400;font-size:12px;color:var(--mute);line-height:2}
 
 /* ---------- 포트폴리오 ---------- */
 .ptabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:12px}
-.ptab{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:13px;letter-spacing:1px;padding:6px 18px;border-radius:18px;border:1.5px solid var(--p3);background:#fff;color:var(--p1);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.ptab{font-family:var(--f-point);font-weight:400;font-size:13px;letter-spacing:1px;padding:6px 18px;border-radius:18px;border:1.5px solid var(--p3);background:#fff;color:var(--p1);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
 .ptab:hover{background:var(--p4)}
 .ptab.on{background:var(--p1);border-color:var(--p1);color:#fff}
 .stabs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:18px}
 .stabs:empty{display:none}
-.stab{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:12px;letter-spacing:1px;padding:4px 14px;border-radius:14px;border:1.5px solid var(--p3);background:#fff;color:var(--mute);cursor:pointer;transition:background .15s,color .15s}
+.stab{font-family:var(--f-point);font-weight:400;font-size:12px;letter-spacing:1px;padding:4px 14px;border-radius:14px;border:1.5px solid var(--p3);background:#fff;color:var(--mute);cursor:pointer;transition:background .15s,color .15s}
 .stab:hover{background:var(--p4)}
 .stab.on{background:var(--p2);border-color:var(--p2);color:#fff}
 .pgrid{display:flex;gap:14px;align-items:flex-start}
 .mcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:14px}
 .pcard{position:relative;display:block;background:#fff;border:1.5px solid var(--p3);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;cursor:zoom-in;transition:transform .2s,border-color .2s,box-shadow .2s}
 .pcard:hover{transform:translateY(-3px);border-color:var(--p1);box-shadow:0 12px 24px -14px rgba(226,110,160,.6)}
-.pcard .ttl{text-align:center;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:13px;padding:10px 0 4px;color:var(--p2)}
+.pcard .ttl{text-align:center;font-family:var(--f-point);font-weight:400;font-size:13px;padding:10px 0 4px;color:var(--p2)}
 .pcard .ttl::before{content:"⁝ "}
 .pcard .ttl::after{content:" ⁝"}
-.pcard .ptag{position:absolute;top:10px;right:10px;z-index:1;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:11px;color:#fff;background:var(--p1);border-radius:6px;padding:2px 8px}
+.pcard .ptag{position:absolute;bottom:10px;right:10px;z-index:1;font-family:var(--f-point);font-weight:400;font-size:11px;color:#fff;background:var(--p1);border-radius:6px;padding:2px 8px}
 .pcard img{width:100%;height:auto;display:block;background:var(--p5)}
-.pempty{width:100%;text-align:center;color:var(--mute);padding:40px 0;font-family:'SchoolFont',sans-serif}
-.more{display:block;margin:20px auto 0}
+.pempty{width:100%;text-align:center;color:var(--mute);padding:40px 0;font-family:var(--f-point)}
+.more{display:flex;margin:20px auto 0}
 .more[hidden]{display:none}
 
 /* ---------- 공지 ---------- */
@@ -159,17 +179,17 @@ section{max-width:1120px;margin:0 auto 40px}
 .lb-box{position:absolute;left:0;right:0;display:flex;align-items:center;justify-content:center;padding:0 64px}
 .lb-in{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:100%;min-width:0}
 .lb-in img{display:block;max-width:100%;width:auto;height:auto;border-radius:14px;border:3px solid #fff;box-shadow:0 20px 50px -20px rgba(196,82,126,.55);background:#fff}
-.lb-cap{font-family:'SchoolFont',sans-serif;font-size:13px;color:var(--p2);text-align:center}
-.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1.5px solid var(--p3);background:#fff;color:var(--p2);font-size:26px;line-height:1;cursor:pointer}
+.lb-cap{font-family:var(--f-point);font-size:13px;color:var(--p2);text-align:center}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;padding:0 0 3px;border-radius:50%;border:1.5px solid var(--p3);background:#fff;color:var(--p2);font-size:26px;line-height:1;cursor:pointer}
 .lb-nav[hidden]{display:none}
 .lb-prev{left:12px}
 .lb-next{right:12px}
-.lb-x{position:absolute;top:14px;right:16px;width:40px;height:40px;border-radius:50%;border:0;background:var(--p1);color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.lb-x{position:absolute;top:14px;right:16px;width:40px;height:40px;padding:0 0 2px;border-radius:50%;border:0;background:var(--p1);color:#fff;font-size:24px;line-height:1;cursor:pointer}
 
 /* ---------- 주문 항목별 양식 ---------- */
 .ef{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
 .ef-row.full{grid-column:1/-1}
-.ef-row label{display:block;font-family:'SchoolFont',sans-serif;font-weight:400;font-size:12px;color:var(--p2);letter-spacing:1px;margin-bottom:4px}
+.ef-row label{display:block;font-family:var(--f-point);font-weight:400;font-size:12px;color:var(--p2);letter-spacing:1px;margin-bottom:4px}
 .ef textarea{min-height:76px}
 @media(max-width:640px){.ef{grid-template-columns:1fr}}
 
@@ -206,8 +226,8 @@ section{max-width:1120px;margin:0 auto 40px}
           <div class="month-label" id="cal-month"></div>
           <div class="nav-btns">
             <button type="button" class="nav-btn" id="cal-this">이번달</button>
-            <button type="button" class="nav-btn" id="cal-prev">◂ 이전</button>
-            <button type="button" class="nav-btn" id="cal-next">다음 ▸</button>
+            <button type="button" class="nav-btn" id="cal-prev"><span class="ic">◂</span>이전</button>
+            <button type="button" class="nav-btn" id="cal-next">다음<span class="ic">▸</span></button>
           </div>
         </div>
       </div>
@@ -246,33 +266,32 @@ section{max-width:1120px;margin:0 auto 40px}
       <form id="f" onsubmit="return false">
 
         <div class="grid2">
-          <div class="fq"><label class="fl" for="f-nick"><b>1.</b>방송 닉네임 및 주소</label>
+          <div class="fq"><label class="fl" for="f-nick"><b></b>방송 닉네임 및 주소</label>
             <input type="text" id="f-nick" placeholder="방송 닉네임과 주소를 입력해주세요"></div>
-          <div class="fq"><label class="fl" for="f-due"><b>2.</b>수령 희망 날짜</label>
+          <div class="fq"><label class="fl" for="f-due"><b></b>수령 희망 날짜</label>
             <input type="date" id="f-due"></div>
-          <div class="fq"><label class="fl" for="f-sample"><b>3.</b>희망 샘플 공개일</label>
+          <div class="fq"><label class="fl" for="f-sample"><b></b>희망 샘플 공개일</label>
             <input type="date" id="f-sample"></div>
-          <div class="fq" id="f-packwrap"><label class="fl" for="f-pack"><b>4.</b>패키지 선택</label>
+          <div class="fq"><label class="fl" for="f-ref"><b></b>레퍼런스 이미지</label>
+            <label class="refbox"><input type="checkbox" id="f-ref">레퍼런스 이미지는 문의 단계에서 첨부할게요</label></div>
+          <div class="fq" id="f-packwrap"><label class="fl" for="f-pack"><b></b>패키지 선택</label>
             <select id="f-pack"></select></div>
         </div>
 
-        <div class="fq"><label class="fl"><b>5.</b>원하는 색감</label>
+        <div class="fq"><label class="fl"><b></b>원하는 색감</label>
           <div class="colorrow">
             <input type="color" id="f-color" value="#ffffff" aria-label="색상 선택">
             <input type="text" id="f-hex" placeholder="#FFFFFF" maxlength="7">
-            <button type="button" class="btn-save" id="f-addcolor">+ 추가</button>
+            <button type="button" class="btn-save" id="f-addcolor"><span class="ic">+</span>추가</button>
           </div>
           <div class="chips" id="f-chips"></div>
         </div>
 
-        <div class="fq"><label class="fl" for="f-concept"><b>6.</b>원하는 요소 및 디자인 컨셉</label>
+        <div class="fq"><label class="fl" for="f-concept"><b></b>원하는 요소 및 디자인 컨셉</label>
           <textarea id="f-concept" placeholder="원하는 색감, 요소, 참고자료 첨부 등 상세한 내용을 적어주세요"></textarea>
           <div class="hint">오마카세 및 부실한 설명으로 시작된 작업은 추후 수정이 어렵습니다.</div></div>
 
-        <div class="fq"><label class="fl"><b>7.</b>추가 옵션</label><div class="pills" id="f-extras"></div></div>
-        <div class="fq"><label class="fl"><b>8.</b>빠른 마감 옵션</label><div class="pills" id="f-rush"></div></div>
-
-        <div class="fq"><label class="fl"><b>9.</b>신청 하실 디자인 항목</label>
+        <div class="fq"><label class="fl"><b></b>신청 하실 디자인 항목</label>
           <div class="items" id="f-items"></div>
           <div class="editor" id="f-editor">
             <h4 id="f-edtitle"></h4>
@@ -285,16 +304,13 @@ section{max-width:1120px;margin:0 auto 40px}
           </div>
         </div>
 
-        <div class="fq"><label class="fl" for="f-etc"><b>10.</b>그 외 추가 문의 사항</label>
-          <textarea id="f-etc" placeholder="자유롭게 작성해주세요" style="min-height:90px"></textarea></div>
-
         <div class="fq"><label class="fl" for="f-preview">신청 내용 미리보기</label>
           <textarea id="f-preview" readonly></textarea></div>
 
         <label class="check"><input type="checkbox" id="f-read"> 공지사항을 다 읽으셨나요?</label>
         <div class="actions">
-          <button type="button" class="btn-cancel" id="f-reset">↺ 초기화</button>
           <button type="button" class="btn-save main" id="f-copy" disabled>신청 내용 복사하기</button>
+          <button type="button" class="btn-cancel" id="f-reset"><span class="ic">↺</span>초기화</button>
         </div>
         <div class="notes-section">
           <div class="section-label">안내 사항</div>
@@ -325,31 +341,6 @@ section{max-width:1120px;margin:0 auto 40px}
       <div class="stabs" id="p-subs"></div>
       <div class="pgrid" id="p-grid"></div>
       <button type="button" class="btn-cancel more" id="p-more" hidden>더보기</button>
-    </div>
-  </div>
-</section>
-
-<!-- 공지사항 -->
-<section id="sec-notice">
-  <div class="card">
-    <div class="card-top">
-      <div class="diamond-pattern"></div>
-      <div class="top-inner"><div>
-        <div class="chip">공지사항</div>
-        <div class="big-title md">NOTICE.</div>
-        <div class="sub">Please Read First</div>
-      </div></div>
-      <div class="star-divider"></div>
-    </div>
-    <div class="card-body">
-      <div class="notes-section" style="margin-top:0">
-        <div class="section-label">안내 사항</div>
-        <div class="notes-text"><ul class="notice" id="notice"></ul></div>
-      </div>
-      <div class="footer-area" style="margin-top:22px">
-        <div class="footer-stars" id="end-stars"></div>
-        <div class="thanks lg" id="end-thanks"></div>
-      </div>
     </div>
   </div>
 </section>
@@ -386,25 +377,8 @@ const CONFIG = {
       {date:'2026-11-30', name:'접수 마감', type:'closed'}
     ]
   },
-  notice: [
-    '작업은 입금 확인 후 시작합니다.',
-    '수정은 기본 2회 제공됩니다.',
-    '제작 샘플은 포트폴리오로 공개될 수 있습니다.'
-  ],
-  thanks: '의뢰 주셔서 감사드립니다!<br>좋은 작업물로 보답드리겠습니다!',
   form: {
     packages: [],   // 패키지 선택 칸을 쓰려면 ['Basic 패키지', 'Standard 패키지'] 처럼 채우세요 (비워두면 칸이 숨겨져요)
-    // price: 추가금 (원). 0 또는 생략하면 금액 표시 없음 — 아래 금액은 임시 값이에요!
-    extras: [
-      {name:'PSD 파일 구매', price:50000},
-      {name:'포트폴리오 비공개', price:20000},
-      {name:'상업용 전환', price:30000}
-    ],
-    rush: [   // '선택 안함'은 자동 추가
-      {name:'3일 이내', price:15000},
-      {name:'2일 이내', price:25000},
-      {name:'1일 이내', price:40000}
-    ],
     items: ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인'],
     // 주문 항목을 누르면 열리는 양식이에요. 항목 이름은 위 items와 똑같이 써야 해요.
     // k: 칸 이름 / t: text(한 줄)·area(여러 줄)·date(날짜)·select(고르기) / ph: 안내 글자 / opts: select 선택지
@@ -501,11 +475,6 @@ const starRows = () => `<div class="footer-row">${starHTML(5)}</div><div class="
 /* 헤더 별 장식 */
 document.querySelectorAll('.star-divider').forEach(el => { el.innerHTML = starHTML(22) + starHTML(5, true); });
 
-/* 공지 / 맺음말 */
-$('notice').innerHTML = CONFIG.notice.map(t => `<li>${t}</li>`).join('');
-$('end-stars').innerHTML = starRows();
-$('end-thanks').innerHTML = CONFIG.thanks;
-
 /* ===== 작업 일정 (달력, 읽기 전용) ===== */
 const C = CONFIG.calendar;
 const TYPES = {
@@ -586,7 +555,8 @@ const isRel = s => !/^(https?:)?\/\//.test(s);
 const P = CONFIG.portfolio;
 let pcat = 'ALL', psub = '전체', pshown = P.pageSize;
 
-function colCount(){ const w = document.documentElement.clientWidth; return w >= 760 ? 3 : (w >= 480 ? 2 : 1); }
+/* 한 줄 개수: 넓은 화면 4장 → 화면이 좁아지면 3 / 2 / 1장 */
+function colCount(){ const w = document.documentElement.clientWidth; return w >= 760 ? 4 : (w >= 600 ? 3 : (w >= 400 ? 2 : 1)); }
 let shownList = [], lastCols = 0;
 function cardHTML(i, idx){
   const rel = isRel(i.img);
@@ -611,7 +581,7 @@ function renderPortfolio(){
   if (!shownList.length) {
     $('p-grid').innerHTML = '<div class="pempty">아직 등록된 작업이 없어요</div>';
   } else {
-    /* 한 줄에 3장씩, 이미지 비율 그대로. 가장 짧은 칸에 차례로 쌓아요 */
+    /* 한 줄에 4장씩, 이미지 비율 그대로. 가장 짧은 칸에 차례로 쌓아요 */
     const hs = Array(lastCols).fill(0), bk = Array.from({length: lastCols}, () => []);
     shownList.forEach((i, idx) => {
       const c = hs.indexOf(Math.min(...hs));
@@ -701,20 +671,12 @@ loadPortfolio();
 
 /* ===== 문의 양식 ===== */
 const F = CONFIG.form;
-const RUSH = [{name:'선택 안함', price:0}, ...F.rush];
-const won = n => n ? ` (+${n.toLocaleString()}원)` : '';
-const priceTag = n => n ? `<em>+${n.toLocaleString()}원</em>` : '';
 let colors = [];
 let items = {};
 let current = null;
 
 if (F.packages.length) $('f-pack').innerHTML = F.packages.map(p => `<option>${esc(p)}</option>`).join('');
 else $('f-packwrap').style.display = 'none';
-
-$('f-extras').innerHTML = F.extras.map((e, i) =>
-  `<label class="pill"><input type="checkbox" name="extra" value="${i}"><span>${esc(e.name)} ${priceTag(e.price)}</span></label>`).join('');
-$('f-rush').innerHTML = RUSH.map((r, i) =>
-  `<label class="pill"><input type="radio" name="rush" value="${i}" ${i === 0 ? 'checked' : ''}><span>${esc(r.name)} ${priceTag(r.price)}</span></label>`).join('');
 
 function renderItems(){
   $('f-items').innerHTML = F.items.map(n =>
@@ -774,26 +736,18 @@ $('f-chips').addEventListener('click', e => {
 
 const v = id => $(id).value.trim() || '(미입력)';
 function buildText(){
-  const exs = [...document.querySelectorAll('input[name=extra]:checked')].map(x => F.extras[+x.value]);
-  const rs = RUSH[+document.querySelector('input[name=rush]:checked').value];
-  const sum = exs.reduce((a, e) => a + (e.price || 0), 0) + (rs.price || 0);
   const lines = Object.keys(items).map(k => `- ${k}\n` + Object.keys(items[k]).map(f => `  · ${f} : ${String(items[k][f]).replace(/\n/g, '\n    ')}`).join('\n'));
   return [
     '[ 신청 내용 ]', '',
     `방송 닉네임 및 주소 : ${v('f-nick')}`,
     `수령 희망 날짜 : ${v('f-due')}`,
     `희망 샘플 공개일 : ${v('f-sample')}`,
+    `레퍼런스 이미지 : ${$('f-ref').checked ? '문의 단계에서 첨부 예정' : '(미확인)'}`,
     ...(F.packages.length ? [`패키지 선택 : ${$('f-pack').value}`] : []),
     `원하는 색감 : ${colors.length ? colors.join(', ') : '(미입력)'}`,
     `원하는 요소 및 디자인 컨셉 : ${v('f-concept')}`, '',
-    '[ 추가 옵션 ]',
-    exs.length ? exs.map(e => `- ${e.name}${won(e.price)}`).join('\n') : '- 없음', '',
-    `빠른 마감 옵션 : ${rs.name}${won(rs.price)}`,
-    ...(sum ? [`추가금 합계 : +${sum.toLocaleString()}원`] : []), '',
     '[ 신청 디자인 항목 ]',
-    lines.length ? lines.join('\n') : '- (미선택)', '',
-    '[ 그 외 추가 문의 사항 ]',
-    v('f-etc')
+    lines.length ? lines.join('\n') : '- (미선택)'
   ].join('\n');
 }
 function update(){
@@ -826,7 +780,7 @@ $('f-reset').onclick = () => {
 renderItems(); renderChips(); update();
 
 /* ===== 부모(아트머그)에 높이와 앵커 위치 전달 ===== */
-const ANCHORS = {schedule:'sec-schedule', form:'sec-form', portfolio:'sec-portfolio', notice:'sec-notice'};
+const ANCHORS = {schedule:'sec-schedule', form:'sec-form', portfolio:'sec-portfolio'};
 const docH = () => Math.ceil(document.body.getBoundingClientRect().height);
 let lastH = 0;
 function send(){
