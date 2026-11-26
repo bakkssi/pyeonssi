@@ -15,6 +15,54 @@
  ],
  "items": [
   {
+   "cat": "포스터",
+   "img": "img/p-mwxo217b-239.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5105
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxo217b-238.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5105
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxo217b-237.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5105
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxo217b-236.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5193
+  },
+  {
+   "cat": "기타 디자인",
+   "img": "img/p-mwxo1s5l-232.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5105
+  },
+  {
+   "cat": "기타 디자인",
+   "img": "img/p-mwxo1s5l-233.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5105
+  },
+  {
+   "cat": "기타 디자인",
+   "img": "img/p-mwxo1s5l-234.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5193
+  },
+  {
+   "cat": "기타 디자인",
+   "img": "img/p-mwxo1s5l-235.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5105
+  },
+  {
    "cat": "기타 디자인",
    "img": "img/p-mwxns2mz-223.webp",
    "r": 1.414
@@ -719,30 +767,6 @@
    "cat": "스케줄",
    "img": "img/p-mwxn2qvy-113.webp",
    "r": 0.5614
-  },
-  {
-   "cat": "포스터",
-   "img": "img/p-mwxmwf9h-89.webp",
-   "sub": "굿즈 인포",
-   "r": 5.6206
-  },
-  {
-   "cat": "포스터",
-   "img": "img/p-mwxmwf9h-90.webp",
-   "sub": "굿즈 인포",
-   "r": 3.3509
-  },
-  {
-   "cat": "포스터",
-   "img": "img/p-mwxmwf9h-91.webp",
-   "sub": "굿즈 인포",
-   "r": 3.1193
-  },
-  {
-   "cat": "포스터",
-   "img": "img/p-mwxmwf9h-92.webp",
-   "sub": "굿즈 인포",
-   "r": 2.5193
   },
   {
    "cat": "포스터",
