@@ -14,6 +14,48 @@
  "items": [
   {
    "cat": "포스터",
+   "img": "img/p-mwxmwf9h-89.webp",
+   "sub": "굿즈 인포",
+   "r": 5.6206
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxmwf9h-90.webp",
+   "sub": "굿즈 인포",
+   "r": 3.3509
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxmwf9h-91.webp",
+   "sub": "굿즈 인포",
+   "r": 3.1193
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxmwf9h-92.webp",
+   "sub": "굿즈 인포",
+   "r": 2.5193
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxmw50x-86.webp",
+   "sub": "메인트 포스터",
+   "r": 1.2507
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxmw50x-87.webp",
+   "sub": "메인트 포스터",
+   "r": 1.2507
+  },
+  {
+   "cat": "포스터",
+   "img": "img/p-mwxmw50x-88.webp",
+   "sub": "메인트 포스터",
+   "r": 1.2507
+  },
+  {
+   "cat": "포스터",
    "img": "img/p-mwxmt2mr-61.webp",
    "sub": "홍보 포스터",
    "r": 1.25
