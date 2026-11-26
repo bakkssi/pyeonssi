@@ -4,95 +4,252 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>포트폴리오 관리</title>
+<title>관리 페이지</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
-@font-face{font-family:'SchoolFont';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');font-weight:400;font-display:swap}
-:root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--mute:#c48aaa;--ink:#444}
+@import url('https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css');   /* 도트 폰트 (OFL 무료) */
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+
+/* ===== 미니홈피 컨셉 (상세페이지와 같은 색) ===== */
+:root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--mute:#a8959f;--ink:#444;
+  --frame:#f6a9c9;--frame-line:#e589b0;--frame-dot:#ffd6e7;--line:#ecd3de;--grid:#f7dbe7;
+  --pix:'Galmuri11','Paperozi',sans-serif}
 *{box-sizing:border-box;margin:0}
-body{font-family:'Noto Sans KR',sans-serif;font-weight:400;color:var(--ink);background:#fff5f9;padding:24px 16px 80px;line-height:1.6}
-.wrap{max-width:1100px;margin:0 auto}
-.card{background:#fff;border-radius:20px;overflow:hidden;border:1.5px solid var(--p3);margin-bottom:22px}
-.top{background:var(--p4);padding:24px 32px 18px;position:relative}
-.top::before{content:"";position:absolute;inset:0;opacity:.22;background-image:repeating-linear-gradient(45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px),repeating-linear-gradient(-45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px)}
-.top>*{position:relative}
-.chip{background:var(--p1);color:#fff;font-family:'SchoolFont',sans-serif;font-size:13px;letter-spacing:2px;padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:6px}
-.title{font-size:34px;color:var(--p2);letter-spacing:2px;line-height:1.1;font-weight:700}
-.sub{font-size:10px;letter-spacing:3px;color:#d48aab;text-transform:uppercase;margin-top:6px}
-.body{padding:22px 30px 26px}
-h3{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:16px;color:var(--p2);letter-spacing:1px;margin-bottom:10px}
-.hint{font-size:12px;color:var(--mute);line-height:1.8}
-input[type=text],input[type=password],select{width:100%;font:inherit;font-size:13px;color:#333;background:#fff;border:1px solid var(--p3);border-radius:9px;padding:8px 11px;outline:none}
-input:focus,select:focus{border-color:var(--p1);box-shadow:0 0 0 3px var(--p4)}
-.btn{font-family:'SchoolFont',sans-serif;font-size:14px;letter-spacing:1px;border:0;border-radius:10px;padding:9px 18px;background:var(--p1);color:#fff;cursor:pointer;white-space:nowrap}
-.btn:hover{opacity:.9}
-.btn.ghost{background:var(--p4);color:var(--p2)}
-.btn.dark{background:#222}
-.btn:disabled{background:#e6dfe3;color:#fff;cursor:not-allowed}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.row>input{flex:1;min-width:160px}
-.msg{font-size:13px;color:var(--p2);margin-top:8px;min-height:20px;white-space:pre-wrap}
+body{font-family:'Paperozi',sans-serif;font-weight:500;color:var(--ink);line-height:1.6;padding:28px 16px 80px;
+  background-color:#fff4f9;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
+.mh-wrap{max-width:1150px;margin:0 auto;padding-right:70px}
+.binder{position:relative;padding:18px;border:2px solid var(--frame-line);border-radius:22px;background-color:var(--frame);
+  background-image:radial-gradient(circle,var(--frame-dot) 2.6px,transparent 3.2px),radial-gradient(circle,var(--frame-dot) 2.6px,transparent 3.2px);background-size:20px 20px;background-position:0 0,10px 10px}
+.mh-page{position:relative;background:#fff;border:2px solid var(--frame-line);border-radius:14px;padding:22px 26px 28px;min-height:420px}
+
+/* 오른쪽 탭 */
+.mh-tabs{position:absolute;top:64px;right:-66px;display:flex;flex-direction:column;gap:6px;z-index:2}
+.mh-tab{width:66px;padding:12px 0 12px 2px;font-family:var(--pix);font-size:12px;color:#fff;background:#f08ab5;border:2px solid var(--frame-line);border-left:0;border-radius:0 10px 10px 0;cursor:pointer}
+.mh-tab:hover:not(:disabled){background:#f6a0c3}
+.mh-tab.on{background:#fff;color:var(--p2)}
+.mh-tab:disabled{opacity:.55;cursor:not-allowed}
+
+/* 머리말 + 저장 줄 */
+.mh-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding-bottom:14px;margin-bottom:20px;border-bottom:1.5px dashed var(--line)}
+.mh-count{font-family:var(--pix);font-size:11px;letter-spacing:1px;color:#8a8086}
+.mh-count b{color:#e0457f;margin-left:4px}
+.mh-count i{font-style:normal;color:#ccc;margin:0 8px}
+.mh-title{font-family:var(--pix);font-size:22px;line-height:1.3;color:#333;margin-top:6px}
+.savebar{display:flex;align-items:center;gap:10px}
+.savebar .note{font-family:var(--pix);font-size:11px;color:var(--mute)}
+.savebar .note.on{color:#e0457f}
+.msg{font-family:var(--pix);font-size:12px;color:var(--p2);min-height:18px;margin:-8px 0 14px;white-space:pre-wrap}
 .msg.err{color:#d23a3a}
-hr{border:0;border-top:.5px solid var(--p3);margin:20px 0}
+
+/* 칸 제목 */
+h3{font-family:var(--pix);font-size:15px;color:#e0457f;margin:4px 0 12px}
+h3::before{content:"▸ "}
+.hint{font-size:12px;color:var(--mute);line-height:1.8}
+.sec{padding:18px 0;border-top:1.5px dashed var(--line)}
+.sec:first-of-type{border-top:0;padding-top:0}
+
+/* 입력칸 · 버튼 (네모난 레트로) */
+input[type=text],input[type=password],input[type=date],select{width:100%;font:inherit;font-size:13px;color:#333;background:#fff;border:1px solid #e2cfd8;border-radius:4px;padding:7px 10px;outline:none}
+input:focus,select:focus{border-color:var(--p1);box-shadow:0 0 0 3px var(--p4)}
+input::placeholder{color:#b2aaae}
+.btn{font-family:var(--pix);font-size:12px;border:1.5px solid var(--frame-line);border-radius:4px;padding:8px 14px;background:var(--p1);color:#fff;cursor:pointer;white-space:nowrap;line-height:1.2}
+.btn:hover{opacity:.9}
+.btn.ghost{background:var(--p4);color:var(--p2);border-color:var(--p3)}
+.btn.dark{background:#2a2a2a;border-color:#2a2a2a}
+.btn.sm{padding:5px 9px;font-size:11px}
+.btn:disabled{background:#e6dfe3;border-color:#e6dfe3;color:#fff;cursor:not-allowed}
+.ib{width:30px;height:30px;flex:none;display:inline-flex;align-items:center;justify-content:center;border:1px solid #e2cfd8;border-radius:4px;background:#fff;color:var(--p2);font-family:var(--pix);font-size:13px;cursor:pointer;padding:0}
+.ib:hover{background:var(--p4)}
+.ib.del{background:#2a2a2a;border-color:#2a2a2a;color:#fff}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>input{flex:1;min-width:140px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.grid2 label{display:block;font-family:var(--pix);font-size:11px;color:var(--p2);margin-bottom:4px}
+
+/* 표처럼 나열되는 줄 */
+.rows{display:flex;flex-direction:column;gap:6px}
+.r{display:grid;gap:6px;align-items:center;padding:6px;border:1px solid #f0e6eb;border-radius:4px;background:#fff}
+.r:hover{border-color:var(--p3)}
+.r.past{opacity:.5}
+.r-qna{grid-template-columns:1fr 160px 30px}
+.r-ev{grid-template-columns:140px 140px 1fr 110px 30px}
+.r-fd{grid-template-columns:1fr 110px 1.2fr 1fr 30px 30px 30px}
+.r-op{grid-template-columns:1fr 120px 110px 30px 30px 30px}
+.import{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin-bottom:14px;border:1.5px dashed var(--p1);border-radius:6px;background:var(--p5);font-family:var(--pix);font-size:13px;color:var(--p2)}
+.sub-h{font-family:var(--pix);font-size:12px;color:#e0457f;margin:2px 0 6px}
+.sub-h::before{content:"· "}
+.ihead input:disabled{background:#f6f3f5;color:#a8959f}
+.colh{display:grid;gap:6px;padding:0 7px;font-family:var(--pix);font-size:11px;color:var(--mute)}
+
+/* 디자인 항목 카드 */
+.icard{border:1.5px solid var(--p3);border-radius:6px;background:#fff;margin-bottom:10px;overflow:hidden}
+.icard.open{border-color:var(--p1)}
+.ihead{display:grid;grid-template-columns:30px 30px 1fr 170px auto 30px;gap:6px;align-items:center;padding:8px;background:var(--p5)}
+.icard.open .ihead{background:var(--p4);border-bottom:1.5px dashed var(--line)}
+.ibody{display:none;padding:12px}
+.icard.open .ibody{display:block}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.cchip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--p3);border-radius:18px;padding:3px 6px 3px 14px;background:#fff;font-family:'SchoolFont',sans-serif;font-size:13px;color:var(--p2)}
-.cchip button{border:0;background:none;color:var(--mute);cursor:pointer;font-size:17px;line-height:1;padding:0 4px}
+.cchip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--p3);border-radius:4px;padding:3px 6px 3px 12px;background:#fff;font-family:var(--pix);font-size:12px;color:var(--p2)}
+.cchip button{border:0;background:none;color:var(--mute);cursor:pointer;font-size:16px;line-height:1;padding:0 4px}
 .cchip button:hover{color:#d23a3a}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.drop{margin-top:12px;border:2px dashed var(--p3);border-radius:14px;padding:26px 14px;text-align:center;color:var(--mute);background:var(--p5);cursor:pointer;font-size:14px}
+
+/* 포트폴리오 */
+.drop{margin-top:12px;border:2px dashed var(--p3);border-radius:6px;padding:26px 14px;text-align:center;color:var(--mute);background:var(--p5);cursor:pointer;font-family:var(--pix);font-size:13px}
 .drop.on{border-color:var(--p1);background:var(--p4)}
-.bar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--p4);padding:12px 0;margin:0 0 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 14px}
 .bar select{width:auto;min-width:140px}
-.bar .count{font-size:13px;color:var(--mute)}
+.bar .count{font-family:var(--pix);font-size:12px;color:var(--mute)}
 .bar .sp{flex:1}
-.bar label{font-size:12px;color:var(--ink);display:flex;gap:5px;align-items:center;cursor:pointer}
-.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-.it{position:relative;border:1.5px solid var(--p3);border-radius:14px;background:#fff;padding:8px;display:flex;flex-direction:column;gap:6px}
+.bar label{font-size:12px;display:flex;gap:5px;align-items:center;cursor:pointer}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.it{position:relative;border:1.5px solid var(--p3);border-radius:6px;background:#fff;padding:8px;display:flex;flex-direction:column;gap:6px}
 .it.sel{border-color:var(--p2);box-shadow:0 0 0 3px var(--p4)}
 .it.new{border-color:var(--p1)}
-.it img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;border-radius:9px;background:var(--p5);display:block}
-.it .ck{position:absolute;left:14px;top:14px;background:#fff;border-radius:6px;padding:2px 4px;line-height:1}
-.it .ck input{width:17px;height:17px;accent-color:var(--p1);cursor:pointer}
-.it .nb{position:absolute;right:14px;top:14px;background:var(--p1);color:#fff;font-size:11px;border-radius:6px;padding:0 7px;font-family:'SchoolFont',sans-serif}
+.it img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;border-radius:3px;background:var(--p5);display:block}
+.it .ck{position:absolute;left:14px;top:14px;background:#fff;border-radius:3px;padding:2px 4px;line-height:1}
+.it .nb{position:absolute;right:14px;top:14px;background:var(--p1);color:#fff;font-size:11px;border-radius:3px;padding:0 7px;font-family:var(--pix)}
 .it .btns{display:flex;gap:6px}
-.it .btns button{flex:1;font-size:12px;border:0;border-radius:8px;padding:6px 4px;cursor:pointer;background:var(--p4);color:var(--p2);font-family:'SchoolFont',sans-serif}
-.it .btns .minus{background:#222;color:#fff}
-.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:40px 0}
-@media(max-width:600px){.grid2{grid-template-columns:1fr}.body{padding:18px 16px 22px}}
+.it .btns button{flex:1;font-family:var(--pix);font-size:11px;border:0;border-radius:4px;padding:6px 4px;cursor:pointer;background:var(--p4);color:var(--p2)}
+.it .btns .minus{background:#2a2a2a;color:#fff}
+.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:30px 0;font-family:var(--pix);font-size:12px}
+
+/* 체크박스 : 테두리 없는 #2a2a2a 상자 + 핑크 체크 */
+input[type=checkbox]{-webkit-appearance:none;appearance:none;position:relative;width:16px;height:16px;margin:0;border:0;border-radius:4px;background:#2a2a2a;cursor:pointer;flex:none}
+input[type=checkbox]::after{content:"";position:absolute;left:5.5px;top:2.5px;width:4px;height:8px;border:solid #ef94bc;border-width:0 2px 2px 0;transform:rotate(45deg);opacity:0}
+input[type=checkbox]:checked::after{opacity:1}
+
+@media(max-width:760px){
+  .mh-wrap{padding-right:0}
+  .binder{padding:10px}
+  .mh-tabs{position:static;flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:4px;margin:0 6px -2px}
+  .mh-tab{width:auto;padding:8px 12px;border:2px solid var(--frame-line);border-bottom:0;border-radius:8px 8px 0 0}
+  .mh-page{padding:16px 12px 20px}
+  .grid2{grid-template-columns:1fr}
+  .r-ev{grid-template-columns:1fr 1fr}
+  .r-ev .ib{grid-column:2;justify-self:end}
+  .r-fd,.r-op{grid-template-columns:1fr 1fr}
+  .colh{display:none}
+  .ihead{grid-template-columns:30px 30px 1fr 30px}
+  .ihead .price,.ihead .tog{grid-column:3/5}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="mh-wrap">
+<div class="binder">
 
-  <div class="card">
-    <div class="top">
-      <div class="chip">관리자</div>
-      <div class="title">ADMIN.</div>
-      <div class="sub">Portfolio Manager</div>
-    </div>
-    <div class="body" id="s-token">
-      <h3>1. GitHub 연결</h3>
-      <div id="tk-form">
-        <div class="row">
-          <input type="password" id="tk-in" placeholder="GitHub 토큰을 붙여넣으세요 (이 브라우저에만 저장돼요)" autocomplete="off">
-          <button class="btn" id="tk-go" type="button">연결</button>
+  <nav class="mh-tabs" id="tabs">
+    <button type="button" class="mh-tab on" data-p="conn">연결</button>
+    <button type="button" class="mh-tab" data-p="home" disabled>홈</button>
+    <button type="button" class="mh-tab" data-p="sched" disabled>일정</button>
+    <button type="button" class="mh-tab" data-p="items" disabled>항목</button>
+    <button type="button" class="mh-tab" data-p="works" disabled>작업물</button>
+  </nav>
+
+  <div class="mh-page">
+    <header class="mh-head">
+      <div>
+        <div class="mh-count">ADMIN<i>|</i>REPO <b id="repo-name">연결 전</b></div>
+        <h1 class="mh-title">PYEONSSI's admin room</h1>
+      </div>
+      <div class="savebar">
+        <span class="note" id="dirty-note">저장할 변경 없음</span>
+        <button class="btn" id="save" type="button" disabled>GitHub에 저장</button>
+      </div>
+    </header>
+    <div class="msg" id="msg"></div>
+
+    <!-- ===== 연결 ===== -->
+    <section class="pg" id="pg-conn">
+      <div class="sec">
+        <h3>GitHub 연결</h3>
+        <div id="tk-form">
+          <div class="row">
+            <input type="password" id="tk-in" placeholder="GitHub 토큰을 붙여넣으세요 (이 브라우저에만 저장돼요)" autocomplete="off">
+            <button class="btn" id="tk-go" type="button">연결</button>
+          </div>
+          <div class="hint" style="margin-top:8px">토큰은 저장소 <b>pyeonssi</b> 한 곳에만 <b>Contents: Read and write</b> 권한을 준 것으로 만드세요. 다른 사람에게 보여주거나 채팅·코드에 붙여넣지 마세요.</div>
         </div>
-        <div class="hint" style="margin-top:8px">토큰은 저장소 <b>pyeonssi</b> 한 곳에만 <b>Contents: Read and write</b> 권한을 준 것으로 만드세요. 다른 사람에게 보여주거나 채팅·코드에 붙여넣지 마세요.</div>
+        <div id="tk-ok" hidden class="row">
+          <span style="font-family:var(--pix);font-size:13px;color:var(--p2)">✓ 연결됨 · 오른쪽 탭에서 고칠 곳을 골라 주세요</span>
+          <span style="flex:1"></span>
+          <button class="btn ghost" id="tk-clear" type="button">토큰 지우기</button>
+        </div>
+        <div class="msg" id="tk-msg" style="margin:8px 0 0"></div>
       </div>
-      <div id="tk-ok" hidden class="row">
-        <span style="font-size:14px;color:var(--p2)">✓ 연결됨 · <span id="tk-repo"></span></span>
-        <span style="flex:1"></span>
-        <button class="btn ghost" id="tk-clear" type="button">토큰 지우기</button>
+      <div class="sec">
+        <h3>사용 방법</h3>
+        <div class="hint">
+          · <b>홈</b> : 머리말 제목, STATUS(접수중 등), 한마디, 작업 문답<br>
+          · <b>일정</b> : 마감 캘린더에 표시할 마감일 · 작업불가일<br>
+          · <b>항목</b> : 신청 디자인 항목 이름 · 가격 · 항목을 누르면 열리는 양식 칸<br>
+          · <b>작업물</b> : 포트폴리오 이미지 추가 · 삭제<br>
+          고친 뒤 오른쪽 위 <b>GitHub에 저장</b>을 누르면 한 번에 올라가요. 1~2분 뒤 상세페이지에 반영돼요.
+        </div>
       </div>
-      <div class="msg" id="tk-msg"></div>
-    </div>
-  </div>
+    </section>
 
-  <div id="s-main" hidden>
+    <!-- ===== 홈 ===== -->
+    <section class="pg" id="pg-home" hidden>
+      <div class="sec">
+        <h3>머리말 · 프로필</h3>
+        <div class="grid2">
+          <div><label>제목</label><input type="text" data-h="title" placeholder="PYEONSSI's design room"></div>
+          <div><label>STATUS</label><input type="text" data-h="status" placeholder="접수중 / 마감 / 휴식중"></div>
+          <div><label>TODAY IS _ 옆 한마디</label><input type="text" data-h="mood" placeholder="♡ 의뢰 환영"></div>
+          <div><label>이름</label><input type="text" data-h="name" placeholder="편씨"></div>
+          <div><label>이름 아래 소개</label><input type="text" data-h="handle" placeholder="패널 · 티콘 · 방송 디자인"></div>
+          <div><label>맨 아래 인사말</label><input type="text" data-h="intro" placeholder="✧ 좋은 하루 보내세요 ✧"></div>
+          <div><label>프로필 사진 파일</label><input type="text" data-h="photo" placeholder="profile.png"></div>
+        </div>
+      </div>
+      <div class="sec">
+        <h3>작업 문답</h3>
+        <div class="colh r-qna"><span>질문</span><span>답</span><span></span></div>
+        <div class="rows" id="qna"></div>
+        <div class="row" style="margin-top:8px"><button class="btn ghost sm" id="qna-add" type="button">+ 문답 추가</button></div>
+      </div>
+    </section>
 
-    <div class="card">
-      <div class="body">
-        <h3>2. 카테고리 (위쪽 탭)</h3>
+    <!-- ===== 일정 ===== -->
+    <section class="pg" id="pg-sched" hidden>
+      <div class="sec">
+        <h3>일정 추가</h3>
+        <div class="r r-ev" style="background:var(--p5)">
+          <input type="date" id="ev-from" title="시작일">
+          <input type="date" id="ev-to" title="끝나는 날 (하루면 비워두세요)">
+          <input type="text" id="ev-name" placeholder="표시할 이름 (예: 작업불가, 접수 마감)">
+          <select id="ev-type"><option value="holiday">작업불가</option><option value="closed">마감</option></select>
+          <button class="ib" id="ev-add" type="button" title="추가">+</button>
+        </div>
+        <div class="hint" style="margin-top:6px">하루짜리 일정은 끝나는 날을 비워두세요. 작업불가일은 신청서에서 날짜를 고를 때 경고로도 쓰여요.</div>
+      </div>
+      <div class="sec">
+        <h3>등록된 일정</h3>
+        <div class="bar"><span class="count" id="ev-count"></span><span class="sp"></span><button class="btn ghost sm" id="ev-clean" type="button">지난 일정 지우기</button></div>
+        <div class="colh r-ev"><span>시작일</span><span>끝나는 날</span><span>이름</span><span>종류</span><span></span></div>
+        <div class="rows" id="evs"></div>
+      </div>
+    </section>
+
+    <!-- ===== 디자인 항목 ===== -->
+    <section class="pg" id="pg-items" hidden>
+      <div class="sec">
+        <h3>신청 디자인 항목</h3>
+        <div class="hint" style="margin-bottom:10px">↑↓ 로 순서를 바꾸고, <b>양식</b>을 눌러 그 항목을 골랐을 때 나오는 칸을 고칠 수 있어요. 가격은 <b>30000</b>처럼 숫자만 쓰면 '30,000원'으로, <b>30,000원~</b>이나 <b>문의</b>처럼 쓰면 그대로 보여요.</div>
+        <div class="import" id="am-box">
+          <div><b>아트머그 가격 옵션 불러오기</b><br><span class="hint">스케줄 · 썸네일 · 포스터 · 치지직 패널 · PPT · 팬카페 · 로고 · 채널 아트 · 오버레이 · 다시보기 · 로딩 화면 + 그 외 디자인으로 항목 목록을 바꿔요. (치지직 패널 · PPT는 단일 · 세트 구분 포함)</span></div>
+          <button class="btn" id="am-import" type="button">불러오기</button>
+        </div>
+        <div id="items"></div>
+        <div class="row"><button class="btn ghost sm" id="item-add" type="button">+ 항목 추가</button></div>
+      </div>
+    </section>
+
+    <!-- ===== 포트폴리오 ===== -->
+    <section class="pg" id="pg-works" hidden>
+      <div class="sec">
+        <h3>카테고리 (위쪽 탭)</h3>
         <div class="chips" id="cats"></div>
         <div class="row">
           <input type="text" id="cat-in" placeholder="새 카테고리 이름 (예: Logo)">
@@ -100,40 +257,33 @@ hr{border:0;border-top:.5px solid var(--p3);margin:20px 0}
         </div>
         <div class="hint" style="margin-top:6px">작업이 들어 있는 카테고리는 지울 수 없어요.</div>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="body">
-        <h3>3. 작업 추가 ( + )</h3>
+      <div class="sec">
+        <h3>작업 추가 ( + )</h3>
         <div class="grid2">
-          <div><div class="hint">카테고리</div><select id="add-cat"></select></div>
-          <div><div class="hint">하위 분류 (선택)</div><input type="text" id="add-sub" list="subs" placeholder="예: 후원"></div>
+          <div><label>카테고리</label><select id="add-cat"></select></div>
+          <div><label>하위 분류 (선택)</label><input type="text" id="add-sub" list="subs" placeholder="예: 후원"></div>
         </div>
         <div class="drop" id="drop">여기에 이미지를 끌어다 놓거나 눌러서 고르세요 (여러 장 가능)<br><span class="hint">자동으로 가볍게 줄여서 올려요 · 새 작업은 맨 위에 들어가요</span></div>
         <input type="file" id="add-files" accept="image/*" multiple hidden>
-        <div class="msg" id="add-msg"></div>
+        <div class="msg" id="add-msg" style="margin:8px 0 0"></div>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="body">
-        <h3>4. 작업 목록</h3>
+      <div class="sec">
+        <h3>작업 목록</h3>
         <div class="bar">
           <select id="flt"></select>
           <span class="count" id="count"></span>
           <span class="sp"></span>
           <label><input type="checkbox" id="opt-img" checked> 삭제한 작업의 이미지 파일도 지우기</label>
-          <button class="btn ghost" id="fill-r" type="button" title="예전에 올린 작업의 이미지 비율을 채워요">비율 정보 채우기</button>
-          <button class="btn ghost" id="sel-all" type="button">현재 목록 전체 선택</button>
-          <button class="btn dark" id="del-sel" type="button" disabled>− 선택 삭제</button>
-          <button class="btn" id="save" type="button" disabled>GitHub에 저장</button>
+          <button class="btn ghost sm" id="fill-r" type="button" title="예전에 올린 작업의 이미지 비율을 채워요">비율 정보 채우기</button>
+          <button class="btn ghost sm" id="sel-all" type="button">전체 선택</button>
+          <button class="btn dark sm" id="del-sel" type="button" disabled>− 선택 삭제</button>
         </div>
-        <div class="msg" id="msg"></div>
         <div class="list" id="list"></div>
       </div>
-    </div>
+    </section>
 
   </div>
+</div>
 </div>
 <datalist id="subs"></datalist>
 
@@ -141,19 +291,68 @@ hr{border:0;border-top:.5px solid var(--p3);margin:20px 0}
 const OWNER = 'bakkssi', REPO = 'pyeonssi';
 const API = 'https://api.github.com';
 const DEFAULT_CATS = ['Overlay', 'CSS', 'Schedule', 'Poster', 'RTPoster'];
+const FIELD_TYPES = {text: '한 줄', area: '여러 줄', date: '날짜', select: '고르기'};
+const KINDS = {'': '일반', single: '단일 (수량)', set: '세트'};
+/* 아트머그 가격 옵션 그대로 옮긴 항목 목록 ('아트머그 가격 옵션 불러오기' 버튼에서 써요) */
+const REF = {k: '참고 자료·분위기', t: 'area', ph: '참고 이미지나 키워드를 적어주세요'};
+const ARTMUG_ITEMS = [
+  {name: '스케줄', options: [{name: '스케줄표 PSD', price: 70000}],
+    fields: [{k: '시작 날짜', t: 'date'}, {k: '방송 일정', t: 'area', ph: '요일·시간·방송 내용을 적어주세요'}, REF]},
+  {name: '썸네일', options: [{name: '썸네일', price: 30000}],
+    fields: [{k: '용도', t: 'select', opts: ['방송 썸네일', '유튜브 썸네일', '기타']}, {k: '수량', t: 'text', ph: '예: 1장'}, {k: '제목·문구', t: 'area', ph: '이미지에 들어갈 제목과 문구'}, REF]},
+  {name: '포스터', options: [{name: 'RT 포스터 장수 제한 X', price: 65000}, {name: '홍보 포스터', price: 40000}, {name: '굿즈 인포 포스터', price: 30000}, {name: '메인트 포스터', price: 30000}],
+    fields: [{k: '사이즈', t: 'text', ph: '예: A3 / 1080x1350'}, {k: '내용(문구)', t: 'area', ph: '포스터에 들어갈 문구를 적어주세요'}, {k: '날짜', t: 'date'}, {k: '일정·시간', t: 'text', ph: '예: 저녁 8시 SOOP 방송'}, {k: 'RT 단위', t: 'text', ph: 'RT 포스터라면 적어주세요 (예: 100RT)'}, REF]},
+  {name: '치지직 패널', options: [{name: '치지직 패널 5종 세트', price: 40000, kind: 'set'}, {name: '치지직 패널 단일 디자인', price: 9000, kind: 'single'}, {name: '일러스트 패널 4종 세트', price: 55000, kind: 'set'}, {name: '일러스트 패널 단일 디자인', price: 15000, kind: 'single'}],
+    fields: [{k: '패널 문구', t: 'area', ph: '패널마다 들어갈 글자를 적어주세요 (예: 공지, 후원, 규칙)'}, REF]},
+  {name: 'PPT', options: [{name: '한 장 가격', price: 15000, kind: 'single'}, {name: '장수 제한 X', price: 85000, kind: 'set'}],
+    fields: [{k: '용도', t: 'select', opts: ['방송 오프닝', '자기소개', '후원 안내', '기타']}, {k: '표지', t: 'area', ph: '표지에 들어갈 제목·문구·닉네임'}, {k: '내용', t: 'area', ph: '장별 구성을 적어주세요 (예: 2장 자기소개, 3장 후원 안내)'}, REF]},
+  {name: '팬카페', options: [{name: '대문(세팅 포함)', price: 60000}, {name: '배너', price: 30000}, {name: '배너 모바일 리사이징 추가', price: 10000}],
+    fields: [{k: '카페 주소', t: 'text', ph: '팬카페 주소를 적어주세요'}, {k: '문구', t: 'area', ph: '대문·배너에 들어갈 문구'}, REF]},
+  {name: '로고', options: [{name: '콘텐츠 로고', price: 30000}, {name: '로고', price: 30000}],
+    fields: [{k: '로고 글자', t: 'text', ph: '로고에 들어갈 글자'}, {k: '분위기·색감', t: 'area', ph: '원하는 느낌을 적어주세요'}]},
+  {name: '채널 아트', options: [{name: '유튜브 채널 아트', price: 35000}],
+    fields: [{k: '채널 이름·문구', t: 'area', ph: '채널 아트에 들어갈 이름과 문구'}, REF]},
+  {name: '오버레이', options: [{name: '게임 화면', price: 50000}, {name: '저스트 채팅', price: 60000}],
+    fields: [{k: '들어갈 요소', t: 'area', ph: '채팅창, 후원 목표, 웹캠 위치 등을 적어주세요'}, REF]},
+  {name: '다시보기', options: [{name: '다시보기 프레임', price: 30000}],
+    fields: [{k: '문구', t: 'area', ph: '들어갈 문구'}, REF]},
+  {name: '로딩 화면', options: [{name: '모션 고정 로딩 화면', price: 50000}],
+    fields: [{k: '문구', t: 'area', ph: '로딩 화면에 들어갈 문구 (예: 잠시 후 시작합니다)'}, REF]},
+  {name: '그 외 디자인', price: '문의', options: [],
+    fields: [{k: '작업 설명', t: 'area', ph: '어떤 디자인이 필요한지 자세히 적어주세요'}]}
+];
+/* 상세페이지에 프로필 설정이 아직 없을 때 쓰는 처음 값 */
+const DEFAULT_HOME = {
+  title: "PYEONSSI's design room", status: '접수중', mood: '♡ 의뢰 환영', name: '편씨',
+  handle: '패널 · 티콘 · 방송 디자인', intro: '✧ 좋은 하루 보내세요 ✧', photo: 'profile.png',
+  qna: [['제출 파일 유형은?', 'PNG'], ['해상도는?', '300dpi'], ['기본 사이즈는?', '300×300'], ['수정 횟수는?', '1회'], ['작업 기간은?', '시작일로부터 4일']]
+};
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad = n => String(n).padStart(2, '0');
+const now = new Date();
+const todayKey = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 
 let token = '';
 try { token = localStorage.getItem('pf_token') || ''; } catch(e) {}
 let branch = 'main';
-let data = {cats: [], items: []};
+let data = {cats: [], items: []};        // 포트폴리오 (portfolio.json)
+let S = null;                            // 설정 (settings.json) : home / events / items
 let removedImgs = new Set();
 let uid = 0, dirty = false;
+let openItems = new Set();
 let rawBase = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/`;
 const isRel = s => !/^(https?:)?\/\//.test(s);
 const imgSrc = i => i.url || (isRel(i.img) ? rawBase + i.img : i.img);
 const measure = src => new Promise(res => { const im = new Image(); im.onload = () => res(im.naturalWidth ? im.naturalHeight / im.naturalWidth : 0); im.onerror = () => res(0); im.src = src; });
+
+/* ---------- 탭 ---------- */
+$('tabs').addEventListener('click', e => {
+  const b = e.target.closest('.mh-tab'); if (!b || b.disabled) return;
+  document.querySelectorAll('.mh-tab').forEach(t => t.classList.toggle('on', t === b));
+  document.querySelectorAll('.pg').forEach(p => p.hidden = p.id !== 'pg-' + b.dataset.p);
+  scrollTo({top: 0, behavior: 'smooth'});
+});
 
 /* ---------- GitHub API ---------- */
 async function gh(path, opts) {
@@ -168,12 +367,47 @@ async function gh(path, opts) {
   return r.status === 204 ? null : r.json();
 }
 const repoPath = p => `/repos/${OWNER}/${REPO}${p}`;
+async function readText(path) {
+  const f = await gh(repoPath('/contents/' + path + '?ref=' + encodeURIComponent(branch)));
+  const bin = atob(f.content.replace(/\n/g, ''));
+  return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
+}
 
 function explain(e) {
   if (e.status === 401) return '토큰이 올바르지 않거나 만료됐어요. 새로 만들어 붙여넣어 주세요.';
   if (e.status === 403 || e.status === 404) return '이 저장소에 접근할 수 없어요. 토큰이 pyeonssi 저장소에 Contents: Read and write 권한이 있는지 확인해 주세요.';
-  if (/fast forward/i.test(e.message)) return '저장하는 사이에 저장소가 바뀌어서 실패했어요. 10초쯤 기다렸다가 "GitHub에 저장"을 다시 눌러 주세요. (추가한 작업은 그대로 남아 있어요)';
+  if (/fast forward/i.test(e.message)) return '저장하는 사이에 저장소가 바뀌어서 실패했어요. 10초쯤 기다렸다가 "GitHub에 저장"을 다시 눌러 주세요. (고친 내용은 그대로 남아 있어요)';
   return '오류: ' + e.message;
+}
+
+/* settings.json이 아직 없으면 index.html의 CONFIG에서 처음 값을 가져와요 */
+async function settingsFromIndex() {
+  const base = {home: Object.assign({}, DEFAULT_HOME), events: [], items: []};
+  try {
+    const html = await readText('index.html');
+    const m = html.match(/const CONFIG = (\{[\s\S]*?\n\});/);
+    if (!m) return base;
+    const C = Function('"use strict";return (' + m[1] + ')')();
+    const F = C.form || {};
+    return {
+      home: Object.assign({}, DEFAULT_HOME, C.home || {}),
+      events: (C.calendar && C.calendar.events || []).map(e => ({from: e.from || e.date || '', to: e.to && e.to !== (e.from || e.date) ? e.to : '', name: e.name || '', type: e.type === 'closed' ? 'closed' : 'holiday'})),
+      items: (F.items || []).map(n => ({name: n, price: String((F.prices || {})[n] ?? ''), fields: ((F.forms || {})[n] || []).map(f => Object.assign({}, f)),
+        options: ((F.options || {})[n] || []).map(o => ({name: o.n || o.name || '', price: o.p ?? o.price ?? '', kind: o.kind || ''}))}))
+    };
+  } catch(e) { return base; }
+}
+function normSettings(s) {
+  s = s || {};
+  const home = Object.assign({title: '', status: '', mood: '', name: '', handle: '', intro: '', photo: '', qna: []}, s.home || {});
+  home.qna = (home.qna || []).map(x => [x[0] || '', x[1] || '']);
+  return {
+    home,
+    events: (s.events || []).map(e => ({from: e.from || e.date || '', to: e.to || '', name: e.name || '', type: e.type === 'closed' ? 'closed' : 'holiday'})),
+    items: (s.items || []).map(i => ({id: ++uid, name: i.name || '', price: i.price == null ? '' : String(i.price),
+      options: (i.options || []).map(o => ({name: o.name || o.n || '', price: String(o.price ?? o.p ?? ''), kind: KINDS[o.kind] ? o.kind : ''})),
+      fields: (i.fields || []).map(f => ({k: f.k || '', t: FIELD_TYPES[f.t] ? f.t : 'text', ph: f.ph || '', opts: (f.opts || []).join(', ')}))}))
+  };
 }
 
 async function connect() {
@@ -181,19 +415,19 @@ async function connect() {
   branch = repo.default_branch || 'main';
   rawBase = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${branch}/`;
   let loaded = null;
-  try {
-    const f = await gh(repoPath('/contents/portfolio.json?ref=' + encodeURIComponent(branch)));
-    const bin = atob(f.content.replace(/\n/g, ''));
-    const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
-    loaded = JSON.parse(new TextDecoder().decode(bytes));
-  } catch(e) { if (e.status !== 404) throw e; }
+  try { loaded = JSON.parse(await readText('portfolio.json')); } catch(e) { if (e.status && e.status !== 404) throw e; }
   data.cats = (loaded && Array.isArray(loaded.cats) && loaded.cats.length) ? loaded.cats : DEFAULT_CATS.slice();
   data.items = ((loaded && loaded.items) || []).map(i => ({id: ++uid, cat: i.cat, sub: i.sub || '', title: i.title || '', img: i.img, r: +i.r || 0, isNew: false, sel: false}));
+  let st = null;
+  try { st = JSON.parse(await readText('settings.json')); } catch(e) { if (e.status && e.status !== 404) throw e; }
+  S = normSettings(st || await settingsFromIndex());
   removedImgs = new Set();
-  dirty = false;
-  $('tk-repo').textContent = `${OWNER}/${REPO} (${branch})`;
-  $('tk-form').hidden = true; $('tk-ok').hidden = false; $('s-main').hidden = false;
+  setDirty(false);
+  $('repo-name').textContent = `${OWNER}/${REPO}`;
+  $('tk-form').hidden = true; $('tk-ok').hidden = false;
+  document.querySelectorAll('.mh-tab').forEach(t => t.disabled = false);
   renderAll();
+  if (!st) setMsg('처음이라 상세페이지에 있던 내용을 불러왔어요. 고친 뒤 저장하면 settings.json이 만들어져요.');
 }
 
 /* ---------- 토큰 ---------- */
@@ -210,12 +444,237 @@ $('tk-go').onclick = async () => {
 };
 $('tk-clear').onclick = () => {
   try { localStorage.removeItem('pf_token'); } catch(e) {}
-  token = ''; $('tk-form').hidden = false; $('tk-ok').hidden = true; $('s-main').hidden = true; setTk('토큰을 지웠어요.');
+  token = ''; $('tk-form').hidden = false; $('tk-ok').hidden = true;
+  document.querySelectorAll('.mh-tab').forEach(t => { if (t.dataset.p !== 'conn') t.disabled = true; });
+  setTk('토큰을 지웠어요.');
 };
 function setTk(t, err) { const m = $('tk-msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); }
 function setMsg(t, err) { const m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); }
 
-/* ---------- 카테고리 ---------- */
+/* ---------- 저장 표시 ---------- */
+function setDirty(v) {
+  dirty = v; $('save').disabled = !v;
+  $('dirty-note').textContent = v ? '● 저장 안 한 변경 있음' : '저장할 변경 없음';
+  $('dirty-note').classList.toggle('on', v);
+}
+const markDirty = () => setDirty(true);
+window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+/* =====================================================================
+   홈 (머리말 · 프로필 · 작업 문답)
+   ===================================================================== */
+function renderHome() {
+  document.querySelectorAll('[data-h]').forEach(el => el.value = S.home[el.dataset.h] || '');
+  $('qna').innerHTML = S.home.qna.map(([q, a], i) => `
+    <div class="r r-qna" data-i="${i}">
+      <input type="text" data-k="0" value="${esc(q)}" placeholder="예: 작업 기간은?">
+      <input type="text" data-k="1" value="${esc(a)}" placeholder="예: 4일">
+      <button class="ib del" type="button" title="삭제">−</button>
+    </div>`).join('') || '<div class="empty">문답이 없어요</div>';
+}
+document.querySelectorAll('[data-h]').forEach(el => el.addEventListener('input', () => { S.home[el.dataset.h] = el.value; markDirty(); }));
+$('qna').addEventListener('input', e => {
+  const r = e.target.closest('.r'); if (!r) return;
+  S.home.qna[+r.dataset.i][+e.target.dataset.k] = e.target.value; markDirty();
+});
+$('qna').addEventListener('click', e => {
+  const b = e.target.closest('.del'); if (!b) return;
+  S.home.qna.splice(+b.closest('.r').dataset.i, 1); markDirty(); renderHome();
+});
+$('qna-add').onclick = () => { S.home.qna.push(['', '']); markDirty(); renderHome(); };
+
+/* =====================================================================
+   일정 (마감 · 작업불가)
+   ===================================================================== */
+const evEnd = e => e.to || e.from;
+function renderEvents() {
+  S.events.sort((a, b) => (a.from || '9999').localeCompare(b.from || '9999'));
+  const past = S.events.filter(e => evEnd(e) && evEnd(e) < todayKey).length;
+  $('ev-count').textContent = `총 ${S.events.length}개` + (past ? ` · 지난 일정 ${past}개` : '');
+  $('evs').innerHTML = S.events.map((e, i) => `
+    <div class="r r-ev ${evEnd(e) && evEnd(e) < todayKey ? 'past' : ''}" data-i="${i}">
+      <input type="date" data-k="from" value="${esc(e.from)}">
+      <input type="date" data-k="to" value="${esc(e.to)}" title="하루면 비워두세요">
+      <input type="text" data-k="name" value="${esc(e.name)}" placeholder="이름">
+      <select data-k="type"><option value="holiday" ${e.type === 'holiday' ? 'selected' : ''}>작업불가</option><option value="closed" ${e.type === 'closed' ? 'selected' : ''}>마감</option></select>
+      <button class="ib del" type="button" title="삭제">−</button>
+    </div>`).join('') || '<div class="empty">등록된 일정이 없어요</div>';
+}
+$('evs').addEventListener('change', e => {
+  const r = e.target.closest('.r'); if (!r) return;
+  const ev = S.events[+r.dataset.i]; ev[e.target.dataset.k] = e.target.value;
+  if (ev.to && ev.from && ev.to < ev.from) { setMsg('끝나는 날이 시작일보다 빨라요. 날짜를 확인해 주세요.', true); }
+  markDirty();
+  if (e.target.dataset.k !== 'name') renderEvents();
+});
+$('evs').addEventListener('input', e => {
+  if (e.target.dataset.k !== 'name') return;
+  S.events[+e.target.closest('.r').dataset.i].name = e.target.value; markDirty();
+});
+$('evs').addEventListener('click', e => {
+  const b = e.target.closest('.del'); if (!b) return;
+  S.events.splice(+b.closest('.r').dataset.i, 1); markDirty(); renderEvents();
+});
+$('ev-add').onclick = () => {
+  const from = $('ev-from').value, to = $('ev-to').value, type = $('ev-type').value;
+  const name = $('ev-name').value.trim() || (type === 'closed' ? '마감' : '작업불가');
+  if (!from) { setMsg('시작일을 골라 주세요.', true); $('ev-from').focus(); return; }
+  if (to && to < from) { setMsg('끝나는 날이 시작일보다 빨라요.', true); return; }
+  S.events.push({from, to: to === from ? '' : to, name, type});
+  $('ev-from').value = $('ev-to').value = $('ev-name').value = '';
+  setMsg(''); markDirty(); renderEvents();
+};
+$('ev-clean').onclick = () => {
+  const n = S.events.filter(e => evEnd(e) && evEnd(e) < todayKey).length;
+  if (!n) { setMsg('지난 일정이 없어요.'); return; }
+  if (!confirm(`지난 일정 ${n}개를 지울까요?\n(저장 버튼을 눌러야 실제로 반영돼요)`)) return;
+  S.events = S.events.filter(e => !(evEnd(e) && evEnd(e) < todayKey)); markDirty(); renderEvents();
+};
+
+/* =====================================================================
+   디자인 항목 (이름 · 가격 · 양식 칸)
+   ===================================================================== */
+function renderItems() {
+  $('items').innerHTML = S.items.map((it, i) => {
+    const open = openItems.has(it.id);
+    return `
+    <div class="icard ${open ? 'open' : ''}" data-i="${i}">
+      <div class="ihead">
+        <button class="ib" type="button" data-a="up" title="위로" ${i === 0 ? 'disabled' : ''}>↑</button>
+        <button class="ib" type="button" data-a="down" title="아래로" ${i === S.items.length - 1 ? 'disabled' : ''}>↓</button>
+        <input type="text" data-a="name" value="${esc(it.name)}" placeholder="항목 이름 (예: 포스터)">
+        <input type="text" class="price" data-a="price" value="${esc(it.price)}" placeholder="${it.options.length ? '옵션 최저가로 자동 표시' : '가격 (예: 30000 / 문의)'}" ${it.options.length ? 'disabled' : ''}>
+        <button class="btn ghost sm tog" type="button" data-a="tog">옵션 ${it.options.length} · 양식 ${it.fields.length || '기본'} ${open ? '▴' : '▾'}</button>
+        <button class="ib del" type="button" data-a="del" title="항목 삭제">−</button>
+      </div>
+      <div class="ibody">
+        <div class="sub-h">가격 옵션</div>
+        <div class="hint" style="margin-bottom:8px">아트머그 가격 옵션처럼 적어 주세요. <b>단일</b>은 의뢰자가 수량을 넣고 (가격 × 수량), <b>세트</b>·<b>일반</b>은 가격 그대로 더해져요. 옵션이 있으면 항목 가격은 가장 싼 옵션으로 자동 표시돼요.</div>
+        <div class="colh r-op"><span>옵션 이름</span><span>가격 (원)</span><span>구분</span><span></span><span></span><span></span></div>
+        <div class="rows">${it.options.map((o, j) => `
+          <div class="r r-op" data-oj="${j}">
+            <input type="text" data-o="name" value="${esc(o.name)}" placeholder="예: 홍보 포스터">
+            <input type="text" data-o="price" value="${esc(o.price)}" placeholder="예: 40000" inputmode="numeric">
+            <select data-o="kind">${Object.entries(KINDS).map(([v, l]) => `<option value="${v}" ${o.kind === v ? 'selected' : ''}>${l}</option>`).join('')}</select>
+            <button class="ib" type="button" data-oa="up" ${j === 0 ? 'disabled' : ''}>↑</button>
+            <button class="ib" type="button" data-oa="down" ${j === it.options.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="ib del" type="button" data-oa="del">−</button>
+          </div>`).join('') || '<div class="empty">옵션이 없어요 · 위 가격 칸의 글자가 그대로 보여요</div>'}
+        </div>
+        <div class="row" style="margin:8px 0 18px"><button class="btn ghost sm" type="button" data-a="oadd">+ 옵션 추가</button></div>
+        <div class="sub-h">양식 칸</div>
+        <div class="hint" style="margin-bottom:8px">의뢰자가 이 항목을 누르면 나오는 칸이에요. 칸이 하나도 없으면 '요청 내용' 한 칸이 자동으로 나와요. <b>고르기</b>는 선택지를 쉼표(,)로 나눠 적어 주세요.</div>
+        <div class="colh r-fd"><span>칸 이름</span><span>종류</span><span>안내 글자</span><span>선택지 (고르기)</span><span></span><span></span><span></span></div>
+        <div class="rows">${it.fields.map((f, j) => `
+          <div class="r r-fd" data-j="${j}">
+            <input type="text" data-f="k" value="${esc(f.k)}" placeholder="예: 수량">
+            <select data-f="t">${Object.entries(FIELD_TYPES).map(([v, l]) => `<option value="${v}" ${f.t === v ? 'selected' : ''}>${l}</option>`).join('')}</select>
+            <input type="text" data-f="ph" value="${esc(f.ph)}" placeholder="예: 1종" ${f.t === 'date' || f.t === 'select' ? 'disabled' : ''}>
+            <input type="text" data-f="opts" value="${esc(f.opts)}" placeholder="예: 대형, 소형" ${f.t === 'select' ? '' : 'disabled'}>
+            <button class="ib" type="button" data-fa="up" ${j === 0 ? 'disabled' : ''}>↑</button>
+            <button class="ib" type="button" data-fa="down" ${j === it.fields.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="ib del" type="button" data-fa="del">−</button>
+          </div>`).join('') || '<div class="empty">칸이 없어요 · 의뢰자에게는 \'요청 내용\' 한 칸이 나와요</div>'}
+        </div>
+        <div class="row" style="margin-top:8px"><button class="btn ghost sm" type="button" data-a="fadd">+ 칸 추가</button></div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="empty">항목이 없어요</div>';
+}
+const swap = (arr, a, b) => { [arr[a], arr[b]] = [arr[b], arr[a]]; };
+$('items').addEventListener('click', e => {
+  const card = e.target.closest('.icard'); if (!card) return;
+  const i = +card.dataset.i, it = S.items[i];
+  const b = e.target.closest('button'); if (!b) return;
+  const a = b.dataset.a, fa = b.dataset.fa;
+  if (a === 'tog') { openItems.has(it.id) ? openItems.delete(it.id) : openItems.add(it.id); renderItems(); return; }
+  if (a === 'up') swap(S.items, i, i - 1);
+  else if (a === 'down') swap(S.items, i, i + 1);
+  else if (a === 'del') { if (!confirm(`'${it.name || '이름 없는 항목'}'을 지울까요?\n(저장 버튼을 눌러야 실제로 반영돼요)`)) return; S.items.splice(i, 1); }
+  else if (a === 'fadd') it.fields.push({k: '', t: 'text', ph: '', opts: ''});
+  else if (a === 'oadd') it.options.push({name: '', price: '', kind: ''});
+  else if (b.dataset.oa) {
+    const j = +b.closest('.r').dataset.oj, oa = b.dataset.oa;
+    if (oa === 'up') swap(it.options, j, j - 1);
+    if (oa === 'down') swap(it.options, j, j + 1);
+    if (oa === 'del') it.options.splice(j, 1);
+  }
+  else if (fa) {
+    const j = +b.closest('.r').dataset.j;
+    if (fa === 'up') swap(it.fields, j, j - 1);
+    if (fa === 'down') swap(it.fields, j, j + 1);
+    if (fa === 'del') it.fields.splice(j, 1);
+  } else return;
+  markDirty(); renderItems();
+});
+$('items').addEventListener('input', e => {
+  const card = e.target.closest('.icard'); if (!card) return;
+  const it = S.items[+card.dataset.i];
+  if (e.target.dataset.a === 'name') it.name = e.target.value;
+  else if (e.target.dataset.a === 'price') it.price = e.target.value;
+  else if (e.target.dataset.o && e.target.dataset.o !== 'kind') it.options[+e.target.closest('.r').dataset.oj][e.target.dataset.o] = e.target.value;
+  else if (e.target.dataset.f && e.target.dataset.f !== 't') it.fields[+e.target.closest('.r').dataset.j][e.target.dataset.f] = e.target.value;
+  else return;
+  markDirty();
+});
+$('items').addEventListener('change', e => {
+  if (e.target.dataset.o === 'kind') {
+    S.items[+e.target.closest('.icard').dataset.i].options[+e.target.closest('.r').dataset.oj].kind = e.target.value; markDirty(); return;
+  }
+  if (e.target.dataset.o === 'name' || e.target.dataset.o === 'price') { renderItems(); return; }   // 옵션 수 · 가격 칸 표시 새로고침
+  if (e.target.dataset.f !== 't') return;
+  const it = S.items[+e.target.closest('.icard').dataset.i];
+  it.fields[+e.target.closest('.r').dataset.j].t = e.target.value; markDirty(); renderItems();
+});
+$('am-import').onclick = () => {
+  if (!confirm('지금 항목 목록을 아트머그 가격 옵션(11개 + 그 외 디자인)으로 바꿀까요?\n지금 있는 항목은 사라져요. (저장 버튼을 눌러야 실제로 반영돼요)')) return;
+  S.items = normSettings({items: JSON.parse(JSON.stringify(ARTMUG_ITEMS))}).items;
+  openItems = new Set(); markDirty(); renderItems();
+  setMsg('아트머그 가격 옵션을 불러왔어요. 확인하고 오른쪽 위 "GitHub에 저장"을 눌러 주세요.');
+};
+$('item-add').onclick = () => {
+  const it = {id: ++uid, name: '', price: '', options: [], fields: []};
+  S.items.push(it); openItems.add(it.id); markDirty(); renderItems();
+  const inputs = $('items').querySelectorAll('[data-a="name"]'); inputs[inputs.length - 1].focus();
+};
+
+/* settings.json으로 내보낼 모양 */
+function settingsOut() {
+  const names = new Set();
+  const items = [];
+  S.items.forEach(it => {
+    const name = it.name.trim(); if (!name || names.has(name)) return; names.add(name);
+    const p = it.price.trim();
+    const options = it.options.filter(o => o.name.trim()).map(o => {
+      const out = {name: o.name.trim(), price: +String(o.price).replace(/[^0-9]/g, '') || 0};
+      if (o.kind) out.kind = o.kind;
+      return out;
+    });
+    items.push({name, price: /^\d+$/.test(p) ? +p : p, options,
+      fields: it.fields.filter(f => f.k.trim()).map(f => {
+        const o = {k: f.k.trim(), t: f.t};
+        if (f.ph.trim() && f.t !== 'date' && f.t !== 'select') o.ph = f.ph.trim();
+        if (f.t === 'select') o.opts = f.opts.split(',').map(s => s.trim()).filter(Boolean);
+        return o;
+      })});
+  });
+  const home = Object.assign({}, S.home, {qna: S.home.qna.filter(([q, a]) => q.trim() || a.trim())});
+  const events = S.events.filter(e => e.from).map(e => { const o = {from: e.from, name: e.name.trim() || (e.type === 'closed' ? '마감' : '작업불가'), type: e.type}; if (e.to && e.to !== e.from) o.to = e.to; return o; });
+  return {home, events, items};
+}
+function checkSettings() {
+  const names = S.items.map(i => i.name.trim()).filter(Boolean);
+  const dup = names.filter((n, i) => names.indexOf(n) !== i);
+  if (dup.length) return `항목 이름 '${dup[0]}'이 두 번 들어가 있어요. 이름을 다르게 바꿔 주세요.`;
+  if (S.items.some(i => !i.name.trim() && (i.price.trim() || i.fields.length || i.options.length))) return '이름이 비어 있는 항목이 있어요. 이름을 적거나 − 로 지워 주세요.';
+  const badOpt = S.items.find(i => i.options.some(o => o.name.trim() && !(+String(o.price).replace(/[^0-9]/g, '') > 0)));
+  if (badOpt) return `'${badOpt.name}'에 가격이 비어 있는 옵션이 있어요. 숫자로 적어 주세요.`;
+  return '';
+}
+
+/* =====================================================================
+   포트폴리오 (기존 기능 그대로)
+   ===================================================================== */
 function renderCats() {
   $('cats').innerHTML = data.cats.map((c, i) => `<span class="cchip">${esc(c)}<button type="button" data-i="${i}" title="삭제">×</button></span>`).join('') || '<span class="hint">카테고리가 없어요</span>';
   const opts = data.cats.map(c => `<option>${esc(c)}</option>`).join('');
@@ -229,23 +688,22 @@ $('cats').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   const c = data.cats[+b.dataset.i];
   if (data.items.some(i => i.cat === c)) { setMsg(`'${c}'에 작업이 있어서 지울 수 없어요. 작업을 먼저 삭제하거나 다른 카테고리로 옮겨 주세요.`, true); return; }
-  data.cats.splice(+b.dataset.i, 1); markDirty(); renderAll();
+  data.cats.splice(+b.dataset.i, 1); markDirty(); renderWorks();
 });
 $('cat-add').onclick = () => {
   const v = $('cat-in').value.trim();
   if (!v) return;
   if (!data.cats.includes(v)) { data.cats.push(v); markDirty(); }
-  $('cat-in').value = ''; renderAll();
+  $('cat-in').value = ''; renderWorks();
 };
 
-/* ---------- 이미지 처리 ---------- */
 async function prepare(file) {
   if (/gif|svg/.test(file.type)) return {blob: file, ext: file.type.includes('gif') ? 'gif' : 'svg'};
   const bmp = await createImageBitmap(file);
   const s = Math.min(1, 1400 / bmp.width, 2400 / bmp.height);
   const w = Math.max(1, Math.round(bmp.width * s)), h = Math.max(1, Math.round(bmp.height * s));
   const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
-  const ctx = cv.getContext('2d'); ctx.drawImage(bmp, 0, 0, w, h);
+  cv.getContext('2d').drawImage(bmp, 0, 0, w, h);
   let blob = await new Promise(r => cv.toBlob(r, 'image/webp', 0.86));
   let ext = 'webp';
   if (!blob || blob.type !== 'image/webp') { blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.88)); ext = 'jpg'; }
@@ -271,9 +729,9 @@ async function addFiles(files) {
     } catch(e) { fail++; }
   }
   data.items = created.concat(data.items);
-  $('add-msg').textContent = `${created.length}개 추가됨` + (fail ? ` (${fail}개는 읽지 못했어요)` : '') + ' · 아래에서 확인하고 "GitHub에 저장"을 누르세요.';
+  $('add-msg').textContent = `${created.length}개 추가됨` + (fail ? ` (${fail}개는 읽지 못했어요)` : '') + ' · 확인하고 오른쪽 위 "GitHub에 저장"을 누르세요.';
   if (created.length) markDirty();
-  renderAll();
+  renderWorks();
 }
 $('drop').onclick = () => $('add-files').click();
 $('add-files').onchange = e => { addFiles(e.target.files); e.target.value = ''; };
@@ -281,15 +739,9 @@ $('add-files').onchange = e => { addFiles(e.target.files); e.target.value = ''; 
 ['dragleave','drop'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.remove('on'); }));
 $('drop').addEventListener('drop', e => addFiles(e.dataTransfer.files));
 
-/* ---------- 목록 ---------- */
-function markDirty() { dirty = true; $('save').disabled = false; }
-window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
-
 function visible() { const f = $('flt').value; return data.items.filter(i => f === 'ALL' || i.cat === f); }
-
 function renderList() {
-  const list = visible();
-  $('list').innerHTML = list.map(i => `
+  $('list').innerHTML = visible().map(i => `
     <div class="it ${i.sel ? 'sel' : ''} ${i.isNew ? 'new' : ''}" data-id="${i.id}">
       <label class="ck"><input type="checkbox" data-a="sel" ${i.sel ? 'checked' : ''}></label>
       ${i.isNew ? '<span class="nb">NEW</span>' : ''}
@@ -305,10 +757,10 @@ function updateBar() {
   const n = data.items.length, nn = data.items.filter(i => i.isNew).length, sel = data.items.filter(i => i.sel).length;
   $('count').textContent = `총 ${n}개` + (nn ? ` · 새 작업 ${nn}` : '') + (removedImgs.size ? ` · 삭제 예정 ${removedImgs.size}` : '');
   $('del-sel').disabled = !sel; $('del-sel').textContent = sel ? `− 선택 삭제 (${sel})` : '− 선택 삭제';
-  const subs = [...new Set(data.items.map(i => i.sub).filter(Boolean))];
-  $('subs').innerHTML = subs.map(s => `<option value="${esc(s)}">`).join('');
+  $('subs').innerHTML = [...new Set(data.items.map(i => i.sub).filter(Boolean))].map(s => `<option value="${esc(s)}">`).join('');
 }
-function renderAll() { renderCats(); renderList(); }
+function renderWorks() { renderCats(); renderList(); }
+function renderAll() { renderHome(); renderEvents(); renderItems(); renderWorks(); }
 
 function removeItems(ids) {
   data.items = data.items.filter(i => {
@@ -320,7 +772,7 @@ function removeItems(ids) {
 }
 $('list').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  const el = b.closest('.it'); const id = +el.dataset.id;
+  const id = +b.closest('.it').dataset.id;
   const i = data.items.find(x => x.id === id); if (!i) return;
   if (b.dataset.a === 'del') removeItems(new Set([id]));
   else if (b.dataset.a === 'top') { data.items = [i].concat(data.items.filter(x => x !== i)); markDirty(); renderList(); }
@@ -331,15 +783,13 @@ $('list').addEventListener('change', e => {
   const a = e.target.dataset.a;
   if (a === 'sel') { i.sel = e.target.checked; el.classList.toggle('sel', i.sel); updateBar(); }
   else if (a === 'cat') { i.cat = e.target.value; markDirty(); }
-  else if (a === 'sub') { i.sub = e.target.value.trim(); markDirty(); updateBar(); }
-  else if (a === 'title') { i.title = e.target.value.trim(); markDirty(); }
 });
 $('list').addEventListener('input', e => {
   const el = e.target.closest('.it'); if (!el) return;
   const i = data.items.find(x => x.id === +el.dataset.id); if (!i) return;
-  if (e.target.dataset.a === 'sub') i.sub = e.target.value.trim();
-  if (e.target.dataset.a === 'title') i.title = e.target.value.trim();
-  if (e.target.dataset.a === 'sub' || e.target.dataset.a === 'title') markDirty();
+  const a = e.target.dataset.a;
+  if (a === 'sub') { i.sub = e.target.value.trim(); markDirty(); updateBar(); }
+  if (a === 'title') { i.title = e.target.value.trim(); markDirty(); }
 });
 $('flt').onchange = renderList;
 $('fill-r').onclick = async () => {
@@ -362,29 +812,30 @@ $('del-sel').onclick = () => {
   removeItems(ids);
 };
 
-/* ---------- 저장 (한 번의 커밋으로 올려요) ---------- */
+/* =====================================================================
+   저장 : portfolio.json + settings.json + 새 이미지를 한 번의 커밋으로 올려요
+   ===================================================================== */
 $('save').onclick = async () => {
+  const bad = checkSettings();
+  if (bad) { setMsg(bad, true); return; }
   $('save').disabled = true;
   try {
     setMsg('GitHub에 올리는 중... (이미지가 많으면 조금 걸려요)');
-    const delList = $('opt-img').checked
-      ? [...removedImgs].filter(p => /^img\//.test(p) && !data.items.some(i => i.img === p)) : [];
+    const delList = $('opt-img').checked ? [...removedImgs].filter(p => /^img\//.test(p) && !data.items.some(i => i.img === p)) : [];
     await commitRetry(delList).catch(async e => {
       if (!delList.length || e.status === 401) throw e;
       setMsg('이미지 삭제 없이 다시 시도하는 중...');
       await commitRetry([]);
     });
     data.items.forEach(i => { i.isNew = false; delete i.blob; });
-    removedImgs = new Set(); dirty = false;
+    removedImgs = new Set(); setDirty(false);
     renderList();
-    setMsg('✓ 저장 완료! 웹페이지를 새로고침(Ctrl+Shift+R)하면 바로 보여요.');
+    setMsg('✓ 저장 완료! 1~2분 뒤 상세페이지를 새로고침(Ctrl+Shift+R)하면 보여요.');
   } catch(e) {
     $('save').disabled = false;
     setMsg(explain(e), true);
   }
 };
-
-/* 저장 중에 저장소가 바뀌면(422 not a fast forward) 최신 상태를 다시 읽어서 자동으로 다시 시도해요 */
 async function commitRetry(delList) {
   for (let n = 0; n < 4; n++) {
     try { return await commit(delList); }
@@ -398,7 +849,6 @@ async function commitRetry(delList) {
     }
   }
 }
-
 async function commit(delList) {
   const ref = await gh(repoPath('/git/ref/heads/' + branch));
   const baseSha = ref.object.sha;
@@ -414,11 +864,12 @@ async function commit(delList) {
     tree.push({path: fresh[n].img, mode: '100644', type: 'blob', sha: fresh[n]._sha});
   }
   delList.forEach(p => tree.push({path: p, mode: '100644', type: 'blob', sha: null}));
-  const out = {cats: data.cats, items: data.items.map(i => { const o = {cat: i.cat, img: i.img}; if (i.sub) o.sub = i.sub; if (i.title) o.title = i.title; if (i.r > 0) o.r = i.r; return o; })};
-  tree.push({path: 'portfolio.json', mode: '100644', type: 'blob', content: JSON.stringify(out, null, 1)});
+  const pf = {cats: data.cats, items: data.items.map(i => { const o = {cat: i.cat, img: i.img}; if (i.sub) o.sub = i.sub; if (i.title) o.title = i.title; if (i.r > 0) o.r = i.r; return o; })};
+  tree.push({path: 'portfolio.json', mode: '100644', type: 'blob', content: JSON.stringify(pf, null, 1)});
+  tree.push({path: 'settings.json', mode: '100644', type: 'blob', content: JSON.stringify(settingsOut(), null, 1)});
   setMsg('커밋 만드는 중...');
   const nt = await gh(repoPath('/git/trees'), {method: 'POST', body: JSON.stringify({base_tree: base.tree.sha, tree})});
-  const nc = await gh(repoPath('/git/commits'), {method: 'POST', body: JSON.stringify({message: '포트폴리오 업데이트', tree: nt.sha, parents: [baseSha]})});
+  const nc = await gh(repoPath('/git/commits'), {method: 'POST', body: JSON.stringify({message: '상세페이지 관리 페이지에서 업데이트', tree: nt.sha, parents: [baseSha]})});
   await gh(repoPath('/git/refs/heads/' + branch), {method: 'PATCH', body: JSON.stringify({sha: nc.sha})});
 }
 

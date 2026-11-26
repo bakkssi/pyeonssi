@@ -220,6 +220,25 @@ section{max-width:1120px;margin:0 auto 40px}
 .form .refbox,.form .item .nm{color:#2a2a2a;font-weight:var(--soft-weight) !important}
 .form .refbox:has(input:checked){color:var(--p2)}
 
+/* ---------- 항목 양식 안 가격 옵션 고르기 ---------- */
+.ef-sub{font-size:10px;color:var(--mute);margin-left:6px}
+.opts{display:flex;flex-direction:column;gap:6px}
+.ef-row label.opt{display:flex;margin:0;font-size:13px;letter-spacing:0;color:inherit}
+.opt{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #e2cfd8;border-radius:4px;background:#fff;cursor:pointer;font-size:13px;transition:background .15s,border-color .15s}
+.opt:hover{border-color:var(--p1)}
+.opt:has(input[type=checkbox]:checked){background:var(--p4);border-color:var(--p1)}
+.opt input[type=checkbox]{-webkit-appearance:none;appearance:none;position:relative;width:16px;height:16px;margin:0;flex:none;border:0;border-radius:4px;background:#2a2a2a;cursor:pointer}
+.opt input[type=checkbox]::after{content:"";position:absolute;left:5.5px;top:2.5px;width:4px;height:8px;border:solid #ef94bc;border-width:0 2px 2px 0;transform:rotate(45deg);opacity:0}
+.opt input[type=checkbox]:checked::after{opacity:1}
+.opt .on{flex:1;min-width:0;font-family:var(--f-point);color:#2a2a2a}
+.opt .kd{font-style:normal;font-family:var(--f-point);font-size:10px;line-height:1;padding:3px 6px;border-radius:3px}
+.opt .kd.single{background:#2a2a2a;color:#ffc5dd}
+.opt .kd.set{background:var(--p1);color:#fff}
+.opt .qw{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-point);font-size:11px;color:var(--mute)}
+.opt .qty{width:54px;padding:4px 6px;font-size:12px;border:1px solid #e2cfd8;border-radius:4px;text-align:center;background:#fff}
+.opt b{font-family:var(--f-point);font-size:12px;color:var(--p2);white-space:nowrap}
+@media(max-width:560px){.opt{flex-wrap:wrap}.opt .on{flex-basis:calc(100% - 30px)}}
+
 /* ---------- 필수 표시 / 날짜 경고 / 빠진 항목 / 예상 금액 / 문의창 이동 ---------- */
 .fl .req{font-style:normal;font-size:10px;line-height:1;padding:3px 6px;margin-left:6px;border-radius:5px;background:var(--p4);color:var(--p2);vertical-align:2px}
 .warn{font-size:12px;color:#d0507f;margin-top:6px}
@@ -595,94 +614,107 @@ const CONFIG = {
   },
   form: {
     packages: [],   // 패키지 선택 칸을 쓰려면 ['Basic 패키지', 'Standard 패키지'] 처럼 채우세요 (비워두면 칸이 숨겨져요)
-    items: ['포스터','RT포스터','PPT','스케줄표','유튜브','SOOP 배너','치지직 배너','대기화면','로고','다시보기','썸네일','그 외 디자인'],
-    // 항목 버튼 오른쪽에 보일 가격. 숫자(30000 → '30,000원') 또는 글자('30,000원~', '문의')로 써요.
-    // 비워두거나 지운 항목은 '입력하기 ›'로 나와요.
-    // ※ 아래 금액은 임시 값이에요! 실제 가격으로 바꿔주세요.
+    items: ['스케줄','썸네일','포스터','치지직 패널','PPT','팬카페','로고','채널 아트','오버레이','다시보기','로딩 화면','그 외 디자인'],
+    // 가격 옵션 (아트머그 가격 옵션과 같아요). 항목을 누르면 맨 위에서 골라요.
+    // n: 옵션 이름 / p: 가격(원) / kind: 'single'(단일 · 수량 입력) · 'set'(세트) · 비우면 일반
+    // 항목 버튼 오른쪽 가격은 옵션 중 가장 싼 값으로 자동 표시돼요 (예: 30,000원~)
+    options: {
+      '스케줄': [{n:'스케줄표 PSD', p:70000}],
+      '썸네일': [{n:'썸네일', p:30000}],
+      '포스터': [
+        {n:'RT 포스터 장수 제한 X', p:65000},
+        {n:'홍보 포스터', p:40000},
+        {n:'굿즈 인포 포스터', p:30000},
+        {n:'메인트 포스터', p:30000}
+      ],
+      '치지직 패널': [
+        {n:'치지직 패널 5종 세트', p:40000, kind:'set'},
+        {n:'치지직 패널 단일 디자인', p:9000, kind:'single'},
+        {n:'일러스트 패널 4종 세트', p:55000, kind:'set'},
+        {n:'일러스트 패널 단일 디자인', p:15000, kind:'single'}
+      ],
+      'PPT': [
+        {n:'한 장 가격', p:15000, kind:'single'},
+        {n:'장수 제한 X', p:85000, kind:'set'}
+      ],
+      '팬카페': [
+        {n:'대문(세팅 포함)', p:60000},
+        {n:'배너', p:30000},
+        {n:'배너 모바일 리사이징 추가', p:10000}
+      ],
+      '로고': [
+        {n:'콘텐츠 로고', p:30000},
+        {n:'로고', p:30000}
+      ],
+      '채널 아트': [{n:'유튜브 채널 아트', p:35000}],
+      '오버레이': [
+        {n:'게임 화면', p:50000},
+        {n:'저스트 채팅', p:60000}
+      ],
+      '다시보기': [{n:'다시보기 프레임', p:30000}],
+      '로딩 화면': [{n:'모션 고정 로딩 화면', p:50000}]
+    },
+    // 옵션이 없는 항목의 가격 글자 (숫자 30000 → '30,000원', 글자 '문의' → 그대로)
     prices: {
-      '포스터': '30,000원~',
-      'RT포스터': '25,000원~',
-      'PPT': '40,000원~',
-      '스케줄표': '30,000원~',
-      '유튜브': '25,000원~',
-      'SOOP 배너': '20,000원~',
-      '치지직 배너': '20,000원~',
-      '대기화면': '35,000원~',
-      '로고': '40,000원~',
-      '다시보기': '20,000원~',
-      '썸네일': '15,000원~',
       '그 외 디자인': '문의'
-    },    // 주문 항목을 누르면 열리는 양식이에요. 항목 이름은 위 items와 똑같이 써야 해요.
+    },
+    // 주문 항목을 누르면 열리는 양식이에요. 항목 이름은 위 items와 똑같이 써야 해요.
     // k: 칸 이름 / t: text(한 줄)·area(여러 줄)·date(날짜)·select(고르기) / ph: 안내 글자 / opts: select 선택지
     // 양식을 안 만든 항목은 '요청 내용' 한 칸짜리가 자동으로 나와요.
     forms: {
+      '스케줄': [
+        {k:'시작 날짜', t:'date'},
+        {k:'방송 일정', t:'area', ph:'요일·시간·방송 내용을 적어주세요'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      '썸네일': [
+        {k:'용도', t:'select', opts:['방송 썸네일','유튜브 썸네일','기타']},
+        {k:'수량', t:'text', ph:'예: 1장'},
+        {k:'제목·문구', t:'area', ph:'이미지에 들어갈 제목과 문구'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
       '포스터': [
-        {k:'수량', t:'text', ph:'예: 2종'},
         {k:'사이즈', t:'text', ph:'예: A3 / 1080x1350'},
         {k:'내용(문구)', t:'area', ph:'포스터에 들어갈 문구를 적어주세요'},
         {k:'날짜', t:'date'},
         {k:'일정·시간', t:'text', ph:'예: 저녁 8시 SOOP 방송'},
-        {k:'RT 단위', t:'text', ph:'RT 이벤트용이면 적어주세요 (예: 100RT)'},
+        {k:'RT 단위', t:'text', ph:'RT 포스터라면 적어주세요 (예: 100RT)'},
         {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
       ],
-      'RT포스터': [
-        {k:'수량', t:'text', ph:'예: 1종 (장수 제한 없음)'},
-        {k:'내용(문구)', t:'area', ph:'포스터에 들어갈 문구를 적어주세요'},
-        {k:'이벤트 날짜', t:'date'},
-        {k:'RT 단위', t:'text', ph:'예: 100RT / 500RT / 1000RT'},
+      '치지직 패널': [
+        {k:'패널 문구', t:'area', ph:'패널마다 들어갈 글자를 적어주세요 (예: 공지, 후원, 규칙)'},
         {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
       ],
       'PPT': [
-        {k:'수량', t:'text', ph:'예: 1세트'},
-        {k:'장수', t:'text', ph:'예: 5장 내외'},
         {k:'용도', t:'select', opts:['방송 오프닝','자기소개','후원 안내','기타']},
         {k:'표지', t:'area', ph:'표지에 들어갈 제목·문구·닉네임'},
         {k:'내용', t:'area', ph:'장별 구성을 적어주세요 (예: 2장 자기소개, 3장 후원 안내)'},
         {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
       ],
-      '스케줄표': [
-        {k:'종류', t:'select', opts:['대형','소형 세로형','팀 스케줄표','월간 스케줄표']},
-        {k:'수량', t:'text', ph:'예: 1종'},
-        {k:'시작 날짜', t:'date'},
-        {k:'방송 일정', t:'area', ph:'요일·시간·방송 내용을 적어주세요'},
-        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
-      ],
-      '유튜브': [
-        {k:'종류', t:'select', opts:['채널아트','일반 썸네일','커버곡 썸네일 + 로고']},
-        {k:'수량', t:'text', ph:'예: 1종'},
-        {k:'제목·문구', t:'area', ph:'이미지에 들어갈 제목과 문구'},
-        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
-      ],
-      'SOOP 배너': [
-        {k:'종류', t:'select', opts:['상단배너','플로팅배너','하단배너']},
-        {k:'수량', t:'text', ph:'예: 1종'},
-        {k:'문구', t:'area', ph:'배너에 들어갈 문구'},
-        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
-      ],
-      '치지직 배너': [
-        {k:'수량', t:'text', ph:'예: 1종'},
-        {k:'문구', t:'area', ph:'배너에 들어갈 문구'},
-        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
-      ],
-      '대기화면': [
-        {k:'수량', t:'text', ph:'예: 1종'},
-        {k:'문구', t:'area', ph:'대기화면에 들어갈 문구 (예: 잠시 후 시작합니다)'},
+      '팬카페': [
+        {k:'카페 주소', t:'text', ph:'팬카페 주소를 적어주세요'},
+        {k:'문구', t:'area', ph:'대문·배너에 들어갈 문구'},
         {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
       ],
       '로고': [
-        {k:'종류', t:'select', opts:['닉네임 로고','컨텐츠·콘서트 로고','핫클립 로고','커버곡 로고']},
         {k:'로고 글자', t:'text', ph:'로고에 들어갈 글자'},
         {k:'분위기·색감', t:'area', ph:'원하는 느낌을 적어주세요'}
       ],
+      '채널 아트': [
+        {k:'채널 이름·문구', t:'area', ph:'채널 아트에 들어갈 이름과 문구'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
+      '오버레이': [
+        {k:'들어갈 요소', t:'area', ph:'채팅창, 후원 목표, 웹캠 위치 등을 적어주세요'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
+      ],
       '다시보기': [
-        {k:'수량', t:'text', ph:'예: 1종'},
         {k:'문구', t:'area', ph:'들어갈 문구'},
         {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
       ],
-      '썸네일': [
-        {k:'용도', t:'select', opts:['방송 썸네일','유튜브 썸네일','기타']},
-        {k:'수량', t:'text', ph:'예: 1종'},
-        {k:'제목·문구', t:'area', ph:'이미지에 들어갈 제목과 문구'}
+      '로딩 화면': [
+        {k:'문구', t:'area', ph:'로딩 화면에 들어갈 문구 (예: 잠시 후 시작합니다)'},
+        {k:'참고 자료·분위기', t:'area', ph:'참고 이미지나 키워드를 적어주세요'}
       ],
       '그 외 디자인': [
         {k:'작업 설명', t:'area', ph:'어떤 디자인이 필요한지 자세히 적어주세요'}
@@ -948,8 +980,23 @@ let current = null;
 if (F.packages.length) $('f-pack').innerHTML = F.packages.map(p => `<option>${esc(p)}</option>`).join('');
 else $('f-packwrap').style.display = 'none';
 
-/* 항목 가격: 숫자면 '30,000원', 글자면 그대로 */
+/* ----- 가격 옵션 (단일 = 수량 × 가격, 세트 = 그대로) ----- */
+const won = n => (+n || 0).toLocaleString() + '원';
+const KIND = {single: '단일', set: '세트'};
+const optsOf = n => ((F.options || {})[n] || []).map(o => ({n: o.n || o.name || '', p: +(o.p ?? o.price) || 0, kind: o.kind || ''})).filter(o => o.n);
+/* 고른 옵션의 합계 (없으면 null) */
+function picked(n){
+  const sel = items[n] && items[n].__opts;
+  if (!sel || !sel.length) return null;
+  return sel.reduce((a, o) => a + o.p * (o.kind === 'single' ? o.qty : 1), 0);
+}
+/* 항목 가격 글자: 옵션이 있으면 가장 싼 값~, 없으면 prices 값 (숫자면 '30,000원', 글자면 그대로) */
 function priceOf(n){
+  const os = optsOf(n);
+  if (os.length) {
+    const min = Math.min(...os.map(o => o.p));
+    return won(min) + (os.length > 1 || os[0].kind === 'single' ? '~' : '');
+  }
   const p = (F.prices || {})[n];
   if (typeof p === 'number' && p > 0) return p.toLocaleString() + '원';
   if (typeof p === 'string' && /^\d+$/.test(p.trim()) && +p > 0) return (+p).toLocaleString() + '원';
@@ -957,7 +1004,7 @@ function priceOf(n){
 }
 function renderItems(){
   $('f-items').innerHTML = F.items.map(n => {
-    const p = priceOf(n);
+    const p = picked(n) !== null ? won(picked(n)) : priceOf(n);
     const label = items[n] ? (p ? '✓ ' + p : '입력됨 ✓') : (p || '입력하기 ›');
     return `<button type="button" class="item ${items[n] ? 'filled' : ''}" data-n="${esc(n)}"><span class="nm">${esc(n)}</span><small>${esc(label)}</small></button>`;
   }).join('');
@@ -977,7 +1024,13 @@ $('f-items').addEventListener('click', e => {
   current = b.dataset.n;
   const vals = items[current] || {};
   $('f-edtitle').textContent = current + ' 양식';
-  $('f-edfields').innerHTML = fieldsFor(current).map((f, i) => {
+  /* 가격 옵션 고르기 (여러 개 가능 · 단일은 수량 입력) */
+  const os = optsOf(current), chosen = vals.__opts || [];
+  const optHTML = os.length ? `<div class="ef-row full"><label>옵션 고르기 <small class="ef-sub">여러 개 고를 수 있어요</small></label><div class="opts">${os.map((o, i) => {
+      const c = chosen.find(x => x.n === o.n);
+      return `<label class="opt"><input type="checkbox" data-o="${i}" ${c ? 'checked' : ''}><span class="on">${esc(o.n)}</span>${o.kind ? `<em class="kd ${o.kind}">${KIND[o.kind]}</em>` : ''}${o.kind === 'single' ? `<span class="qw">수량 <input type="number" class="qty" data-q="${i}" min="1" value="${c ? c.qty : 1}"></span>` : ''}<b>${won(o.p)}${o.kind === 'single' ? ' / 개' : ''}</b></label>`;
+    }).join('')}</div><div class="warn" id="opt-warn"></div></div>` : '';
+  $('f-edfields').innerHTML = optHTML + fieldsFor(current).map((f, i) => {
     const id = 'ef-' + i, val = vals[f.k] || '', k = esc(f.k), ph = esc(f.ph || '');
     let ctl;
     if (f.t === 'area') ctl = `<textarea id="${id}" data-k="${k}" placeholder="${ph}">${esc(val)}</textarea>`;
@@ -990,11 +1043,27 @@ $('f-items').addEventListener('click', e => {
 });
 $('f-edsave').onclick = () => {
   const vals = {};
+  const os = optsOf(current);
+  if (os.length) {
+    const sel = [...$('f-edfields').querySelectorAll('[data-o]:checked')].map(el => {
+      const o = os[+el.dataset.o], q = $('f-edfields').querySelector(`[data-q="${el.dataset.o}"]`);
+      return {n: o.n, p: o.p, kind: o.kind, qty: Math.max(1, parseInt(q ? q.value : 1, 10) || 1)};
+    });
+    if (!sel.length) { $('opt-warn').textContent = '옵션을 하나 이상 골라주세요.'; return; }
+    vals.__opts = sel;
+  }
   $('f-edfields').querySelectorAll('[data-k]').forEach(el => { const t = el.value.trim(); if (t) vals[el.dataset.k] = t; });
   if (Object.keys(vals).length) items[current] = vals; else delete items[current];
   if (items[current]) $('f-items').classList.remove('err');
   closeEditor(); renderItems(); update();
 };
+/* 단일 옵션 수량을 바꾸면 그 옵션이 자동으로 골라져요 */
+$('f-edfields').addEventListener('input', e => {
+  if (!e.target.dataset.q) return;
+  const cb = $('f-edfields').querySelector(`[data-o="${e.target.dataset.q}"]`); if (cb) cb.checked = true;
+  if ($('opt-warn')) $('opt-warn').textContent = '';
+});
+$('f-edfields').addEventListener('change', e => { if (e.target.dataset.o && $('opt-warn')) $('opt-warn').textContent = ''; });
 $('f-eddel').onclick = () => { delete items[current]; closeEditor(); renderItems(); update(); };
 $('f-edclose').onclick = closeEditor;
 
@@ -1017,7 +1086,13 @@ $('f-chips').addEventListener('click', e => {
 
 const v = id => $(id).value.trim() || '(미입력)';
 function buildText(){
-  const lines = Object.keys(items).map(k => `- ${k}${priceOf(k) ? ` (${priceOf(k)})` : ''}\n` + Object.keys(items[k]).map(f => `  · ${f} : ${String(items[k][f]).replace(/\n/g, '\n    ')}`).join('\n'));
+  const lines = Object.keys(items).map(k => {
+    const sum = picked(k), sel = items[k].__opts || [];
+    const head = `- ${k}${sum !== null ? ` (${won(sum)})` : (priceOf(k) ? ` (${priceOf(k)})` : '')}`;
+    const optLine = sel.length ? [`  · 옵션 : ${sel.map(o => o.kind === 'single' ? `${o.n} ×${o.qty} (${won(o.p * o.qty)})` : `${o.n} (${won(o.p)})`).join(', ')}`] : [];
+    const fields = Object.keys(items[k]).filter(f => f !== '__opts').map(f => `  · ${f} : ${String(items[k][f]).replace(/\n/g, '\n    ')}`);
+    return [head, ...optLine, ...fields].join('\n');
+  });
   return [
     '[ 신청 내용 ]', '',
     `방송 닉네임 및 주소 : ${v('f-nick')}`,
@@ -1035,6 +1110,7 @@ function buildText(){
 
 /* ----- 예상 금액 합계 (고른 항목의 시작 가격을 더해요. '문의' 항목은 따로 표시) ----- */
 function priceNum(n){
+  const os = optsOf(n); if (os.length) return Math.min(...os.map(o => o.p));
   const p = (F.prices || {})[n];
   if (typeof p === 'number') return p > 0 ? p : null;
   const digits = String(p || '').replace(/[^0-9]/g, '');
@@ -1043,7 +1119,7 @@ function priceNum(n){
 function totalText(){
   const ks = Object.keys(items); if (!ks.length) return '';
   let sum = 0, ask = 0;
-  ks.forEach(k => { const n = priceNum(k); if (n === null) ask++; else sum += n; });
+  ks.forEach(k => { const n = picked(k) !== null ? picked(k) : priceNum(k); if (n === null) ask++; else sum += n; });
   return (sum ? `${sum.toLocaleString()}원~` : '') + (ask ? `${sum ? ' + ' : ''}문의 항목 ${ask}개 별도` : '');
 }
 function renderTotal(){
@@ -1149,8 +1225,12 @@ async function loadSettings(){
   if (Array.isArray(s.events)) { C.events = s.events; buildEvMap(); renderCal(); renderDetail(); }
   if (Array.isArray(s.items)) {
     F.items = s.items.map(i => i.name).filter(Boolean);
-    F.prices = {}; F.forms = {};
-    s.items.forEach(i => { if (!i.name) return; F.prices[i.name] = i.price; F.forms[i.name] = i.fields || []; });
+    F.prices = {}; F.forms = {}; F.options = {};
+    s.items.forEach(i => {
+      if (!i.name) return;
+      F.prices[i.name] = i.price; F.forms[i.name] = i.fields || [];
+      if (Array.isArray(i.options) && i.options.length) F.options[i.name] = i.options;
+    });
     Object.keys(items).forEach(k => { if (!F.items.includes(k)) delete items[k]; });
     renderItems(); update();
   }
