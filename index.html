@@ -1146,13 +1146,25 @@ function checkDates(){
 }
 
 function update(){
-  const ta = $('f-preview');
-  ta.value = buildText();
-  ta.style.height = 'auto';
-  ta.style.height = (ta.scrollHeight + 4) + 'px';   // 미리보기 칸 안에 스크롤바가 생기지 않게 자동 높이
+  $('f-preview').value = buildText();
+  fitPreview();
   $('f-copy').disabled = !$('f-read').checked;
   renderTotal(); checkDates();
 }
+
+/* ----- 미리보기 칸 자동 높이 -----
+   페이지가 아직 좁거나 글꼴이 덜 불러와진 순간에 재면 너무 길게 늘어나서,
+   칸 너비가 바뀔 때 · 글꼴이 다 불러와졌을 때 다시 재요 */
+function fitPreview(){
+  const ta = $('f-preview');
+  if (!ta.clientWidth) return;              // 아직 화면에 안 그려졌으면 나중에 다시
+  ta.style.height = 'auto';
+  ta.style.height = (ta.scrollHeight + 4) + 'px';
+}
+let lastPW = 0;
+new ResizeObserver(() => { const w = $('f-preview').clientWidth; if (w && w !== lastPW) { lastPW = w; fitPreview(); } }).observe($('f-preview'));
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPreview);
+addEventListener('load', fitPreview);
 
 /* ----- 필수 항목 확인 (빠진 칸은 빨갛게 표시) ----- */
 function missingFields(){
