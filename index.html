@@ -210,6 +210,15 @@ section{max-width:1120px;margin:0 auto 40px}
 .ef textarea{min-height:76px}
 @media(max-width:640px){.ef{grid-template-columns:1fr}}
 
+/* ---------- 안내 글자·입력 내용 : 2단계 얇게(500) + 연회색 ---------- */
+:root{--soft:#b2aaae;--soft-weight:500}
+.form input::placeholder,.form textarea::placeholder{color:var(--soft);font-weight:var(--soft-weight) !important;opacity:1}
+.form input[type=date]:not(.filled){color:var(--soft);font-weight:var(--soft-weight) !important}
+.form #f-preview{color:var(--soft);font-weight:var(--soft-weight) !important}
+/* 레퍼런스 체크 문구·디자인 항목 이름 : 얇게(500) + 진한 색 */
+.form .refbox,.form .item span{color:#2a2a2a;font-weight:var(--soft-weight) !important}
+.form .refbox:has(input:checked){color:var(--p2)}
+
 @media(max-width:640px){.grid2{grid-template-columns:1fr}}
 @media(max-width:560px){
   .card-top{padding:20px 18px 14px}
@@ -805,6 +814,10 @@ function update(){
   ta.style.height = (ta.scrollHeight + 4) + 'px';   // 미리보기 칸 안에 스크롤바가 생기지 않게 자동 높이
   $('f-copy').disabled = !$('f-read').checked;
 }
+/* 날짜를 고르면 진한 글씨로 */
+const markDates = () => document.querySelectorAll('.form input[type=date]').forEach(d => d.classList.toggle('filled', !!d.value));
+$('f').addEventListener('input', markDates);
+$('f').addEventListener('change', markDates);
 $('f').addEventListener('input', update);
 $('f').addEventListener('change', update);
 
@@ -823,7 +836,7 @@ $('f-copy').onclick = async () => {
   setTimeout(() => b.textContent = old, 2800);
 };
 $('f-reset').onclick = () => {
-  $('f').reset(); colors = []; items = {}; closeEditor(); renderChips(); renderItems(); update();
+  $('f').reset(); colors = []; items = {}; closeEditor(); renderChips(); renderItems(); markDates(); update();
 };
 renderItems(); renderChips(); update();
 
