@@ -868,7 +868,8 @@ function cardHTML(i, idx){
   </a>`;
 }
 function renderPortfolio(){
-  $('p-tabs').innerHTML = ['ALL', ...P.cats].map(c =>
+  if (!P.cats.includes(pcat)) pcat = P.cats[0] || '';   // ALL 탭 없이 첫 카테고리부터 보여줘요
+  $('p-tabs').innerHTML = P.cats.map(c =>
     `<button type="button" class="ptab ${c === pcat ? 'on' : ''}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
   const subs = pcat === 'ALL' ? [] : [...new Set(P.items.filter(i => i.cat === pcat && i.sub).map(i => i.sub))];
   $('p-subs').innerHTML = subs.length
@@ -923,14 +924,14 @@ function placeLB(){
   lbH = h;
   sizeLB();
 }
-/* 크게 보기 이미지 크기 : 보이는 화면의 약 65% (세로 68% · 가로 70% 안에서 비율 그대로, 작은 이미지는 키워요) */
+/* 크게 보기 이미지 크기 : 보이는 화면의 약 80% (가로 · 세로 80% 안에서 비율 그대로, 작은 이미지는 키워요) */
 let lbH = 0;
 function sizeLB(){
   if (!lbImg.naturalWidth || !lbH) return;
   const r = lbImg.naturalHeight / lbImg.naturalWidth;
   const bw = lbBox.clientWidth;
-  const availW = Math.max(160, Math.min(bw * 0.70, bw - 128));   // 양옆 화살표 자리는 비워둬요
-  const availH = Math.max(160, lbH * 0.68);
+  const availW = Math.max(160, Math.min(bw * 0.80, bw - 128));   // 화면의 80% · 양옆 화살표 자리는 비워둬요
+  const availH = Math.max(160, Math.min(lbH * 0.80, lbH - 70));  // 화면의 80% · 아래 설명 글자 자리는 남겨요
   const w = Math.min(availW, availH / r);
   lbImg.style.maxHeight = 'none';
   lbImg.style.width = Math.round(w) + 'px';
