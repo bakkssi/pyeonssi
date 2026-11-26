@@ -1,0 +1,16 @@
+{
+  "name": "PYEONSSI 관리 페이지",
+  "short_name": "편씨 관리",
+  "description": "상세페이지 일정 · 디자인 항목 · 가격 · 포트폴리오 관리",
+  "lang": "ko",
+  "start_url": "admin.html",
+  "scope": "admin",
+  "display": "standalone",
+  "background_color": "#fff4f9",
+  "theme_color": "#f6a9c9",
+  "icons": [
+    {"src": "admin-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "admin-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "admin-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

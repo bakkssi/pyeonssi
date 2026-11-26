@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>관리 페이지</title>
+<!-- 설치형 앱 (PWA) -->
+<link rel="manifest" href="admin.webmanifest">
+<meta name="theme-color" content="#f6a9c9">
+<link rel="icon" type="image/png" href="admin-icon-192.png">
+<link rel="apple-touch-icon" href="admin-icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="편씨 관리">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>
 @import url('https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css');   /* 도트 폰트 (OFL 무료) */
 @font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');font-weight:500;font-display:swap}
@@ -55,6 +64,7 @@ input::placeholder{color:#b2aaae}
 .btn{font-family:var(--pix);font-size:12px;border:1.5px solid var(--frame-line);border-radius:4px;padding:8px 14px;background:var(--p1);color:#fff;cursor:pointer;white-space:nowrap;line-height:1.2}
 .btn:hover{opacity:.9}
 .btn.ghost{background:var(--p4);color:var(--p2);border-color:var(--p3)}
+#install[hidden]{display:none}
 .btn.dark{background:#2a2a2a;border-color:#2a2a2a}
 .btn.sm{padding:5px 9px;font-size:11px}
 .btn:disabled{background:#e6dfe3;border-color:#e6dfe3;color:#fff;cursor:not-allowed}
@@ -153,6 +163,7 @@ input[type=checkbox]:checked::after{opacity:1}
         <h1 class="mh-title">PYEONSSI's admin room</h1>
       </div>
       <div class="savebar">
+        <button class="btn ghost" id="install" type="button" hidden>⬇ 앱으로 설치</button>
         <span class="note" id="dirty-note">저장할 변경 없음</span>
         <button class="btn" id="save" type="button" disabled>GitHub에 저장</button>
       </div>
@@ -872,6 +883,20 @@ async function commit(delList) {
   const nc = await gh(repoPath('/git/commits'), {method: 'POST', body: JSON.stringify({message: '상세페이지 관리 페이지에서 업데이트', tree: nt.sha, parents: [baseSha]})});
   await gh(repoPath('/git/refs/heads/' + branch), {method: 'PATCH', body: JSON.stringify({sha: nc.sha})});
 }
+
+/* ---------- 설치형 앱 ---------- */
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  navigator.serviceWorker.register('admin-sw.js', {scope: './admin'}).catch(() => {});
+}
+let installEvt = null;
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; $('install').hidden = false; });
+$('install').onclick = async () => {
+  if (!installEvt) return;
+  installEvt.prompt();
+  await installEvt.userChoice.catch(() => null);
+  installEvt = null; $('install').hidden = true;
+};
+addEventListener('appinstalled', () => { $('install').hidden = true; setMsg('✓ 앱으로 설치됐어요. 바탕화면·시작 메뉴(휴대폰은 홈 화면)의 "편씨 관리"로 열 수 있어요.'); });
 
 /* ---------- 시작 ---------- */
 if (token) { setTk('저장된 토큰으로 연결하는 중...'); connect().then(() => setTk('')).catch(e => { setTk(explain(e), true); }); }
