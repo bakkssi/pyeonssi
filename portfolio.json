@@ -15,6 +15,11 @@
  ],
  "items": [
   {
+   "cat": "썸네일",
+   "img": "img/p-mwxo596w-240.webp",
+   "r": 0.5629
+  },
+  {
    "cat": "포스터",
    "img": "img/p-mwxo217b-239.webp",
    "sub": "굿즈 인포",
@@ -105,11 +110,6 @@
   {
    "cat": "기타 디자인",
    "img": "img/p-mwxns2mz-231.webp",
-   "r": 0.5632
-  },
-  {
-   "cat": "썸네일",
-   "img": "img/p-mwxnpvzh-219.webp",
    "r": 0.5632
   },
   {
