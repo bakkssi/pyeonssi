@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>포트폴리오 관리</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+@font-face{font-family:'SchoolFont';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');font-weight:400;font-display:swap}
+:root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--mute:#c48aaa;--ink:#444}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Noto Sans KR',sans-serif;font-weight:400;color:var(--ink);background:#fff5f9;padding:24px 16px 80px;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto}
+.card{background:#fff;border-radius:20px;overflow:hidden;border:1.5px solid var(--p3);margin-bottom:22px}
+.top{background:var(--p4);padding:24px 32px 18px;position:relative}
+.top::before{content:"";position:absolute;inset:0;opacity:.22;background-image:repeating-linear-gradient(45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px),repeating-linear-gradient(-45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px)}
+.top>*{position:relative}
+.chip{background:var(--p1);color:#fff;font-family:'SchoolFont',sans-serif;font-size:13px;letter-spacing:2px;padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:6px}
+.title{font-size:34px;color:var(--p2);letter-spacing:2px;line-height:1.1;font-weight:700}
+.sub{font-size:10px;letter-spacing:3px;color:#d48aab;text-transform:uppercase;margin-top:6px}
+.body{padding:22px 30px 26px}
+h3{font-family:'SchoolFont',sans-serif;font-weight:400;font-size:16px;color:var(--p2);letter-spacing:1px;margin-bottom:10px}
+.hint{font-size:12px;color:var(--mute);line-height:1.8}
+input[type=text],input[type=password],select{width:100%;font:inherit;font-size:13px;color:#333;background:#fff;border:1px solid var(--p3);border-radius:9px;padding:8px 11px;outline:none}
+input:focus,select:focus{border-color:var(--p1);box-shadow:0 0 0 3px var(--p4)}
+.btn{font-family:'SchoolFont',sans-serif;font-size:14px;letter-spacing:1px;border:0;border-radius:10px;padding:9px 18px;background:var(--p1);color:#fff;cursor:pointer;white-space:nowrap}
+.btn:hover{opacity:.9}
+.btn.ghost{background:var(--p4);color:var(--p2)}
+.btn.dark{background:#222}
+.btn:disabled{background:#e6dfe3;color:#fff;cursor:not-allowed}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>input{flex:1;min-width:160px}
+.msg{font-size:13px;color:var(--p2);margin-top:8px;min-height:20px;white-space:pre-wrap}
+.msg.err{color:#d23a3a}
+hr{border:0;border-top:.5px solid var(--p3);margin:20px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.cchip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--p3);border-radius:18px;padding:3px 6px 3px 14px;background:#fff;font-family:'SchoolFont',sans-serif;font-size:13px;color:var(--p2)}
+.cchip button{border:0;background:none;color:var(--mute);cursor:pointer;font-size:17px;line-height:1;padding:0 4px}
+.cchip button:hover{color:#d23a3a}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drop{margin-top:12px;border:2px dashed var(--p3);border-radius:14px;padding:26px 14px;text-align:center;color:var(--mute);background:var(--p5);cursor:pointer;font-size:14px}
+.drop.on{border-color:var(--p1);background:var(--p4)}
+.bar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--p4);padding:12px 0;margin:0 0 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar select{width:auto;min-width:140px}
+.bar .count{font-size:13px;color:var(--mute)}
+.bar .sp{flex:1}
+.bar label{font-size:12px;color:var(--ink);display:flex;gap:5px;align-items:center;cursor:pointer}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.it{position:relative;border:1.5px solid var(--p3);border-radius:14px;background:#fff;padding:8px;display:flex;flex-direction:column;gap:6px}
+.it.sel{border-color:var(--p2);box-shadow:0 0 0 3px var(--p4)}
+.it.new{border-color:var(--p1)}
+.it img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;border-radius:9px;background:var(--p5);display:block}
+.it .ck{position:absolute;left:14px;top:14px;background:#fff;border-radius:6px;padding:2px 4px;line-height:1}
+.it .ck input{width:17px;height:17px;accent-color:var(--p1);cursor:pointer}
+.it .nb{position:absolute;right:14px;top:14px;background:var(--p1);color:#fff;font-size:11px;border-radius:6px;padding:0 7px;font-family:'SchoolFont',sans-serif}
+.it .btns{display:flex;gap:6px}
+.it .btns button{flex:1;font-size:12px;border:0;border-radius:8px;padding:6px 4px;cursor:pointer;background:var(--p4);color:var(--p2);font-family:'SchoolFont',sans-serif}
+.it .btns .minus{background:#222;color:#fff}
+.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:40px 0}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}.body{padding:18px 16px 22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <div class="top">
+      <div class="chip">관리자</div>
+      <div class="title">ADMIN.</div>
+      <div class="sub">Portfolio Manager</div>
+    </div>
+    <div class="body" id="s-token">
+      <h3>1. GitHub 연결</h3>
+      <div id="tk-form">
+        <div class="row">
+          <input type="password" id="tk-in" placeholder="GitHub 토큰을 붙여넣으세요 (이 브라우저에만 저장돼요)" autocomplete="off">
+          <button class="btn" id="tk-go" type="button">연결</button>
+        </div>
+        <div class="hint" style="margin-top:8px">토큰은 저장소 <b>pyeonssi</b> 한 곳에만 <b>Contents: Read and write</b> 권한을 준 것으로 만드세요. 다른 사람에게 보여주거나 채팅·코드에 붙여넣지 마세요.</div>
+      </div>
+      <div id="tk-ok" hidden class="row">
+        <span style="font-size:14px;color:var(--p2)">✓ 연결됨 · <span id="tk-repo"></span></span>
+        <span style="flex:1"></span>
+        <button class="btn ghost" id="tk-clear" type="button">토큰 지우기</button>
+      </div>
+      <div class="msg" id="tk-msg"></div>
+    </div>
+  </div>
+
+  <div id="s-main" hidden>
+
+    <div class="card">
+      <div class="body">
+        <h3>2. 카테고리 (위쪽 탭)</h3>
+        <div class="chips" id="cats"></div>
+        <div class="row">
+          <input type="text" id="cat-in" placeholder="새 카테고리 이름 (예: Logo)">
+          <button class="btn" id="cat-add" type="button">+ 추가</button>
+        </div>
+        <div class="hint" style="margin-top:6px">작업이 들어 있는 카테고리는 지울 수 없어요.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="body">
+        <h3>3. 작업 추가 ( + )</h3>
+        <div class="grid2">
+          <div><div class="hint">카테고리</div><select id="add-cat"></select></div>
+          <div><div class="hint">하위 분류 (선택)</div><input type="text" id="add-sub" list="subs" placeholder="예: 후원"></div>
+        </div>
+        <div class="drop" id="drop">여기에 이미지를 끌어다 놓거나 눌러서 고르세요 (여러 장 가능)<br><span class="hint">자동으로 가볍게 줄여서 올려요 · 새 작업은 맨 위에 들어가요</span></div>
+        <input type="file" id="add-files" accept="image/*" multiple hidden>
+        <div class="msg" id="add-msg"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="body">
+        <h3>4. 작업 목록</h3>
+        <div class="bar">
+          <select id="flt"></select>
+          <span class="count" id="count"></span>
+          <span class="sp"></span>
+          <label><input type="checkbox" id="opt-img" checked> 삭제한 작업의 이미지 파일도 지우기</label>
+          <button class="btn ghost" id="fill-r" type="button" title="예전에 올린 작업의 이미지 비율을 채워요">비율 정보 채우기</button>
+          <button class="btn ghost" id="sel-all" type="button">현재 목록 전체 선택</button>
+          <button class="btn dark" id="del-sel" type="button" disabled>− 선택 삭제</button>
+          <button class="btn" id="save" type="button" disabled>GitHub에 저장</button>
+        </div>
+        <div class="msg" id="msg"></div>
+        <div class="list" id="list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<datalist id="subs"></datalist>
+
+<script>
+const OWNER = 'bakkssi', REPO = 'pyeonssi';
+const API = 'https://api.github.com';
+const DEFAULT_CATS = ['Overlay', 'CSS', 'Schedule', 'Poster', 'RTPoster'];
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+let token = '';
+try { token = localStorage.getItem('pf_token') || ''; } catch(e) {}
+let branch = 'main';
+let data = {cats: [], items: []};
+let removedImgs = new Set();
+let uid = 0, dirty = false;
+let rawBase = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/`;
+const isRel = s => !/^(https?:)?\/\//.test(s);
+const imgSrc = i => i.url || (isRel(i.img) ? rawBase + i.img : i.img);
+const measure = src => new Promise(res => { const im = new Image(); im.onload = () => res(im.naturalWidth ? im.naturalHeight / im.naturalWidth : 0); im.onerror = () => res(0); im.src = src; });
+
+/* ---------- GitHub API ---------- */
+async function gh(path, opts) {
+  opts = opts || {};
+  const headers = {'Accept':'application/vnd.github+json','Authorization':'Bearer ' + token,'X-GitHub-Api-Version':'2022-11-28'};
+  if (opts.body) headers['Content-Type'] = 'application/json';
+  const r = await fetch(API + path, {method: opts.method || 'GET', headers, body: opts.body, cache: 'no-store'});
+  if (!r.ok) {
+    let m = ''; try { m = (await r.json()).message || ''; } catch(e) {}
+    const err = new Error(r.status + ' ' + m); err.status = r.status; throw err;
+  }
+  return r.status === 204 ? null : r.json();
+}
+const repoPath = p => `/repos/${OWNER}/${REPO}${p}`;
+
+function explain(e) {
+  if (e.status === 401) return '토큰이 올바르지 않거나 만료됐어요. 새로 만들어 붙여넣어 주세요.';
+  if (e.status === 403 || e.status === 404) return '이 저장소에 접근할 수 없어요. 토큰이 pyeonssi 저장소에 Contents: Read and write 권한이 있는지 확인해 주세요.';
+  if (/fast forward/i.test(e.message)) return '저장하는 사이에 저장소가 바뀌어서 실패했어요. 10초쯤 기다렸다가 "GitHub에 저장"을 다시 눌러 주세요. (추가한 작업은 그대로 남아 있어요)';
+  return '오류: ' + e.message;
+}
+
+async function connect() {
+  const repo = await gh(repoPath(''));
+  branch = repo.default_branch || 'main';
+  rawBase = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${branch}/`;
+  let loaded = null;
+  try {
+    const f = await gh(repoPath('/contents/portfolio.json?ref=' + encodeURIComponent(branch)));
+    const bin = atob(f.content.replace(/\n/g, ''));
+    const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+    loaded = JSON.parse(new TextDecoder().decode(bytes));
+  } catch(e) { if (e.status !== 404) throw e; }
+  data.cats = (loaded && Array.isArray(loaded.cats) && loaded.cats.length) ? loaded.cats : DEFAULT_CATS.slice();
+  data.items = ((loaded && loaded.items) || []).map(i => ({id: ++uid, cat: i.cat, sub: i.sub || '', title: i.title || '', img: i.img, r: +i.r || 0, isNew: false, sel: false}));
+  removedImgs = new Set();
+  dirty = false;
+  $('tk-repo').textContent = `${OWNER}/${REPO} (${branch})`;
+  $('tk-form').hidden = true; $('tk-ok').hidden = false; $('s-main').hidden = false;
+  renderAll();
+}
+
+/* ---------- 토큰 ---------- */
+$('tk-go').onclick = async () => {
+  const t = $('tk-in').value.trim();
+  if (t) token = t;
+  if (!token) { setTk('토큰을 먼저 붙여넣어 주세요.', true); return; }
+  setTk('연결하는 중...');
+  try {
+    await connect();
+    try { localStorage.setItem('pf_token', token); } catch(e) {}
+    $('tk-in').value = ''; setTk('');
+  } catch(e) { setTk(explain(e), true); }
+};
+$('tk-clear').onclick = () => {
+  try { localStorage.removeItem('pf_token'); } catch(e) {}
+  token = ''; $('tk-form').hidden = false; $('tk-ok').hidden = true; $('s-main').hidden = true; setTk('토큰을 지웠어요.');
+};
+function setTk(t, err) { const m = $('tk-msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); }
+function setMsg(t, err) { const m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); }
+
+/* ---------- 카테고리 ---------- */
+function renderCats() {
+  $('cats').innerHTML = data.cats.map((c, i) => `<span class="cchip">${esc(c)}<button type="button" data-i="${i}" title="삭제">×</button></span>`).join('') || '<span class="hint">카테고리가 없어요</span>';
+  const opts = data.cats.map(c => `<option>${esc(c)}</option>`).join('');
+  const keep = $('add-cat').value;
+  $('add-cat').innerHTML = opts; if (data.cats.includes(keep)) $('add-cat').value = keep;
+  const f = $('flt').value || 'ALL';
+  $('flt').innerHTML = '<option value="ALL">전체 보기</option>' + opts;
+  $('flt').value = (f === 'ALL' || data.cats.includes(f)) ? f : 'ALL';
+}
+$('cats').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const c = data.cats[+b.dataset.i];
+  if (data.items.some(i => i.cat === c)) { setMsg(`'${c}'에 작업이 있어서 지울 수 없어요. 작업을 먼저 삭제하거나 다른 카테고리로 옮겨 주세요.`, true); return; }
+  data.cats.splice(+b.dataset.i, 1); markDirty(); renderAll();
+});
+$('cat-add').onclick = () => {
+  const v = $('cat-in').value.trim();
+  if (!v) return;
+  if (!data.cats.includes(v)) { data.cats.push(v); markDirty(); }
+  $('cat-in').value = ''; renderAll();
+};
+
+/* ---------- 이미지 처리 ---------- */
+async function prepare(file) {
+  if (/gif|svg/.test(file.type)) return {blob: file, ext: file.type.includes('gif') ? 'gif' : 'svg'};
+  const bmp = await createImageBitmap(file);
+  const s = Math.min(1, 1400 / bmp.width, 2400 / bmp.height);
+  const w = Math.max(1, Math.round(bmp.width * s)), h = Math.max(1, Math.round(bmp.height * s));
+  const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+  const ctx = cv.getContext('2d'); ctx.drawImage(bmp, 0, 0, w, h);
+  let blob = await new Promise(r => cv.toBlob(r, 'image/webp', 0.86));
+  let ext = 'webp';
+  if (!blob || blob.type !== 'image/webp') { blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.88)); ext = 'jpg'; }
+  return {blob, ext};
+}
+const toB64 = blob => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
+
+async function addFiles(files) {
+  const cat = $('add-cat').value, sub = $('add-sub').value.trim();
+  if (!cat) { $('add-msg').textContent = '카테고리를 먼저 추가해 주세요.'; return; }
+  const arr = [...files].filter(f => /^image\//.test(f.type));
+  if (!arr.length) { $('add-msg').textContent = '이미지 파일만 올릴 수 있어요.'; return; }
+  const stamp = Date.now().toString(36);
+  const created = []; let fail = 0;
+  for (let n = 0; n < arr.length; n++) {
+    $('add-msg').textContent = `이미지 처리 중 ${n + 1}/${arr.length}`;
+    try {
+      const {blob, ext} = await prepare(arr[n]);
+      const id = ++uid;
+      const url = URL.createObjectURL(blob);
+      const r = await measure(url);
+      created.push({id, cat, sub, title: '', img: `img/p-${stamp}-${id}.${ext}`, r: r ? +r.toFixed(4) : 0, isNew: true, blob, url, sel: false});
+    } catch(e) { fail++; }
+  }
+  data.items = created.concat(data.items);
+  $('add-msg').textContent = `${created.length}개 추가됨` + (fail ? ` (${fail}개는 읽지 못했어요)` : '') + ' · 아래에서 확인하고 "GitHub에 저장"을 누르세요.';
+  if (created.length) markDirty();
+  renderAll();
+}
+$('drop').onclick = () => $('add-files').click();
+$('add-files').onchange = e => { addFiles(e.target.files); e.target.value = ''; };
+['dragenter','dragover'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.add('on'); }));
+['dragleave','drop'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.remove('on'); }));
+$('drop').addEventListener('drop', e => addFiles(e.dataTransfer.files));
+
+/* ---------- 목록 ---------- */
+function markDirty() { dirty = true; $('save').disabled = false; }
+window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+function visible() { const f = $('flt').value; return data.items.filter(i => f === 'ALL' || i.cat === f); }
+
+function renderList() {
+  const list = visible();
+  $('list').innerHTML = list.map(i => `
+    <div class="it ${i.sel ? 'sel' : ''} ${i.isNew ? 'new' : ''}" data-id="${i.id}">
+      <label class="ck"><input type="checkbox" data-a="sel" ${i.sel ? 'checked' : ''}></label>
+      ${i.isNew ? '<span class="nb">NEW</span>' : ''}
+      <img src="${esc(imgSrc(i))}" loading="lazy" alt="">
+      <select data-a="cat">${data.cats.map(c => `<option ${c === i.cat ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select>
+      <input type="text" data-a="sub" list="subs" placeholder="하위 분류 (선택)" value="${esc(i.sub)}">
+      <input type="text" data-a="title" placeholder="카드 제목 (선택)" value="${esc(i.title)}">
+      <div class="btns"><button type="button" data-a="top">⇡ 맨 위로</button><button type="button" data-a="del" class="minus">− 삭제</button></div>
+    </div>`).join('') || '<div class="empty">표시할 작업이 없어요. 위에서 + 로 추가해 보세요.</div>';
+  updateBar();
+}
+function updateBar() {
+  const n = data.items.length, nn = data.items.filter(i => i.isNew).length, sel = data.items.filter(i => i.sel).length;
+  $('count').textContent = `총 ${n}개` + (nn ? ` · 새 작업 ${nn}` : '') + (removedImgs.size ? ` · 삭제 예정 ${removedImgs.size}` : '');
+  $('del-sel').disabled = !sel; $('del-sel').textContent = sel ? `− 선택 삭제 (${sel})` : '− 선택 삭제';
+  const subs = [...new Set(data.items.map(i => i.sub).filter(Boolean))];
+  $('subs').innerHTML = subs.map(s => `<option value="${esc(s)}">`).join('');
+}
+function renderAll() { renderCats(); renderList(); }
+
+function removeItems(ids) {
+  data.items = data.items.filter(i => {
+    if (!ids.has(i.id)) return true;
+    if (i.isNew) { if (i.url) URL.revokeObjectURL(i.url); } else removedImgs.add(i.img);
+    return false;
+  });
+  markDirty(); renderList();
+}
+$('list').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const el = b.closest('.it'); const id = +el.dataset.id;
+  const i = data.items.find(x => x.id === id); if (!i) return;
+  if (b.dataset.a === 'del') removeItems(new Set([id]));
+  else if (b.dataset.a === 'top') { data.items = [i].concat(data.items.filter(x => x !== i)); markDirty(); renderList(); }
+});
+$('list').addEventListener('change', e => {
+  const el = e.target.closest('.it'); if (!el) return;
+  const i = data.items.find(x => x.id === +el.dataset.id); if (!i) return;
+  const a = e.target.dataset.a;
+  if (a === 'sel') { i.sel = e.target.checked; el.classList.toggle('sel', i.sel); updateBar(); }
+  else if (a === 'cat') { i.cat = e.target.value; markDirty(); }
+  else if (a === 'sub') { i.sub = e.target.value.trim(); markDirty(); updateBar(); }
+  else if (a === 'title') { i.title = e.target.value.trim(); markDirty(); }
+});
+$('list').addEventListener('input', e => {
+  const el = e.target.closest('.it'); if (!el) return;
+  const i = data.items.find(x => x.id === +el.dataset.id); if (!i) return;
+  if (e.target.dataset.a === 'sub') i.sub = e.target.value.trim();
+  if (e.target.dataset.a === 'title') i.title = e.target.value.trim();
+  if (e.target.dataset.a === 'sub' || e.target.dataset.a === 'title') markDirty();
+});
+$('flt').onchange = renderList;
+$('fill-r').onclick = async () => {
+  const todo = data.items.filter(i => !(i.r > 0));
+  if (!todo.length) { setMsg('모든 작업에 비율 정보가 이미 있어요.'); return; }
+  let done = 0;
+  for (let n = 0; n < todo.length; n++) {
+    setMsg(`이미지 비율 확인 중 ${n + 1}/${todo.length}`);
+    const r = await measure(imgSrc(todo[n]));
+    if (r > 0) { todo[n].r = +r.toFixed(4); done++; }
+  }
+  if (done) markDirty();
+  setMsg(done ? `${done}개의 비율 정보를 채웠어요. "GitHub에 저장"을 눌러 주세요.` : '이미지를 불러오지 못해서 채우지 못했어요.', !done);
+};
+$('sel-all').onclick = () => { const v = visible(); const all = v.every(i => i.sel); v.forEach(i => i.sel = !all); renderList(); };
+$('del-sel').onclick = () => {
+  const ids = new Set(data.items.filter(i => i.sel).map(i => i.id));
+  if (!ids.size) return;
+  if (!confirm(`선택한 ${ids.size}개를 삭제할까요?\n(저장 버튼을 눌러야 실제로 반영돼요)`)) return;
+  removeItems(ids);
+};
+
+/* ---------- 저장 (한 번의 커밋으로 올려요) ---------- */
+$('save').onclick = async () => {
+  $('save').disabled = true;
+  try {
+    setMsg('GitHub에 올리는 중... (이미지가 많으면 조금 걸려요)');
+    const delList = $('opt-img').checked
+      ? [...removedImgs].filter(p => /^img\//.test(p) && !data.items.some(i => i.img === p)) : [];
+    await commitRetry(delList).catch(async e => {
+      if (!delList.length || e.status === 401) throw e;
+      setMsg('이미지 삭제 없이 다시 시도하는 중...');
+      await commitRetry([]);
+    });
+    data.items.forEach(i => { i.isNew = false; delete i.blob; });
+    removedImgs = new Set(); dirty = false;
+    renderList();
+    setMsg('✓ 저장 완료! 웹페이지를 새로고침(Ctrl+Shift+R)하면 바로 보여요.');
+  } catch(e) {
+    $('save').disabled = false;
+    setMsg(explain(e), true);
+  }
+};
+
+/* 저장 중에 저장소가 바뀌면(422 not a fast forward) 최신 상태를 다시 읽어서 자동으로 다시 시도해요 */
+async function commitRetry(delList) {
+  for (let n = 0; n < 4; n++) {
+    try { return await commit(delList); }
+    catch(e) {
+      if (n < 3 && e.status === 422 && /fast forward/i.test(e.message)) {
+        setMsg('저장소가 바뀌어서 최신 상태로 다시 시도하는 중...');
+        await new Promise(r => setTimeout(r, 1500));
+        continue;
+      }
+      throw e;
+    }
+  }
+}
+
+async function commit(delList) {
+  const ref = await gh(repoPath('/git/ref/heads/' + branch));
+  const baseSha = ref.object.sha;
+  const base = await gh(repoPath('/git/commits/' + baseSha));
+  const tree = [];
+  const fresh = data.items.filter(i => i.isNew && i.blob);
+  for (let n = 0; n < fresh.length; n++) {
+    setMsg(`이미지 올리는 중 ${n + 1}/${fresh.length}`);
+    if (!fresh[n]._sha) {
+      const blob = await gh(repoPath('/git/blobs'), {method: 'POST', body: JSON.stringify({content: await toB64(fresh[n].blob), encoding: 'base64'})});
+      fresh[n]._sha = blob.sha;
+    }
+    tree.push({path: fresh[n].img, mode: '100644', type: 'blob', sha: fresh[n]._sha});
+  }
+  delList.forEach(p => tree.push({path: p, mode: '100644', type: 'blob', sha: null}));
+  const out = {cats: data.cats, items: data.items.map(i => { const o = {cat: i.cat, img: i.img}; if (i.sub) o.sub = i.sub; if (i.title) o.title = i.title; if (i.r > 0) o.r = i.r; return o; })};
+  tree.push({path: 'portfolio.json', mode: '100644', type: 'blob', content: JSON.stringify(out, null, 1)});
+  setMsg('커밋 만드는 중...');
+  const nt = await gh(repoPath('/git/trees'), {method: 'POST', body: JSON.stringify({base_tree: base.tree.sha, tree})});
+  const nc = await gh(repoPath('/git/commits'), {method: 'POST', body: JSON.stringify({message: '포트폴리오 업데이트', tree: nt.sha, parents: [baseSha]})});
+  await gh(repoPath('/git/refs/heads/' + branch), {method: 'PATCH', body: JSON.stringify({sha: nc.sha})});
+}
+
+/* ---------- 시작 ---------- */
+if (token) { setTk('저장된 토큰으로 연결하는 중...'); connect().then(() => setTk('')).catch(e => { setTk(explain(e), true); }); }
+</script>
+</body>
+</html>
