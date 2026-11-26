@@ -9,9 +9,90 @@
   "채널 아트",
   "오버레이",
   "다시보기",
-  "로딩 화면"
+  "로딩 화면",
+  "썸네일"
  ],
  "items": [
+  {
+   "cat": "썸네일",
+   "img": "img/p-mwxnpvzh-219.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "썸네일",
+   "img": "img/p-mwxnpvzh-222.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "썸네일",
+   "img": "img/p-mwxnpvzh-217.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "썸네일",
+   "img": "img/p-mwxnpvzh-220.webp",
+   "r": 0.5614
+  },
+  {
+   "cat": "썸네일",
+   "img": "img/p-mwxnpvzh-221.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "썸네일",
+   "img": "img/p-mwxnpvzh-218.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "다시보기",
+   "img": "img/p-mwxnp7ce-214.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "다시보기",
+   "img": "img/p-mwxnp7ce-216.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "다시보기",
+   "img": "img/p-mwxnp7ce-215.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "다시보기",
+   "img": "img/p-mwxnp7ce-213.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "채널 아트",
+   "img": "img/p-mwxnomlo-212.webp",
+   "r": 0.3333
+  },
+  {
+   "cat": "채널 아트",
+   "img": "img/p-mwxnomlo-211.webp",
+   "r": 0.1649
+  },
+  {
+   "cat": "채널 아트",
+   "img": "img/p-mwxnomlo-210.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "채널 아트",
+   "img": "img/p-mwxnomlo-209.webp",
+   "r": 0.5632
+  },
+  {
+   "cat": "채널 아트",
+   "img": "img/p-mwxnomlo-208.webp",
+   "r": 0.514
+  },
+  {
+   "cat": "채널 아트",
+   "img": "img/p-mwxnomlo-207.webp",
+   "r": 0.5158
+  },
   {
    "cat": "치지직 패널",
    "img": "img/p-mwxnjjbw-174.webp",
