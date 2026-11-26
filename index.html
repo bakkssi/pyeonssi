@@ -8,14 +8,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Noto+Sans+KR:wght@300;400;500&display=swap');
 @font-face{font-family:'SchoolFont';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'SchoolFont';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-B.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');font-weight:100;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2');font-weight:200;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
 @font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');font-weight:800;font-display:swap}
+@font-face{font-family:'Paperozi';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2');font-weight:900;font-display:swap}
 
 :root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--sub:#d48aab;--mute:#c48aaa;--ink:#444;
-  /* 폰트 바꾸기: 여기 세 줄만 고치면 페이지 전체가 바뀌어요 */
-  --f-body:'Noto Sans KR',sans-serif;      /* 본문·입력칸 */
-  --f-point:'SchoolFont',sans-serif;       /* 버튼·라벨·태그 */
-  --f-deco:'Paperozi',sans-serif}          /* 맺음말 */
+  /* 폰트 바꾸기: 여기 네 줄만 고치면 페이지 전체가 바뀌어요 (예전 폰트: 'Noto Sans KR' / 'SchoolFont') */
+  --f-body:'Paperozi',sans-serif;          /* 본문·입력칸 */
+  --f-point:'Paperozi',sans-serif;         /* 버튼·라벨·태그 */
+  --f-deco:'Paperozi',sans-serif;          /* 맺음말 */
+  --f-title:'Playfair Display',serif;      /* 큰 영문 제목 (SCHED. / FORM. / WORKS.) */
+  --f-weight:700}                          /* 한글 폰트 굵기 (100~900) */
+/* 큰 영문 제목 빼고 전부 페이퍼로지 700 */
+body *:not(.big-title){font-weight:var(--f-weight) !important}
 *{box-sizing:border-box;margin:0}
 /* 버튼·알약 안 글자/기호를 상하좌우 정가운데로 */
 button,.chip,.pill span,.cchip,.tag,.ptag{letter-spacing:0 !important}
@@ -24,7 +35,7 @@ button{display:inline-flex;align-items:center;justify-content:center;gap:5px;lin
 /* 안쪽 스크롤바 숨김 (스크롤바 2개 방지) */
 html{scrollbar-width:none;-ms-overflow-style:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
-body{font-family:var(--f-body);font-weight:300;color:var(--ink);background:transparent;padding:20px 16px 60px;line-height:1.6}
+body{font-family:var(--f-body);font-weight:var(--f-weight);color:var(--ink);background:transparent;padding:20px 16px 60px;line-height:1.6}
 button,input,select,textarea{font-family:var(--f-body);font-weight:300}
 section{max-width:1120px;margin:0 auto 40px}
 
@@ -34,7 +45,7 @@ section{max-width:1120px;margin:0 auto 40px}
 .diamond-pattern{position:absolute;inset:0;opacity:.22;background-image:repeating-linear-gradient(45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px),repeating-linear-gradient(-45deg,#ef94bc 0,#ef94bc 1px,transparent 1px,transparent 14px)}
 .top-inner{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
 .chip{background:var(--p1);color:#fff;font-family:var(--f-point);font-weight:400;font-size:13px;letter-spacing:2px;padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:6px}
-.big-title{font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:62px;line-height:1;letter-spacing:2px;color:var(--p2)}
+.big-title{font-family:var(--f-title);font-weight:700;font-style:italic;font-size:62px;line-height:1;letter-spacing:2px;color:var(--p2)}
 .big-title.md{font-size:48px}
 .sub{font-size:9px;letter-spacing:3px;color:var(--sub);text-transform:uppercase;margin-top:8px}
 .star-divider{display:flex;gap:5px;align-items:center;position:relative;z-index:1;padding-top:14px;flex-wrap:wrap}
