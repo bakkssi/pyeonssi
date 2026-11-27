@@ -8,6 +8,18 @@
 (function () {
   if (window.__pyRW) return; window.__pyRW = 1;
   var doc = document;
+
+  /* ---------- 아트머그 박스 테두리 다듬기 (후기와 상관없이 항상 적용) ----------
+     아트머그 커스텀 코드의 물방울 바인더 테두리(14px)를 반(7px)으로 줄이고, 물방울을 더 연하게 해요.
+     커스텀 코드는 그대로 두고 여기서 덮어써요. */
+  var FRAME = 'linear-gradient(#fff,#fff) padding-box,'
+    + 'radial-gradient(circle,#fac6dc 1.4px,transparent 1.9px) 0 0/12px 12px border-box,'
+    + 'radial-gradient(circle,#fac6dc 1.4px,transparent 1.9px) 6px 6px/12px 12px border-box,#f6a9c9 border-box';
+  var boxes = ['#rightInfo #profile', '#goodsInfo', '#goodsOrder', '#cont_qna', '#cont_after'].map(function (s) { return 'html body ' + s; }).join(',');
+  var fs = doc.createElement('style');
+  fs.textContent = boxes + '{border-width:7px !important;border-style:solid !important;border-color:transparent !important;background:' + FRAME + ' !important;'
+    + 'box-shadow:0 0 0 1.5px #e589b0,inset 0 0 0 1.5px #e589b0 !important}';
+  (doc.head || doc.documentElement).appendChild(fs);
   var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var W = 248, MIN_GAP = 28;   // 위젯 너비 · 본문과 최소 간격
 
@@ -39,8 +51,8 @@
   /* ---------- 스타일 ---------- */
   var css = ''
     + '.pyrw{position:fixed;top:50%;z-index:900;width:' + W + 'px;height:min(560px,calc(100vh - 140px));transform:translateY(-50%);box-sizing:border-box;'
-    + 'border:10px solid transparent;border-radius:16px;background:linear-gradient(#fff,#fff) padding-box,radial-gradient(circle,#fff 1.6px,transparent 2.2px) 0 0/14px 14px border-box,radial-gradient(circle,#fff 1.6px,transparent 2.2px) 7px 7px/14px 14px border-box,#f6a9c9 border-box;'
-    + 'box-shadow:0 0 0 2px #e589b0,inset 0 0 0 2px #e589b0,0 24px 40px -28px rgba(196,82,126,.55);color:#2a2a2a;font-family:"Paperozi",sans-serif;opacity:0;transition:opacity .4s;display:flex;flex-direction:column}'
+    + 'border:7px solid transparent;border-radius:14px;background:' + FRAME + ';'
+    + 'box-shadow:0 0 0 1.5px #e589b0,inset 0 0 0 1.5px #e589b0,0 24px 40px -28px rgba(196,82,126,.55);color:#2a2a2a;font-family:"Paperozi",sans-serif;opacity:0;transition:opacity .4s;display:flex;flex-direction:column}'
     + '.pyrw.on{opacity:1}.pyrw[hidden]{display:none}'
     + '.pyrw *{box-sizing:border-box}'
     + '.pyrw-hd{position:relative;flex:none;margin:0 12px;z-index:2;padding:18px 0 13px;text-align:center;background:#fff;border-bottom:1.5px dashed #f6c3d8}'

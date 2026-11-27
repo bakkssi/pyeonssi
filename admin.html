@@ -21,15 +21,15 @@
 
 /* ===== 미니홈피 컨셉 (상세페이지와 같은 색) ===== */
 :root{--p1:#ef94bc;--p2:#c4527e;--p3:#f5c6dc;--p4:#fce8f2;--p5:#fdf2f7;--mute:#a8959f;--ink:#444;
-  --frame:#f6a9c9;--frame-line:#e589b0;--frame-dot:#ffd6e7;--line:#ecd3de;--grid:#f7dbe7;
+  --frame:#f6a9c9;--frame-line:#e589b0;--frame-dot:#fac6dc;--line:#ecd3de;--grid:#f7dbe7;
   --pix:'Galmuri11','Paperozi',sans-serif}
 *{box-sizing:border-box;margin:0}
 body{font-family:'Paperozi',sans-serif;font-weight:500;color:var(--ink);line-height:1.6;padding:28px 16px 80px;
   background-color:#fff4f9;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
 .mh-wrap{max-width:1150px;margin:0 auto;padding-right:70px}
-.binder{position:relative;padding:18px;border:2px solid var(--frame-line);border-radius:22px;background-color:var(--frame);
-  background-image:radial-gradient(circle,var(--frame-dot) 2.6px,transparent 3.2px),radial-gradient(circle,var(--frame-dot) 2.6px,transparent 3.2px);background-size:20px 20px;background-position:0 0,10px 10px}
-.mh-page{position:relative;background:#fff;border:2px solid var(--frame-line);border-radius:14px;padding:22px 26px 28px;min-height:420px}
+.binder{position:relative;padding:9px;border:1.5px solid var(--frame-line);border-radius:18px;background-color:var(--frame);
+  background-image:radial-gradient(circle,var(--frame-dot) 1.5px,transparent 2px),radial-gradient(circle,var(--frame-dot) 1.5px,transparent 2px);background-size:12px 12px;background-position:0 0,6px 6px}
+.mh-page{position:relative;background:#fff;border:1.5px solid var(--frame-line);border-radius:14px;padding:22px 26px 28px;min-height:420px}
 
 /* 오른쪽 탭 */
 .mh-tabs{position:absolute;top:64px;right:-66px;display:flex;flex-direction:column;gap:6px;z-index:2}
@@ -58,6 +58,7 @@ h3::before{content:"▸ "}
 .sec:first-of-type{border-top:0;padding-top:0}
 
 /* 입력칸 · 버튼 (네모난 레트로) */
+input.masked{-webkit-text-security:disc;text-security:disc}
 input[type=text],input[type=password],input[type=date],select{width:100%;font:inherit;font-size:13px;color:#333;background:#fff;border:1px solid #e2cfd8;border-radius:4px;padding:7px 10px;outline:none}
 input:focus,select:focus{border-color:var(--p1);box-shadow:0 0 0 3px var(--p4)}
 input::placeholder{color:#b2aaae}
@@ -131,7 +132,7 @@ input[type=checkbox]:checked::after{opacity:1}
 
 @media(max-width:760px){
   .mh-wrap{padding-right:0}
-  .binder{padding:10px}
+  .binder{padding:6px}
   .mh-tabs{position:static;flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:4px;margin:0 6px -2px}
   .mh-tab{width:auto;padding:8px 12px;border:2px solid var(--frame-line);border-bottom:0;border-radius:8px 8px 0 0}
   .mh-page{padding:16px 12px 20px}
@@ -177,7 +178,8 @@ input[type=checkbox]:checked::after{opacity:1}
         <h3>GitHub 연결</h3>
         <div id="tk-form">
           <div class="row">
-            <input type="password" id="tk-in" placeholder="GitHub 토큰을 붙여넣으세요 (이 브라우저에만 저장돼요)" autocomplete="off">
+            <!-- 비밀번호 칸(type=password)이면 크롬이 '비밀번호 저장할까요?'를 띄워서, 일반 칸에 글자만 ●로 가려요 -->
+            <input type="text" id="tk-in" class="masked" placeholder="GitHub 토큰을 붙여넣으세요 (이 브라우저에만 저장돼요)" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
             <button class="btn" id="tk-go" type="button">연결</button>
           </div>
           <div class="hint" style="margin-top:8px">토큰은 저장소 <b>pyeonssi</b> 한 곳에만 <b>Contents: Read and write</b> 권한을 준 것으로 만드세요. 다른 사람에게 보여주거나 채팅·코드에 붙여넣지 마세요.</div>
