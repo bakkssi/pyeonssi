@@ -31,6 +31,39 @@
   fs.textContent = boxes + '{border-width:7px !important;border-style:solid !important;border-color:transparent !important;background:' + FRAME + ' !important;'
     + 'box-shadow:0 0 0 1.5px #e589b0,inset 0 0 0 1.5px #e589b0 !important}';
   (doc.head || doc.documentElement).appendChild(fs);
+
+  /* ---------- 오른쪽 박스 사이 다이어리 링 ----------
+     프로필 ↔ 상세 옵션, 상세 옵션 ↔ 가격 옵션 사이에 상세페이지와 같은 은색 링을 2쌍씩 걸어요.
+     링은 아래 박스 안에 붙여서, 위아래 박스 테두리에 13px씩 걸치게 해요. */
+  var rs = doc.createElement('style');
+  rs.textContent = '.py-rings{position:absolute;left:0;right:0;height:0;z-index:3;pointer-events:none}'
+    + '.py-rings i{position:absolute;top:0;width:13px;border-radius:7px;border:2.5px solid #b9b2b6;box-sizing:border-box;background:linear-gradient(90deg,#e6e3e5,#fff 45%,#d6d2d4)}'
+    + '.py-rings i:nth-child(1){left:18%}.py-rings i:nth-child(2){left:calc(18% + 28px)}'
+    + '.py-rings i:nth-child(3){right:calc(18% + 28px)}.py-rings i:nth-child(4){right:18%}';
+  (doc.head || doc.documentElement).appendChild(rs);
+  function ringUp() {
+    [['profile', 'goodsInfo'], ['goodsInfo', 'goodsOrder']].forEach(function (pair) {
+      var up = doc.getElementById(pair[0]), lo = doc.getElementById(pair[1]);
+      if (!up || !lo || up.parentNode !== lo.parentNode) return;
+      var box = lo.querySelector(':scope > .py-rings');
+      if (!box) {
+        box = doc.createElement('div'); box.className = 'py-rings'; box.setAttribute('aria-hidden', 'true');
+        box.innerHTML = '<i></i><i></i><i></i><i></i>';
+        if (getComputedStyle(lo).position === 'static') lo.style.position = 'relative';
+        lo.insertBefore(box, lo.firstChild);
+      }
+      var gap = Math.max(0, lo.getBoundingClientRect().top - up.getBoundingClientRect().bottom);
+      var bt = parseFloat(getComputedStyle(lo).borderTopWidth) || 0;
+      var h = gap + 26;
+      box.style.top = -(bt + gap + 13) + 'px';
+      Array.prototype.forEach.call(box.children, function (i) { i.style.height = h + 'px'; });
+      box.hidden = gap < 4;   // 박스가 붙어 있으면 링을 안 걸어요
+    });
+  }
+  function ringLater() { ringUp(); setTimeout(ringUp, 600); setTimeout(ringUp, 2000); }
+  if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', ringLater); else ringLater();
+  addEventListener('load', ringUp);
+  addEventListener('resize', ringUp);
   var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var W = 248, MIN_GAP = 28;   // 위젯 너비 · 본문과 최소 간격
 
