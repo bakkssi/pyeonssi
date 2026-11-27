@@ -66,7 +66,7 @@
     + 'box-shadow:0 0 0 1.5px #e589b0,inset 0 0 0 1.5px #e589b0,0 24px 40px -28px rgba(196,82,126,.55);color:#2a2a2a;font-family:"Paperozi",sans-serif;opacity:0;transition:opacity .4s;display:flex;flex-direction:column}'
     + '.pyrw.on{opacity:1}.pyrw[hidden]{display:none}'
     + '.pyrw *{box-sizing:border-box}'
-    + '.pyrw-hd{position:relative;flex:none;margin:0 12px;z-index:2;padding:18px 0 13px;text-align:center;background:#fff;border-bottom:1.5px dashed #f6c3d8}'
+    + '.pyrw-hd{position:relative;flex:none;margin:0 12px;z-index:2;padding:18px 0 13px;text-align:center;background:transparent;border-bottom:1.5px dashed #f6c3d8}'
     + '.pyrw-hd::after{content:"♥";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);padding:0 6px;background:#fff;color:#f6a9c9;font-size:10px;line-height:16px}'
     + '.pyrw-hd h3{margin:0;font:italic 700 24px/1.1 "Playfair Display",serif;color:#c4527e;letter-spacing:.5px}'
     + '.pyrw-st{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin-top:10px}'
