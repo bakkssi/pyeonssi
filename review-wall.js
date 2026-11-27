@@ -20,8 +20,9 @@
       var no = parseInt(td[0].textContent, 10);
       var st = tr.querySelector('.starBg > div');
       var pct = st ? parseFloat(st.style.width) : 100;
-      var full = doc.getElementById('afterContent' + no);
-      var text = ((full && full.textContent) || td[2].textContent || '').replace(/\s+/g, ' ').trim();
+      var full = doc.getElementById('afterContent' + no), ul = full && full.querySelector('ul');
+      // 작가 본인이 로그인하면 후기 아래에 '댓글쓰기' 버튼 글자가 붙어 있어서 빼요
+      var text = (((ul || full) && (ul || full).textContent) || td[2].textContent || '').replace(/\s+/g, ' ').replace(/\s*댓글\s*쓰기\s*$/, '').trim();
       if (!text) return;
       out.push({no: no, star: isNaN(pct) ? 5 : Math.round(pct / 20 * 10) / 10, text: text, who: td[3].textContent.trim(), date: td[4].textContent.trim()});
     });
@@ -42,12 +43,14 @@
     + 'box-shadow:0 0 0 2px #e589b0,inset 0 0 0 2px #e589b0,0 24px 40px -28px rgba(196,82,126,.55);color:#2a2a2a;font-family:"Paperozi",sans-serif;opacity:0;transition:opacity .4s}'
     + '.pyrw.on{opacity:1}.pyrw[hidden]{display:none}'
     + '.pyrw *{box-sizing:border-box}'
-    + '.pyrw-hd{position:absolute;left:0;right:0;top:0;z-index:2;padding:16px 14px 8px;text-align:center;background:#fff;border-radius:6px 6px 0 0}'
-    + '.pyrw-hd h3{margin:0;font:italic 700 22px/1.1 "Playfair Display",serif;color:#c4527e;letter-spacing:.5px}'
-    + '.pyrw-hd p{margin:6px 0 0;font:400 11px/1.4 "Galmuri11","Paperozi",sans-serif;color:#8a8086}'
-    + '.pyrw-hd p b{color:#e0457f;font-weight:700}.pyrw-hd p i{font-style:normal;color:#ef94bc}'
-    + '.pyrw-wl{position:absolute;left:10px;right:10px;top:74px;bottom:10px;overflow:hidden;'
-    + '-webkit-mask-image:linear-gradient(transparent,#000 14%,#000 82%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 82%,transparent)}'
+    + '.pyrw-hd{position:absolute;left:12px;right:12px;top:0;z-index:2;padding:18px 0 13px;text-align:center;background:#fff;border-bottom:1.5px dashed #f6c3d8}'
+    + '.pyrw-hd::after{content:"♥";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);padding:0 6px;background:#fff;color:#f6a9c9;font-size:10px;line-height:16px}'
+    + '.pyrw-hd h3{margin:0;font:italic 700 24px/1.1 "Playfair Display",serif;color:#c4527e;letter-spacing:.5px}'
+    + '.pyrw-st{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin-top:10px}'
+    + '.pyrw-st span{display:inline-flex;align-items:center;gap:3px;padding:3px 7px 2px;border:1px solid #ffd6e7;border-radius:3px;background:#fff5f9;font:400 10.5px/1.3 "Galmuri11","Paperozi",sans-serif;color:#8a8086;white-space:nowrap}'
+    + '.pyrw-st b{color:#e0457f;font-weight:700}.pyrw-st i{font-style:normal;color:#ef94bc}'
+    + '.pyrw-wl{position:absolute;left:10px;right:10px;top:96px;bottom:10px;overflow:hidden;'
+    + '-webkit-mask-image:linear-gradient(transparent 0,#000 7%,#000 86%,transparent);mask-image:linear-gradient(transparent 0,#000 7%,#000 86%,transparent)}'
     + '.pyrw-tr{display:flex;flex-direction:column;gap:9px;animation:pyrw-up var(--t) linear infinite;animation-direction:var(--dir)}'
     + '.pyrw-wl:hover .pyrw-tr,.pyrw-wl.is-hold .pyrw-tr{animation-play-state:paused}'
     + '@keyframes pyrw-up{to{transform:translateY(calc(-50% - 4.5px))}}'
@@ -84,23 +87,27 @@
     var total = list[0].no || list.length;
     var avg = list.reduce(function (s, r) { return s + r.star; }, 0) / list.length;
     var ans = doc.querySelector('#cont_qna .answer_per');
-    var ansTxt = ans ? ans.textContent.replace(/\s+/g, ' ').replace(/\s+%/, '%').trim() : '';
-    // 후기가 적으면 두 줄 모두 전체 후기를, 많으면 번갈아 나눠 담아요
-    var cols = list.length < 6 ? [list, list.slice().reverse()] : [list.filter(function (_, i) { return !(i % 2); }), list.filter(function (_, i) { return i % 2; })];
-    var panels = cols.map(function (rs, c) {
-      var p = doc.createElement('aside'); p.className = 'pyrw pyrw-' + (c ? 'r' : 'l');
+    var ansM = ans && ans.textContent.match(/(\d+)\s*%/);
+    // 왼쪽 여백에 위젯 하나만 띄워요 (후기 전체가 한 줄로 위로 흘러요)
+    var cols = [list];
+    var panels = cols.map(function (rs) {
+      var p = doc.createElement('aside'); p.className = 'pyrw pyrw-l';
       p.setAttribute('aria-label', '이용 후기 모음');
-      p.innerHTML = c
-        ? '<div class="pyrw-hd"><h3>Thanks ♡</h3><p>눌러서 후기 전체 보기 ↓</p></div><div class="pyrw-wl"></div>'
-        : '<div class="pyrw-hd"><h3>Reviews.</h3><p><i aria-hidden="true">★</i> <b>' + avg.toFixed(1) + '</b> · 후기 <b>' + total + '</b>개' + (ansTxt ? ' · ' + esc(ansTxt) : '') + '</p></div><div class="pyrw-wl"></div>';
+      p.innerHTML = '<div class="pyrw-hd"><h3>Reviews.</h3><div class="pyrw-st">'
+        + '<span><i aria-hidden="true">★</i> <b>' + avg.toFixed(1) + '</b></span>'
+        + '<span>후기 <b>' + total + '</b></span>'
+        + (ansM ? '<span>답변 <b>' + ansM[1] + '%</b></span>' : '')
+        + '</div></div><div class="pyrw-wl"></div>';
       var wl = p.querySelector('.pyrw-wl');
       var tr = doc.createElement('div'); tr.className = 'pyrw-tr';
-      tr.style.setProperty('--t', c ? '30s' : '24s'); tr.style.setProperty('--dir', c ? 'reverse' : 'normal');
+      tr.style.setProperty('--dir', 'normal');
       wl.appendChild(tr); doc.body.appendChild(p);
       p._fill = function () {   // 한 세트가 칸 높이보다 짧으면 반복해서 채운 뒤, 같은 세트를 한 번 더 이어 붙여 끊김 없이 돌게 해요
+        wl.style.top = (p.querySelector('.pyrw-hd').offsetHeight + 4) + 'px';   // 머리글 바로 아래부터 카드가 흘러요
         tr.innerHTML = '';
         var set = [], h = wl.clientHeight || 400, k = 0;
         do { rs.forEach(function (r) { var n = card(r, k > 0); tr.appendChild(n); set.push(r); }); k++; } while (tr.scrollHeight < h && k < 12);
+        tr.style.setProperty('--t', Math.max(20, Math.round(tr.scrollHeight / 26)) + 's');   // 카드 수와 상관없이 비슷한 속도(초당 약 26px)
         if (!rm) set.forEach(function (r) { tr.appendChild(card(r, true)); });
       };
       wl.addEventListener('focusin', function () { wl.classList.add('is-hold'); });
@@ -123,21 +130,21 @@
     function place() {
       var ref = doc.getElementById('cont_after') || doc.body, r = ref.getBoundingClientRect();
       var vw = doc.documentElement.clientWidth, left = r.left, right = vw - r.right;
-      var ok = Math.min(left, right) >= W + MIN_GAP * 2;
-      panels.forEach(function (p, c) {
+      var ok = left >= W + MIN_GAP * 2;
+      panels.forEach(function (p) {
         p.hidden = !ok;
         if (!ok) return;
-        p.style.left = (c ? r.right + (right - W) / 2 : (left - W) / 2) + 'px';
+        p.style.left = (left - W) / 2 + 'px';
         p.classList.add('on');
       });
       var h = innerHeight;
       if (ok && h !== lastH) { lastH = h; panels.forEach(function (p) { p._fill(); }); }
     }
-    /* 오른쪽 여백 위쪽에는 아트머그 광고 배너(.ad_banner*)가 있어서, 배너와 겹치는 동안엔 오른쪽 위젯을 잠깐 숨겨요 */
+    /* 혹시 여백에 아트머그 광고 배너(.ad_banner*)가 겹치면, 겹치는 동안만 위젯을 잠깐 숨겨요 */
     var raf = 0;
     function dodge() {
       raf = 0;
-      var p = panels[1]; if (!p || p.hidden) return;
+      var p = panels[0]; if (!p || p.hidden) return;
       var pr = p.getBoundingClientRect(), hit = false;
       Array.prototype.forEach.call(doc.querySelectorAll('[class*="ad_banner"]'), function (a) {
         if (a.closest('.pyrw')) return;
