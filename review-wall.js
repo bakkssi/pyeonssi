@@ -34,7 +34,8 @@
 
   /* ---------- 오른쪽 박스 사이 다이어리 링 ----------
      프로필 ↔ 상세 옵션, 상세 옵션 ↔ 가격 옵션 사이에 상세페이지와 같은 은색 링을 2쌍씩 걸어요.
-     링은 아래 박스 안에 붙여서, 위아래 박스 테두리에 13px씩 걸치게 해요. */
+     링은 박스 안이 아니라 오른쪽 칸(#rightInfo)에 따로 붙여요. 박스 안에 넣으면 아트머그의 ':first-child' 같은
+     규칙이 어긋나서 '상세 옵션' 제목 칸에 회색 선이 생겨요. 위아래 박스 테두리에 약 14px씩 걸쳐요. */
   var rs = doc.createElement('style');
   rs.textContent = '.py-rings{position:absolute;left:0;right:0;height:0;z-index:3;pointer-events:none}'
     + '.py-rings i{position:absolute;top:0;width:13px;border-radius:7px;border:2.5px solid #b9b2b6;box-sizing:border-box;background:linear-gradient(90deg,#e6e3e5,#fff 45%,#d6d2d4)}'
@@ -43,19 +44,22 @@
   (doc.head || doc.documentElement).appendChild(rs);
   function ringUp() {
     [['profile', 'goodsInfo'], ['goodsInfo', 'goodsOrder']].forEach(function (pair) {
-      var up = doc.getElementById(pair[0]), lo = doc.getElementById(pair[1]);
-      if (!up || !lo || up.parentNode !== lo.parentNode) return;
-      var box = lo.querySelector(':scope > .py-rings');
+      var up = doc.getElementById(pair[0]), lo = doc.getElementById(pair[1]), host = lo && lo.parentNode;
+      if (!up || !lo || up.parentNode !== host) return;
+      var id = 'py-rings-' + pair[1], box = doc.getElementById(id);
       if (!box) {
-        box = doc.createElement('div'); box.className = 'py-rings'; box.setAttribute('aria-hidden', 'true');
+        box = doc.createElement('div'); box.id = id; box.className = 'py-rings'; box.setAttribute('aria-hidden', 'true');
         box.innerHTML = '<i></i><i></i><i></i><i></i>';
-        if (getComputedStyle(lo).position === 'static') lo.style.position = 'relative';
-        lo.insertBefore(box, lo.firstChild);
+        if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+        host.appendChild(box);
       }
-      var gap = Math.max(0, lo.getBoundingClientRect().top - up.getBoundingClientRect().bottom);
-      var bt = parseFloat(getComputedStyle(lo).borderTopWidth) || 0;
-      var h = gap + 26;
-      box.style.top = -(bt + gap + 13) + 'px';
+      var hr = host.getBoundingClientRect(), ur = up.getBoundingClientRect(), lr = lo.getBoundingClientRect();
+      var gap = Math.max(0, lr.top - ur.bottom);
+      var h = Math.round((gap + 26) * 1.05);   // 틈 + 위아래 13px씩, 거기서 5% 더 길게
+      box.style.left = (lr.left - hr.left - host.clientLeft) + 'px';
+      box.style.width = lr.width + 'px';
+      box.style.right = 'auto';
+      box.style.top = (ur.bottom - hr.top - host.clientTop + gap / 2 - h / 2) + 'px';   // 틈 한가운데에 맞춰요
       Array.prototype.forEach.call(box.children, function (i) { i.style.height = h + 'px'; });
       box.hidden = gap < 4;   // 박스가 붙어 있으면 링을 안 걸어요
     });
@@ -64,6 +68,13 @@
   if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', ringLater); else ringLater();
   addEventListener('load', ringUp);
   addEventListener('resize', ringUp);
+  // 프로필 사진이 늦게 뜨는 등 박스 높이가 바뀌면 링 위치를 다시 맞춰요
+  function watchBoxes() {
+    if (!window.ResizeObserver) return;
+    var ro = new ResizeObserver(function () { ringUp(); });
+    ['profile', 'goodsInfo'].forEach(function (k) { var e = doc.getElementById(k); if (e) ro.observe(e); });
+  }
+  if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', watchBoxes); else watchBoxes();
   var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var W = 248, MIN_GAP = 28;   // 위젯 너비 · 본문과 최소 간격
 
