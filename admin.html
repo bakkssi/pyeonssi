@@ -115,7 +115,8 @@ input::placeholder{color:#b2aaae}
 .it{position:relative;border:1.5px solid var(--p3);border-radius:6px;background:#fff;padding:8px;display:flex;flex-direction:column;gap:6px}
 .it.sel{border-color:var(--p2);box-shadow:0 0 0 3px var(--p4)}
 .it.new{border-color:var(--p1)}
-.it img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;border-radius:3px;background:var(--p5);display:block}
+.it .vtag{position:absolute;left:14px;top:40px;background:#2a2a2a;color:#fff;font-size:10px;border-radius:3px;padding:0 6px;font-family:var(--pix);z-index:1}
+.it img,.it video{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;border-radius:3px;background:var(--p5);display:block}
 .it .ck{position:absolute;left:14px;top:14px;background:#fff;border-radius:3px;padding:2px 4px;line-height:1}
 .it .nb{position:absolute;right:14px;top:14px;background:var(--p1);color:#fff;font-size:11px;border-radius:3px;padding:0 7px;font-family:var(--pix)}
 .it .btns{display:flex;gap:6px}
@@ -274,8 +275,8 @@ input[type=checkbox]:checked::after{opacity:1}
           <div><label>카테고리</label><select id="add-cat"></select></div>
           <div><label>하위 분류 (선택)</label><input type="text" id="add-sub" list="subs" placeholder="예: 후원"></div>
         </div>
-        <div class="drop" id="drop">여기에 이미지를 끌어다 놓거나 눌러서 고르세요 (여러 장 가능)<br><span class="hint">자동으로 가볍게 줄여서 올려요 · 새 작업은 맨 위에 들어가요</span></div>
-        <input type="file" id="add-files" accept="image/*" multiple hidden>
+        <div class="drop" id="drop">여기에 이미지나 mp4 영상을 끌어다 놓거나 눌러서 고르세요 (여러 개 가능)<br><span class="hint">이미지는 자동으로 가볍게 줄여서 올려요 · 영상은 그대로 올라가니 15MB 이하를 추천해요 (최대 45MB) · 새 작업은 맨 위에 들어가요</span></div>
+        <input type="file" id="add-files" accept="image/*,video/mp4,video/webm,.mp4,.webm" multiple hidden>
         <div class="msg" id="add-msg" style="margin:8px 0 0"></div>
       </div>
       <div class="sec">
@@ -355,7 +356,18 @@ let openItems = new Set();
 let rawBase = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/`;
 const isRel = s => !/^(https?:)?\/\//.test(s);
 const imgSrc = i => i.url || (isRel(i.img) ? rawBase + i.img : i.img);
-const measure = src => new Promise(res => { const im = new Image(); im.onload = () => res(im.naturalWidth ? im.naturalHeight / im.naturalWidth : 0); im.onerror = () => res(0); im.src = src; });
+const isVid = s => /\.(mp4|webm)([?#]|$)/i.test(s || '');
+const measureImg = src => new Promise(res => { const im = new Image(); im.onload = () => res(im.naturalWidth ? im.naturalHeight / im.naturalWidth : 0); im.onerror = () => res(0); im.src = src; });
+/* 영상은 첫 정보(가로·세로)만 읽어서 비율을 재요 */
+const measureVid = src => new Promise(res => {
+  const v = document.createElement('video'); v.muted = true; v.preload = 'metadata';
+  const t = setTimeout(() => res(0), 15000);
+  v.onloadedmetadata = () => { clearTimeout(t); res(v.videoWidth ? v.videoHeight / v.videoWidth : 0); v.removeAttribute('src'); v.load(); };
+  v.onerror = () => { clearTimeout(t); res(0); };
+  v.src = src;
+});
+const measure = (src, vid) => (vid ?? isVid(src)) ? measureVid(src) : measureImg(src);
+const VID_MAX = 45, VID_WARN = 15;   // MB · GitHub는 한 파일 100MB까지지만, 상세페이지에서 빨리 뜨게 45MB까지만 받아요
 
 /* ---------- 탭 ---------- */
 $('tabs').addEventListener('click', e => {
@@ -725,22 +737,31 @@ const toB64 = blob => new Promise((res, rej) => { const r = new FileReader(); r.
 async function addFiles(files) {
   const cat = $('add-cat').value, sub = $('add-sub').value.trim();
   if (!cat) { $('add-msg').textContent = '카테고리를 먼저 추가해 주세요.'; return; }
-  const arr = [...files].filter(f => /^image\//.test(f.type));
-  if (!arr.length) { $('add-msg').textContent = '이미지 파일만 올릴 수 있어요.'; return; }
+  const all = [...files];
+  const vidOk = f => /^video\/(mp4|webm)$/.test(f.type) || /\.(mp4|webm)$/i.test(f.name);
+  const mov = all.filter(f => !vidOk(f) && /^video\//.test(f.type));
+  const big = all.filter(f => vidOk(f) && f.size > VID_MAX * 1048576);
+  const arr = all.filter(f => (/^image\//.test(f.type) || vidOk(f)) && !big.includes(f));
+  const notes = [];
+  if (mov.length) notes.push(`mp4가 아닌 영상 ${mov.length}개는 뺐어요 (mp4로 바꿔서 올려 주세요)`);
+  if (big.length) notes.push(`${VID_MAX}MB가 넘는 영상 ${big.length}개는 뺐어요 (용량을 줄여서 올려 주세요)`);
+  if (arr.some(f => vidOk(f) && f.size > VID_WARN * 1048576)) notes.push(`${VID_WARN}MB가 넘는 영상은 상세페이지에서 늦게 뜰 수 있어요`);
+  if (!arr.length) { $('add-msg').textContent = notes.join(' · ') || '이미지나 mp4 영상만 올릴 수 있어요.'; return; }
   const stamp = Date.now().toString(36);
   const created = []; let fail = 0;
   for (let n = 0; n < arr.length; n++) {
-    $('add-msg').textContent = `이미지 처리 중 ${n + 1}/${arr.length}`;
+    $('add-msg').textContent = `파일 처리 중 ${n + 1}/${arr.length}`;
     try {
-      const {blob, ext} = await prepare(arr[n]);
+      const v = vidOk(arr[n]);
+      const {blob, ext} = v ? {blob: arr[n], ext: /webm/i.test(arr[n].type + arr[n].name) ? 'webm' : 'mp4'} : await prepare(arr[n]);
       const id = ++uid;
       const url = URL.createObjectURL(blob);
-      const r = await measure(url);
+      const r = await measure(url, v);
       created.push({id, cat, sub, title: '', img: `img/p-${stamp}-${id}.${ext}`, r: r ? +r.toFixed(4) : 0, isNew: true, blob, url, sel: false});
     } catch(e) { fail++; }
   }
   data.items = created.concat(data.items);
-  $('add-msg').textContent = `${created.length}개 추가됨` + (fail ? ` (${fail}개는 읽지 못했어요)` : '') + ' · 확인하고 오른쪽 위 "GitHub에 저장"을 누르세요.';
+  $('add-msg').textContent = `${created.length}개 추가됨` + (fail ? ` (${fail}개는 읽지 못했어요)` : '') + (notes.length ? ' · ' + notes.join(' · ') : '') + ' · 확인하고 오른쪽 위 "GitHub에 저장"을 누르세요.';
   if (created.length) markDirty();
   renderWorks();
 }
@@ -756,7 +777,7 @@ function renderList() {
     <div class="it ${i.sel ? 'sel' : ''} ${i.isNew ? 'new' : ''}" data-id="${i.id}">
       <label class="ck"><input type="checkbox" data-a="sel" ${i.sel ? 'checked' : ''}></label>
       ${i.isNew ? '<span class="nb">NEW</span>' : ''}
-      <img src="${esc(imgSrc(i))}" loading="lazy" alt="">
+      ${isVid(i.img) ? `<span class="vtag">▶ 영상</span><video src="${esc(imgSrc(i))}" muted loop playsinline autoplay preload="metadata"></video>` : `<img src="${esc(imgSrc(i))}" loading="lazy" alt="">`}
       <select data-a="cat">${data.cats.map(c => `<option ${c === i.cat ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select>
       <input type="text" data-a="sub" list="subs" placeholder="하위 분류 (선택)" value="${esc(i.sub)}">
       <input type="text" data-a="title" placeholder="카드 제목 (선택)" value="${esc(i.title)}">
@@ -809,7 +830,7 @@ $('fill-r').onclick = async () => {
   let done = 0;
   for (let n = 0; n < todo.length; n++) {
     setMsg(`이미지 비율 확인 중 ${n + 1}/${todo.length}`);
-    const r = await measure(imgSrc(todo[n]));
+    const r = await measure(imgSrc(todo[n]), isVid(todo[n].img));
     if (r > 0) { todo[n].r = +r.toFixed(4); done++; }
   }
   if (done) markDirty();

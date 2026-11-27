@@ -156,6 +156,25 @@ section{max-width:1120px;margin:0 auto 40px}
 .check input:focus-visible,.refbox input:focus-visible{outline:2px solid var(--p3);outline-offset:2px}
 .actions{display:flex;gap:10px;margin-top:14px}
 .actions .main{flex:1;padding:13px}
+/* 복사 완료 도장 — 모션 값은 Lucian UX/UI Prompt #468 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#468 에서 가져왔어요 */
+.pv-wrap{position:relative}
+.stamp,.stamp-rp{position:absolute;right:36px;bottom:4px;width:167px;height:78px;border-radius:15px;pointer-events:none;opacity:0;z-index:2;--ink:#2a2a2a}
+.stamp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--ink);border:2.5px solid currentColor;transform:rotate(-8deg);mix-blend-mode:multiply;
+  -webkit-mask:radial-gradient(circle,transparent 0 .9px,#000 1.4px) 0 0/9px 7px,radial-gradient(circle,transparent 0 .7px,#000 1.2px) 4px 3px/13px 11px;-webkit-mask-composite:source-in;
+  mask:radial-gradient(circle,transparent 0 .9px,#000 1.4px) 0 0/9px 7px,radial-gradient(circle,transparent 0 .7px,#000 1.2px) 4px 3px/13px 11px;mask-composite:intersect}
+.stamp::before{content:"";position:absolute;inset:4px;border:1px solid currentColor;border-radius:10px}
+.stamp b{font-family:var(--f-point);font-size:19px;letter-spacing:2px;line-height:1}
+.stamp small{font-family:var(--f-point);font-size:12.5px;letter-spacing:1px;line-height:1}
+.stamp.on{animation:stamp-in .5s cubic-bezier(.3,1.5,.55,1) .16s both}
+@keyframes stamp-in{0%{opacity:0;transform:rotate(-4deg) scale(1.45)}55%{opacity:.92;transform:rotate(-8deg) scale(.95)}100%{opacity:.92;transform:rotate(-8deg)}}
+.stamp-rp{box-shadow:0 0 0 2px var(--ink)}
+.stamp-rp.on{animation:stamp-rp .6s cubic-bezier(.2,.8,.2,1) .36s}
+@keyframes stamp-rp{0%{opacity:.5;transform:rotate(-8deg) scale(1)}100%{opacity:0;transform:rotate(-8deg) scale(1.25)}}
+#f-preview.thump{animation:copy-thump .42s cubic-bezier(.3,1.6,.5,1)}
+@keyframes copy-thump{30%{transform:translateY(2px) scale(.992)}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (max-width:560px){.stamp,.stamp-rp{width:131px;height:63px;right:14px}.stamp b{font-size:16px;letter-spacing:1px}.stamp small{font-size:11.5px}}
+@media (prefers-reduced-motion:reduce){.stamp.on{animation:none;opacity:.92}.stamp-rp.on,#f-preview.thump{animation:none}}
 .notes-section{background:var(--p5);border-radius:12px;padding:14px 16px;margin-top:16px}
 .notes-text{font-family:var(--f-point);font-weight:400;font-size:12px;color:var(--mute);line-height:2}
 
@@ -179,7 +198,11 @@ section{max-width:1120px;margin:0 auto 40px}
 .pcard .ttl::after{content:" ⁝"}
 .pcard .ptag{position:absolute;bottom:10px;right:10px;z-index:1;font-family:var(--f-point);font-weight:400;font-size:11px;color:#fff;background:var(--p1);border-radius:6px;padding:2px 8px}
 .pcard .pimg{flex:1;display:flex;align-items:center;justify-content:center;background:var(--p5)}
-.pcard img{width:100%;height:auto;display:block;background:var(--p5)}
+.pcard img,.pcard video{width:100%;height:auto;display:block;background:var(--p5)}
+.pcard .pimg{position:relative}
+.pcard .pvid{position:absolute;top:8px;left:8px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;padding-left:2px;border-radius:50%;background:rgba(42,42,42,.72);color:#fff;font-size:10px;pointer-events:none}
+.lb-in video{display:block;max-width:100%;height:auto;border-radius:14px;border:3px solid #fff;box-shadow:0 20px 50px -20px rgba(196,82,126,.55);background:#2a2a2a}
+.lb-in video[hidden],.lb-in img[hidden]{display:none}
 .pempty{width:100%;text-align:center;color:var(--mute);padding:40px 0;font-family:var(--f-point)}
 .more{display:flex;margin:20px auto 0}
 .more[hidden]{display:none}
@@ -513,14 +536,17 @@ section{max-width:none;margin:0}
           </div>
         </div>
 
-        <div class="fq"><label class="fl" for="f-preview">신청 내용 미리보기</label>
-          <textarea id="f-preview" readonly></textarea></div>
+        <div class="fq pv-wrap"><label class="fl" for="f-preview">신청 내용 미리보기</label>
+          <textarea id="f-preview" readonly></textarea>
+          <i class="stamp-rp" id="f-stamp-rp" aria-hidden="true"></i>
+          <div class="stamp" id="f-stamp" aria-hidden="true"><b>복사 완료</b><small id="f-stamp-date"></small></div></div>
 
         <label class="check"><input type="checkbox" id="f-read"> 빠진 내용은 없으신가요?</label>
         <div class="miss" id="f-miss" hidden></div>
         <div class="actions">
           <button type="button" class="btn-save main" id="f-copy" disabled>신청 내용 복사하기</button>
           <button type="button" class="btn-cancel" id="f-reset"><span class="ic">↺</span>초기화</button>
+          <span class="sr-only" id="f-copy-live" role="status"></span>
         </div>
         <button type="button" class="btn-save goqna" id="f-goqna" hidden>복사한 내용 붙여넣으러 문의창으로 이동<span class="ic">↓</span></button>
         <div class="notes-section">
@@ -570,6 +596,7 @@ section{max-width:none;margin:0}
     <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="이전"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6 9 12l6 6"/></svg></button>
     <div class="lb-in">
       <img id="lb-img" alt="">
+      <video id="lb-vid" controls muted loop playsinline hidden></video>
       <div class="lb-cap" id="lb-cap"></div>
     </div>
     <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="다음"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -851,6 +878,7 @@ $('mh-tabs').addEventListener('click', e => {
 /* ===== 포트폴리오 ===== */
 const RAW = 'https://raw.githubusercontent.com/bakkssi/pyeonssi/main/';   // 방금 올린 이미지를 바로 보여주기 위한 주소
 const isRel = s => !/^(https?:)?\/\//.test(s);
+const isVid = s => /\.(mp4|webm)([?#]|$)/i.test(s || '');   // 영상 작업 (관리 페이지에서 mp4로 올린 것)
 const P = CONFIG.portfolio;
 let pcat = 'ALL', psub = '전체', pshown = P.pageSize;
 
@@ -864,7 +892,9 @@ function cardHTML(i, idx){
   return `<a class="pcard" href="${esc(rel ? RAW + i.img : i.img)}" data-i="${idx}">
     <span class="ptag">${esc(i.cat)}</span>
     <div class="ttl" ${i.color ? `style="color:${esc(i.color)}"` : ''}>${esc(i.title || i.cat + ' Design')}</div>
-    <div class="pimg"><img src="${esc(i.img)}"${ar}${fb} alt="${esc(i.cat)} 포트폴리오" loading="lazy"></div>
+    <div class="pimg">${isVid(i.img)
+      ? `<video src="${esc(i.img)}"${ar}${fb} muted loop playsinline autoplay preload="metadata" aria-label="${esc(i.cat)} 포트폴리오 영상"></video><span class="pvid" aria-hidden="true">▶</span>`
+      : `<img src="${esc(i.img)}"${ar}${fb} alt="${esc(i.cat)} 포트폴리오" loading="lazy">`}</div>
   </a>`;
 }
 function renderPortfolio(){
@@ -899,16 +929,23 @@ $('p-subs').addEventListener('click', e => {
 });
 $('p-more').onclick = () => { pshown = Infinity; renderPortfolio(); };   // 한 번 누르면 전부 보여줘요
 /* ===== 이미지 크게 보기 (새 창 없이 같은 화면, 뒷배경 블러) ===== */
-const lb = $('lb'), lbBox = $('lb-box'), lbImg = $('lb-img');
+const lb = $('lb'), lbBox = $('lb-box'), lbImg = $('lb-img'), lbVid = $('lb-vid');
+let lbMedia = lbImg;   // 지금 크게 보여 주는 것 (이미지 또는 영상)
+const mediaRatio = m => m === lbVid ? (lbVid.videoWidth ? lbVid.videoHeight / lbVid.videoWidth : 0) : (lbImg.naturalWidth ? lbImg.naturalHeight / lbImg.naturalWidth : 0);
+function stopVid(){ lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load(); }
 let lbIdx = -1, lbY = 0, vp = null;
 const docHeight = () => Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
 function showLB(){
   const i = shownList[lbIdx]; if (!i) return;
-  const rel = isRel(i.img);
-  lbImg.onerror = () => { if (rel && lbImg.src !== RAW + i.img) lbImg.src = RAW + i.img; };
-  lbImg.onload = sizeLB;
-  lbImg.style.width = ''; lbImg.style.visibility = 'hidden';   // 크기를 맞추기 전엔 숨겨서 깜빡임 방지
-  lbImg.src = i.img;
+  const rel = isRel(i.img), vid = isVid(i.img);
+  lbMedia = vid ? lbVid : lbImg;
+  lbImg.hidden = vid; lbVid.hidden = !vid;
+  if (vid) lbImg.removeAttribute('src'); else stopVid();
+  lbMedia.onerror = () => { if (rel && lbMedia.src !== RAW + i.img) lbMedia.src = RAW + i.img; };
+  if (vid) lbVid.onloadedmetadata = () => { sizeLB(); lbVid.play().catch(() => {}); };
+  else lbImg.onload = sizeLB;
+  lbMedia.style.width = ''; lbMedia.style.visibility = 'hidden';   // 크기를 맞추기 전엔 숨겨서 깜빡임 방지
+  lbMedia.src = i.img;
   $('lb-cap').textContent = [i.title, i.cat + (i.sub ? ' · ' + i.sub : '')].filter(Boolean).join('  |  ');
   $('lb-prev').hidden = lbIdx <= 0;
   $('lb-next').hidden = lbIdx >= shownList.length - 1;
@@ -927,15 +964,15 @@ function placeLB(){
 /* 크게 보기 이미지 크기 : 보이는 화면의 약 80% (가로 · 세로 80% 안에서 비율 그대로, 작은 이미지는 키워요) */
 let lbH = 0;
 function sizeLB(){
-  if (!lbImg.naturalWidth || !lbH) return;
-  const r = lbImg.naturalHeight / lbImg.naturalWidth;
+  const r = mediaRatio(lbMedia);
+  if (!r || !lbH) return;
   const bw = lbBox.clientWidth;
   const availW = Math.max(160, Math.min(bw * 0.80, bw - 128));   // 화면의 80% · 양옆 화살표 자리는 비워둬요
   const availH = Math.max(160, Math.min(lbH * 0.80, lbH - 70));  // 화면의 80% · 아래 설명 글자 자리는 남겨요
   const w = Math.min(availW, availH / r);
-  lbImg.style.maxHeight = 'none';
-  lbImg.style.width = Math.round(w) + 'px';
-  lbImg.style.visibility = '';
+  lbMedia.style.maxHeight = 'none';
+  lbMedia.style.width = Math.round(w) + 'px';
+  lbMedia.style.visibility = '';
 }
 function openLB(idx, y){
   lbIdx = idx; lbY = y; vp = null;
@@ -943,7 +980,7 @@ function openLB(idx, y){
   lb.hidden = false; showLB(); placeLB();
   try { parent.postMessage({type: 'getViewport'}, '*'); } catch(e) {}
 }
-function closeLB(){ lb.hidden = true; lbImg.removeAttribute('src'); }
+function closeLB(){ lb.hidden = true; lbImg.removeAttribute('src'); stopVid(); }
 function stepLB(d){ const n = lbIdx + d; if (n < 0 || n >= shownList.length) return; lbIdx = n; showLB(); }
 $('p-grid').addEventListener('click', e => {
   const a = e.target.closest('.pcard'); if (!a) return;
@@ -954,7 +991,7 @@ lb.addEventListener('click', e => {
   if (e.target.closest('#lb-x')) closeLB();
   else if (e.target.closest('#lb-prev')) stepLB(-1);
   else if (e.target.closest('#lb-next')) stepLB(1);
-  else if (!e.target.closest('#lb-img')) closeLB();
+  else if (!e.target.closest('#lb-img, #lb-vid')) closeLB();
 });
 /* 크게 보기 중에는 화면이 위아래로 움직이지 않게 (바깥 아트머그 페이지 스크롤까지 막음) */
 const stopScroll = e => { if (!lb.hidden) e.preventDefault(); };
@@ -1219,16 +1256,30 @@ $('f-copy').onclick = async () => {
   }
   const ok = await copyText($('f-preview').value);
   const b = $('f-copy'), old = '신청 내용 복사하기';
-  b.textContent = ok ? '복사 완료! 문의창에 붙여넣어 주세요' : '복사 실패 · 미리보기를 직접 복사해 주세요';
-  setTimeout(() => b.textContent = old, 2800);
-  if (ok) $('f-goqna').hidden = false;
+  b.textContent = ok ? '문의창에 붙여넣어 주세요' : '복사 실패 · 미리보기를 직접 복사해 주세요';
+  clearTimeout(b._t); b._t = setTimeout(() => b.textContent = old, 2800);
+  if (ok) { $('f-goqna').hidden = false; stampCopy(); }
+  $('f-copy-live').textContent = ok ? '신청 내용을 복사했어요. 문의창에 붙여넣어 주세요.' : '복사하지 못했어요. 미리보기를 직접 복사해 주세요.';
 };
+/* 복사하면 버튼 오른쪽에 '복사 완료' 도장이 쿵 찍혀요. 내용을 고치거나 초기화하면 사라져요 */
+function stampCopy(){
+  /* 도장은 미리보기 칸 오른쪽 아래에 찍혀요 (위치는 CSS .stamp 의 right / bottom) */
+  const b = $('f-preview'), st = $('f-stamp'), rp = $('f-stamp-rp'), d = new Date();
+  $('f-stamp-date').textContent = d.getFullYear() + '. ' + (d.getMonth() + 1) + '. ' + d.getDate();
+  [st, rp, b].forEach(el => el.classList.remove('on', 'thump'));
+  void st.offsetWidth;
+  st.classList.add('on'); rp.classList.add('on');
+  clearTimeout(stampCopy.t);
+  stampCopy.t = setTimeout(() => { b.classList.remove('thump'); void b.offsetWidth; b.classList.add('thump'); }, 300);
+}
+function unstamp(){ ['f-stamp', 'f-stamp-rp'].forEach(id => $(id).classList.remove('on')); $('f-copy-live').textContent = ''; }
+['input', 'change'].forEach(ev => $('f').addEventListener(ev, e => { if (e.target.id !== 'f-read') unstamp(); }));
 /* 빠진 칸을 채우면 빨간 표시 지우기 */
 $('f').addEventListener('input', e => { const el = e.target.closest('.err'); if (el) el.classList.remove('err'); });
 /* 아트머그의 '문의 및 답변'으로 이동 (artmug-custom.html 쪽에서 받아서 스크롤해요) */
 $('f-goqna').onclick = () => { try { parent.postMessage({type: 'goQna'}, '*'); } catch(e) {} };
 $('f-reset').onclick = () => {
-  $('f').reset(); colors = []; items = {}; closeEditor(); clearErr(); $('f-goqna').hidden = true;
+  $('f').reset(); colors = []; items = {}; closeEditor(); clearErr(); $('f-goqna').hidden = true; unstamp();
   renderChips(); renderItems(); markDates(); update();
 };
 renderItems(); renderChips(); update();
