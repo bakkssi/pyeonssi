@@ -9,6 +9,17 @@
   if (window.__pyRW) return; window.__pyRW = 1;
   var doc = document;
 
+  /* ---------- 상세페이지(index.html) 버전 ----------
+     index.html을 고쳐서 올릴 때마다 이 숫자만 1씩 올리면, 아트머그 편집기를 건드리지 않아도
+     방문자 브라우저가 예전 상세페이지 대신 새 상세페이지를 불러와요. */
+  var DETAIL_VER = 27;
+  (function () {
+    var f = doc.getElementById('my-frame') || doc.querySelector('iframe[src*="bakkssi.github.io/pyeonssi"]');
+    if (!f) return;
+    var m = f.src.match(/[?&]v=(\d+)/);
+    if (!m || +m[1] !== DETAIL_VER) f.src = 'https://bakkssi.github.io/pyeonssi/?v=' + DETAIL_VER;
+  })();
+
   /* ---------- 아트머그 박스 테두리 다듬기 (후기와 상관없이 항상 적용) ----------
      아트머그 커스텀 코드의 물방울 바인더 테두리(14px)를 반(7px)으로 줄이고, 물방울을 더 연하게 해요.
      커스텀 코드는 그대로 두고 여기서 덮어써요. */
